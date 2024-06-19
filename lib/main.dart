@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sazzon/pages/inicio.dart';
-import 'package:sazzon/pages/register.dart';
+import 'package:sazzon/feature/presentation/pages/inicio.dart';
+import 'package:sazzon/feature/presentation/pages/register.dart';
 
 void main() {
   runApp(MyApp());
