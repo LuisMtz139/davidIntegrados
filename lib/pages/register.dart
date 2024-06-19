@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Agregado según lo solicitado
 
 class RegisterScreen extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
@@ -14,7 +15,7 @@ class RegisterScreen extends StatelessWidget {
         children: [
           Container(
             color: Color(0xFFBDCEA1),
-            padding: const EdgeInsets.symmetric(horizontal: 60.0),
+            padding: const EdgeInsets.symmetric(horizontal: 80.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -154,37 +155,46 @@ class RegisterScreen extends StatelessWidget {
               ],
             ),
           ),
-          // Imagen de fondo debajo de los inputs
+          // Franja de color blanco en el lado izquierdo
           Positioned(
-            top: 400, // Ajusta la posición vertical según sea necesario
+            top: 80,
             left: 0,
-            right: 0,
-            child: Opacity(
-              opacity: 0.3, // Ajusta la opacidad según sea necesario
-              child: Image.asset(
-                'assets/images/lechga.png', // Reemplaza con la ruta de tu imagen de fondo
-                fit: BoxFit.cover,
-                height: 400, // Ajusta la altura según sea necesario
-              ),
+            bottom: 135,
+            width: 60,
+            child: Container(
+              color: Colors.white,
             ),
           ),
+          // Imagen de fondo debajo de los inputs
           Positioned(
-            bottom: 90,
-            left: 30,
+            bottom: 88,
+            left:
+                1, // Mueve la caja hacia la izquierda para que parezca salir de la pantalla
             child: Row(
               children: [
-                Text(
-                  'SEZZON',
-                  style: TextStyle(
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.white, width: 2),
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                    child: Text(
+                      'SEZZON',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(width: 20),
+                SizedBox(width: 1), // Ajusta el espacio según sea necesario
                 Image.asset(
                   'assets/images/platano.png',
-                  width: 250,
+                  width: 230,
                   height: 150,
                 ),
               ],
@@ -220,30 +230,56 @@ class RegisterScreen extends StatelessWidget {
               ),
             ),
           ),
+          Stack(
+            children: <Widget>[
+              Positioned(
+                top: 65,
+                right: 250, // Ajusta para mover el contenedor
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 90, vertical: 30),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.white, width: 2),
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.white,
+                  ),
+                  // El IconButton se ha movido fuera de este Container
+                ),
+              ),
+              Positioned(
+                top: 65, // Ajusta para mover la flecha
+                right: 330, // Ajusta para mover la flecha
+                child: IconButton(
+                  icon: Icon(Icons.arrow_back, color: Colors.black, size: 55),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ),
+            ],
+          ),
           Positioned(
-            top: 60,
-            right: 340,
-            child: IconButton(
-              icon: Icon(Icons.arrow_back, color: Colors.black, size: 55),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+            top: 0.5,
+            left: 110, // Ajustado para mantener la separación original
+            child: Image.asset(
+              'assets/images/cebolla.png', // Replace with your image path
+              width: 250,
+              height: 190,
             ),
           ),
           Positioned(
             top: 0.5,
-            right: 80, // Ajustado para mantener la separación original
+            right: -40, // Ajustado para mantener la separación original
             child: Image.asset(
-              'assets/images/cebolla.png', // Replace with your image path
-              width: 270,
+              'assets/images/lechga.png', // Replace with your image path
+              width: 200,
               height: 200,
             ),
           ),
           Positioned(
-            top: 0.5,
-            right: -68, // Ajustado para mantener la separación original
+            top: 400, // Ajustado para mantener la separación original,
+            right: -50, // Ajustado para mantener la separación original
             child: Image.asset(
-              'assets/images/tomate2.png', // Replace with your image path
+              'assets/images/tomate.png', // Replace with your image path
               width: 200,
               height: 200,
             ),
