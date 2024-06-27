@@ -20,6 +20,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - assets/
     - assets/images/wooden-rolling-pin-png.png
     - assets/images/Gerbera-PNG-amarilla.png
     - assets/images/plato madera.png
