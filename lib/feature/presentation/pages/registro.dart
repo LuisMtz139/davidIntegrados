@@ -1,11 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart'; // Agregado según lo solicitado
 
-class RegisterScreen extends StatelessWidget {
+class Registro1 extends StatefulWidget {
+  @override
+  _Registro1State createState() => _Registro1State();
+}
+
+class _Registro1State extends State<Registro1> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+
+  Color minLengthColor = Colors.black;
+  Color numberColor = Colors.black;
+  Color specialCharColor = Colors.black;
+
+  @override
+  void initState() {
+    super.initState();
+    passwordController.addListener(_validatePassword);
+  }
+
+  void _validatePassword() {
+    String password = passwordController.text;
+
+    setState(() {
+      minLengthColor = password.isEmpty
+          ? Colors.black
+          : (password.length >= 8 ? Colors.green : Colors.red);
+      numberColor = password.isEmpty
+          ? Colors.black
+          : (password.contains(RegExp(r'\d')) ? Colors.green : Colors.red);
+      specialCharColor = password.isEmpty
+          ? Colors.black
+          : (password.contains(RegExp(r'[#!\+\-=]'))
+              ? Colors.green
+              : Colors.red);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +98,7 @@ class RegisterScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(10.0),
                           borderSide: BorderSide.none,
                         ),
-                        hintText: '***********',
+                        hintText: '******',
                         hintStyle: TextStyle(color: Colors.white),
                       ),
                       style: TextStyle(color: Colors.white),
@@ -82,16 +115,22 @@ class RegisterScreen extends StatelessWidget {
                     children: [
                       SizedBox(height: 3),
                       Text(
-                        '* Debe contener al menos 8 caracteres',
-                        style: TextStyle(color: Colors.black),
+                        '\u2022 Debe contener al menos 8 caracteres',
+                        style: TextStyle(
+                          color: minLengthColor,
+                        ),
                       ),
                       Text(
-                        '* Debe contener al menos un número',
-                        style: TextStyle(color: Colors.black),
+                        '\u2022 Debe contener al menos un número',
+                        style: TextStyle(
+                          color: numberColor,
+                        ),
                       ),
                       Text(
-                        '* Debe contener al menos un carácter especial como #!+-=',
-                        style: TextStyle(color: Colors.black),
+                        '\u2022 Debe contener al menos un carácter especial como #!+-=',
+                        style: TextStyle(
+                          color: specialCharColor,
+                        ),
                       ),
                     ],
                   ),
@@ -155,47 +194,24 @@ class RegisterScreen extends StatelessWidget {
               ],
             ),
           ),
-          // Franja de color blanco en el lado izquierdo
           Positioned(
-            top: 80,
-            left: 0,
-            bottom: 135,
-            width: 60,
-            child: Container(
-              color: Colors.white,
-            ),
-          ),
-          // Imagen de fondo debajo de los inputs
-          Positioned(
-            bottom: 88,
-            left:
-                1, // Mueve la caja hacia la izquierda para que parezca salir de la pantalla
+            top: 70, // Ajusta la posición según sea necesario
+            right: 20, // Ajusta la posición según sea necesario
             child: Row(
               children: [
                 Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: Alignment.centerRight,
                   child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.white, width: 2),
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.white,
-                    ),
                     padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                     child: Text(
                       'SEZZON',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontSize: 35,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
                   ),
-                ),
-                SizedBox(width: 1), // Ajusta el espacio según sea necesario
-                Image.asset(
-                  'assets/images/platano.png',
-                  width: 230,
-                  height: 150,
                 ),
               ],
             ),
@@ -233,14 +249,14 @@ class RegisterScreen extends StatelessWidget {
           Stack(
             children: <Widget>[
               Positioned(
-                top: 65,
+                top: 68,
                 right: 250, // Ajusta para mover el contenedor
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 90, vertical: 30),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.white, width: 2),
+                    border: Border.all(color: Colors.black, width: 2),
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.white,
+                    color: Colors.black,
                   ),
                   // El IconButton se ha movido fuera de este Container
                 ),
@@ -249,40 +265,67 @@ class RegisterScreen extends StatelessWidget {
                 top: 65, // Ajusta para mover la flecha
                 right: 330, // Ajusta para mover la flecha
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.black, size: 55),
+                  icon: Icon(Icons.arrow_back, color: Colors.white, size: 55),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
               ),
+              Positioned(
+                top: 650,
+                right: 305, // Ajustado para mantener la separación original
+                child: Transform.rotate(
+                  angle: 0, // Ajusta el ángulo de rotación según sea necesario
+                  child: Image.asset(
+                    'assets/images/platano.png', // Replace with your image path
+                    width: 130,
+                    height: 130,
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 350,
+                right: 335, // Ajustado para mantener la separación original
+                child: Transform.rotate(
+                  angle: 1, // Ajusta el ángulo de rotación según sea necesario
+                  child: Image.asset(
+                    'assets/images/cebolla.png', // Replace with your image path
+                    width: 130,
+                    height: 130,
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 150,
+                right: 335, // Ajustado para mantener la separación original
+                child: Transform.rotate(
+                  angle: 1, // Ajusta el ángulo de rotación según sea necesario
+                  child: Image.asset(
+                    'assets/images/lechga.png', // Replace with your image path
+                    width: 130,
+                    height: 130,
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 500, // Ajustado para mantener la separación original,
+                right: -50, // Ajustado para mantener la separación original
+                child: Image.asset(
+                  'assets/images/tomate.png', // Replace with your image path
+                  width: 200,
+                  height: 200,
+                ),
+              ),
+              Positioned(
+                top: 60, // Ajustado para mantener la separación original,
+                right: -78, // Ajustado para mantener la separación original
+                child: Image.asset(
+                  'assets/images/nues.png', // Replace with your image path
+                  width: 200,
+                  height: 200,
+                ),
+              ),
             ],
-          ),
-          Positioned(
-            top: 0.5,
-            left: 110, // Ajustado para mantener la separación original
-            child: Image.asset(
-              'assets/images/cebolla.png', // Replace with your image path
-              width: 250,
-              height: 190,
-            ),
-          ),
-          Positioned(
-            top: 0.5,
-            right: -40, // Ajustado para mantener la separación original
-            child: Image.asset(
-              'assets/images/lechga.png', // Replace with your image path
-              width: 200,
-              height: 200,
-            ),
-          ),
-          Positioned(
-            top: 400, // Ajustado para mantener la separación original,
-            right: -50, // Ajustado para mantener la separación original
-            child: Image.asset(
-              'assets/images/tomate.png', // Replace with your image path
-              width: 200,
-              height: 200,
-            ),
           ),
         ],
       ),
@@ -298,7 +341,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: RegisterScreen(),
+      home: Registro1(),
     );
   }
 }

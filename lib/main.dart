@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sazzon/feature/presentation/pages/inicio.dart';
-import 'package:sazzon/feature/presentation/pages/register.dart';
+import 'package:sazzon/feature/presentation/pages/iniciarSeion.dart';
+import 'package:sazzon/feature/presentation/pages/registro.dart';
+import 'package:sazzon/feature/presentation/index.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: RegisterScreen(),
+      home: Registro1(),
     );
   }
 }
