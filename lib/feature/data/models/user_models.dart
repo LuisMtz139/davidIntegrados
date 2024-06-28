@@ -26,6 +26,7 @@ class UserModel extends User {
     );
   }
 
+
   factory UserModel.fromEntity(User user) {
     return UserModel(
       id: user.id,
