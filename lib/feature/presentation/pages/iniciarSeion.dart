@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Agregado según lo solicitado
+import 'package:flutter/services.dart';
+import 'package:sazzon/feature/menu/presentation/menu.dart'; // Agregado según lo solicitado
 
 class IniciarSesion extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -118,6 +119,12 @@ class IniciarSesion extends StatelessWidget {
                 String password = passwordController.text;
                 print('Correo electrónico: $email');
                 print('Contraseña: $password');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Menu(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
@@ -215,4 +222,3 @@ class IniciarSesion extends StatelessWidget {
     );
   }
 }
-

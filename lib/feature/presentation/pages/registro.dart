@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // Agregado según lo solicitado
+import 'package:flutter/services.dart';
+import 'package:sazzon/feature/presentation/pages/iniciarSeion.dart'; // Agregado según lo solicitado
 
 class Registro1 extends StatefulWidget {
   @override
@@ -229,6 +230,13 @@ class _Registro1State extends State<Registro1> {
                 print('Contraseña: $password');
                 print('Teléfono: $phone');
                 print('Correo electrónico: $email');
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => IniciarSesion(),
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
