@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sazzon/feature/presentation/pages/iniciarSeion.dart';
+import 'package:sazzon/feature/presentation/pages/registro.dart';
 
 class MyHomePage extends StatelessWidget {
   @override
@@ -11,134 +13,58 @@ class MyHomePage extends StatelessWidget {
           final screenHeight = MediaQuery.of(context).size.height;
           final screenWidth = MediaQuery.of(context).size.width;
 
-          if (constraints.maxWidth > 600) {
-            // Layout for larger screens
-            return Stack(
-              children: [
-                Positioned(
-                  top: screenHeight * 0.05, // 5% from top
-                  left: 0, // Alinea el botón con el borde izquierdo
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius:
-                            BorderRadius.horizontal(right: Radius.circular(20)),
-                        child: Container(
-                          color: Colors.black,
-                          width: screenWidth *
-                              0.3, // Ajusta el ancho del contenedor según necesites
-                          height:
-                              50, // Ajusta la altura del contenedor según necesites
-                          child: Center(
-                            child: TextButton(
-                              onPressed: () {
-                                // Acción del botón Registrarse
-                              },
-                              child: Text(
-                                'Registrarse',
-                                style: TextStyle(color: Colors.white),
-                              ),
+          return Stack(
+            children: [
+              Positioned(
+                top: screenHeight * 0.05, // 5% from top
+                left: 0, // Alinea el botón con el borde izquierdo
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ClipRRect(
+                      borderRadius:
+                          BorderRadius.horizontal(right: Radius.circular(20)),
+                      child: Container(
+                        color: Colors.black,
+                        width: constraints.maxWidth > 600
+                            ? screenWidth * 0.3
+                            : screenWidth *
+                                0.5, // Ajusta el ancho del contenedor según necesites
+                        height:
+                            50, // Ajusta la altura del contenedor según necesites
+                        child: Center(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Registro1(),
+                                ),
+                              );
+                            },
+                            child: Text(
+                              'Registrarse',
+                              style: TextStyle(color: Colors.white),
                             ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10), // Espacio entre el botón y el texto
-                      Text(
-                        'SEZZON',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Positioned(
-                  bottom: screenHeight * 0.05, // 5% from bottom
-                  left: 0, // Alinea el botón con el borde izquierdo
-                  child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.horizontal(right: Radius.circular(20)),
-                    child: Container(
-                      color: Colors.black,
-                      width: screenWidth *
-                          0.3, // Ajusta el ancho del contenedor según necesites
-                      height:
-                          50, // Ajusta la altura del contenedor según necesites
-                      child: Center(
-                        child: TextButton(
-                          onPressed: () {
-                            // Acción del botón Iniciar Sesión
-                          },
-                          child: Text(
-                            'Iniciar Sesión',
-                            style: TextStyle(color: Colors.white),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                // Nueva imagen
-                Positioned(
-                  top: screenHeight * 0.35, // Centra la imagen verticalmente
-                  right: -screenWidth *
-                      0.25, // Coloca la imagen fuera de la vista inicialmente
-                  child: Image.asset(
-                    'assets/images/plato madera.png', // Ruta de la imagen
-                    width: screenWidth *
-                        0.6, // Ajusta el tamaño de la imagen según necesites
-                    height: screenHeight *
-                        0.6, // Ajusta el tamaño de la imagen según necesites
-                  ),
-                ),
-              ],
-            );
-          } else {
-            // Layout for smaller screens
-            return Stack(
-              children: [
-                Positioned(
-                  top: screenHeight * 0.06, // 6% from top
-                  left: 0, // Alinea el botón con el borde izquierdo
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius:
-                            BorderRadius.horizontal(right: Radius.circular(20)),
-                        child: Container(
-                          color: Colors.black,
-                          width: screenWidth *
-                              0.5, // Ajusta el ancho del contenedor según necesites
-                          height:
-                              50, // Ajusta la altura del contenedor según necesites
-                          child: Center(
-                            child: TextButton(
-                              onPressed: () {
-                                // Acción del botón Registrarse
-                              },
-                              child: Text(
-                                'Registrarse',
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            ),
+                    SizedBox(
+                        width: constraints.maxWidth > 600
+                            ? 10
+                            : 40), // Espacio entre el botón y el texto
+                    Column(
+                      children: [
+                        Text(
+                          'SEZZON',
+                          style: TextStyle(
+                            fontSize: constraints.maxWidth > 600 ? 20 : 35,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
                           ),
                         ),
-                      ),
-                      SizedBox(width: 40), // Espacio entre el botón y el texto
-                      Column(
-                        children: [
-                          Text(
-                            'SEZZON',
-                            style: TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black,
-                            ),
-                          ),
+                        if (constraints.maxWidth <= 600) ...[
                           SizedBox(
                               height: 40), // Espacio entre el texto y la imagen
                           Image.asset(
@@ -146,50 +72,65 @@ class MyHomePage extends StatelessWidget {
                             width: 145,
                             height: 140,
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ]
+                      ],
+                    ),
+                  ],
                 ),
-                Positioned(
-                  bottom: screenHeight * 0.03, // 3% from bottom
-                  left: 0, // Alinea el botón con el borde izquierdo
-                  child: ClipRRect(
-                    borderRadius:
-                        BorderRadius.horizontal(right: Radius.circular(20)),
-                    child: Container(
-                      color: Colors.black,
-                      width: screenWidth *
-                          0.5, // Ajusta el ancho del contenedor según necesites
-                      height:
-                          50, // Ajusta la altura del contenedor según necesites
-                      child: Center(
-                        child: TextButton(
-                          onPressed: () {
-                            // Acción del botón Iniciar Sesión
-                          },
-                          child: Text(
-                            'Iniciar Sesión',
-                            style: TextStyle(color: Colors.white),
-                          ),
+              ),
+              Positioned(
+                bottom: screenHeight *
+                    (constraints.maxWidth > 600
+                        ? 0.05
+                        : 0.03), // Ajusta según el tamaño de la pantalla
+                left: 0, // Alinea el botón con el borde izquierdo
+                child: ClipRRect(
+                  borderRadius:
+                      BorderRadius.horizontal(right: Radius.circular(20)),
+                  child: Container(
+                    color: Colors.black,
+                    width: constraints.maxWidth > 600
+                        ? screenWidth * 0.3
+                        : screenWidth *
+                            0.5, // Ajusta el ancho del contenedor según necesites
+                    height:
+                        50, // Ajusta la altura del contenedor según necesites
+                    child: Center(
+                      child: TextButton(
+                        onPressed: () {
+                          print('Iniciar Sesión');
+                        },
+                        child: Text(
+                          'Iniciar Sesión',
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
                   ),
                 ),
-                // Nueva imagen
-                Positioned(
-                  top: screenHeight * 0.099, // Centra la imagen verticalmente
-                  left: -screenWidth *
-                      0.110, // Coloca la imagen fuera de la vista inicialmente
-                  child: Image.asset(
-                    'assets/images/plato madera.png', // Ruta de la imagen
-                    width: screenWidth *
-                        2, // Ajusta el tamaño de la imagen según necesites
-                    height: screenHeight *
-                        1, // Ajusta el tamaño de la imagen según necesites
-                  ),
+              ),
+              // Nueva imagen
+              Positioned(
+                top: constraints.maxWidth > 600
+                    ? screenHeight * 0.35
+                    : screenHeight * 0.099, // Centra la imagen verticalmente
+                right: constraints.maxWidth > 600
+                    ? -screenWidth * 0.25
+                    : -screenWidth *
+                        0.110, // Coloca la imagen fuera de la vista inicialmente
+                child: Image.asset(
+                  'assets/images/plato madera.png', // Ruta de la imagen
+                  width: constraints.maxWidth > 600
+                      ? screenWidth * 0.6
+                      : screenWidth *
+                          2, // Ajusta el tamaño de la imagen según necesites
+                  height: constraints.maxWidth > 600
+                      ? screenHeight * 0.6
+                      : screenHeight *
+                          1, // Ajusta el tamaño de la imagen según necesites
                 ),
+              ),
+              if (constraints.maxWidth <= 600) ...[
                 Positioned(
                   top: screenHeight * 0.05, // Debajo del botón de registrarse
                   left: -screenWidth *
@@ -223,11 +164,17 @@ class MyHomePage extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
-            );
-          }
+              ]
+            ],
+          );
         },
       ),
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: MyHomePage(),
+  ));
 }

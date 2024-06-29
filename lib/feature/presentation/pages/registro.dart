@@ -332,16 +332,3 @@ class _Registro1State extends State<Registro1> {
     );
   }
 }
-
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Registro1(),
-    );
-  }
-}
