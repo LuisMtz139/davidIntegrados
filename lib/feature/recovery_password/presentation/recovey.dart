@@ -83,7 +83,7 @@ class _RecoveyState extends State<Recovey> {
       backgroundColor: const Color(0xFFBDCEA1),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 20), 
+          padding: const EdgeInsets.only(top: 20),
           child: Column(
             children: [
               const SizedBox(height: 20),

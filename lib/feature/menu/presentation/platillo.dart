@@ -346,7 +346,11 @@ class _PlatilloState extends State<Platillo> {
                                 borderRadius: BorderRadius.circular(13),
                               ),
                             ),
-                            child: const Text('send', style: TextStyle(fontSize: 15, color: Colors.white),),
+                            child: const Text(
+                              'send',
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.white),
+                            ),
                           )
                         ],
                       ),

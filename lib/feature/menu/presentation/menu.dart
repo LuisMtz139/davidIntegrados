@@ -194,7 +194,7 @@ class _MenuState extends State<Menu> {
                     children: [
                       const SizedBox(width: 10),
                       Container(
-                        width: 176,
+                        width: 170,
                         height: 191,
                         decoration: BoxDecoration(
                           color: Colors.white,

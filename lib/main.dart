@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sazzon/feature/menu/presentation/menu.dart';
+import 'package:sazzon/feature/admin/header.dart';
 // import 'package:sazzon/feature/presentation/pages/inicio.dart';
 
 void main() {
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      home: Menu(),
+      home: Header(),
     );
   }
 }
