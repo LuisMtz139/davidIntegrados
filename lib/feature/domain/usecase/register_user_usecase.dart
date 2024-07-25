@@ -8,19 +8,15 @@ class RegisterUserUseCase {
   final UserRepository userRepository;
   RegisterUserUseCase(this.userRepository);
 
-  Future<void> execute(UserModel userModel,
+  Future<void> execute(userModel userModel,
 
   ) async {
     try {
-      await userRepository.registerUser(
-           userModel
+      await userRepository.registerUser(userModel);
 
-      );
-
-    } catch (e) {
-      // Maneja cualquier excepción que pueda ocurrir durante el registro
+    } catch (e,stackTrace) {
       print('Error during user registration: $e');
-      // Puedes lanzar la excepción nuevamente o manejarla de otra manera según tus necesidades
+      print('StackTrace: $stackTrace');
       throw e;
     }
   }

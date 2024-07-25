@@ -2,15 +2,17 @@ class User {
    String? id;
   final String name;
   final String email;
-  final String phone_number;
+  final String phone;
   final String password;
+  final String admin;
 
   User({
      this.id,
     required this.name,
     required this.email,
-    required this.phone_number,
+    required this.phone,
     required this.password,
+    required this.admin
 
   });
 }

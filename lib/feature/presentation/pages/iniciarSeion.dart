@@ -139,6 +139,8 @@ class IniciarSesion extends StatelessWidget {
               child: Text(
                 'Iniciar sesión',
                 style: TextStyle(color: Colors.white, fontSize: 16),
+                
+                  
               ),
             ),
           ),

@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sazzon/feature/data/models/user_models.dart';
+import 'package:sazzon/feature/domain/entities/user.dart';
+import 'package:sazzon/feature/presentation/Getx/RegisterUser/registerUserCOntroller.dart';
+import 'package:sazzon/feature/presentation/Getx/RegisterUser/register_event.dart';
 import 'package:sazzon/feature/presentation/pages/iniciarSeion.dart'; // Agregado según lo solicitado
+import 'package:get/get.dart';
 
 class Registro1 extends StatefulWidget {
   @override
@@ -12,6 +17,8 @@ class _Registro1State extends State<Registro1> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  final CreatePostController createPostController =
+      Get.find<CreatePostController>();
 
   Color minLengthColor = Colors.black;
   Color numberColor = Colors.black;
@@ -226,17 +233,21 @@ class _Registro1State extends State<Registro1> {
                 String password = passwordController.text;
                 String phone = phoneController.text;
                 String email = emailController.text;
+                String admin = 'false';
                 print('Nombre: $name');
                 print('Contraseña: $password');
                 print('Teléfono: $phone');
                 print('Correo electrónico: $email');
+                final post = userModel(name: name, password: password, email: email, phone: phone,admin:admin
+                );
+                createPostController.createUser(CreateUserEvent(post));
 
-                Navigator.push(
+                /*Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => IniciarSesion(),
                   ),
-                );
+                );*/
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,

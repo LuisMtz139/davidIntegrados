@@ -3,6 +3,7 @@ import 'package:path/path.dart';
 
 import 'package:flutter/widgets.dart';
 import 'package:sazzon/feature/data/datasource/user_api_data_source.dart';
+import 'package:sazzon/feature/data/models/user_models.dart';
 import 'package:sazzon/feature/domain/repository/user_repository.dart';
 
 class UserRepositoryImp implements UserRepository {
@@ -11,21 +12,21 @@ class UserRepositoryImp implements UserRepository {
   UserRepositoryImp({required this.userApiDataSource});
 
   @override
-  Future<void> logIn({required String email, required String password}) {
-    // TODO: implement logIn
-    throw UnimplementedError();
+  Future<void> logIn({required String email, required String password}) async{
+    await userApiDataSource.logIn(email: email, password: password);
   }
 
-  @override
-  Future<void> registerUser(userModel) {
-    // TODO: implement registerUser
-    throw UnimplementedError();
-  }
+ 
   
   @override
   Future<void> updateUser({required String id, required String name, required String email, required String phone_number}) {
     // TODO: implement updateUser
     throw UnimplementedError();
+  }
+
+  @override
+  Future<void> registerUser(userModel userModel) async{
+    await userApiDataSource.registerUser(userModel);
   }
 
 
