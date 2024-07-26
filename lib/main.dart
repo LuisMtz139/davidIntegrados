@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:sazzon/feature/presentation/Getx/RegisterUser/registerUserCOntroller.dart';
-import 'package:sazzon/feature/presentation/pages/iniciarSeion.dart';
-import 'package:sazzon/feature/presentation/pages/registro.dart';
-import 'package:sazzon/feature/presentation/index.dart';
+import 'package:sazzon/feature/user/presentation/Getx/RegisterUser/registerUserCOntroller.dart';
+import 'package:sazzon/feature/user/presentation/pages/iniciarSeion.dart';
+import 'package:sazzon/feature/user/presentation/pages/registro.dart';
+import 'package:sazzon/feature/user/presentation/index.dart';
 import 'package:sazzon/usercase_config.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';

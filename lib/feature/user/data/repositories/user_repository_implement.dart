@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:path/path.dart';
 
 import 'package:flutter/widgets.dart';
-import 'package:sazzon/feature/data/datasource/user_api_data_source.dart';
-import 'package:sazzon/feature/data/models/user_models.dart';
-import 'package:sazzon/feature/domain/repository/user_repository.dart';
+import 'package:sazzon/feature/user/data/datasource/user_api_data_source.dart';
+import 'package:sazzon/feature/user/data/models/user_models.dart';
+import 'package:sazzon/feature/user/domain/repository/user_repository.dart';
 
 class UserRepositoryImp implements UserRepository {
   final UserApiDataSource userApiDataSource;
@@ -20,7 +20,6 @@ class UserRepositoryImp implements UserRepository {
   
   @override
   Future<void> updateUser({required String id, required String name, required String email, required String phone_number}) {
-    // TODO: implement updateUser
     throw UnimplementedError();
   }
 

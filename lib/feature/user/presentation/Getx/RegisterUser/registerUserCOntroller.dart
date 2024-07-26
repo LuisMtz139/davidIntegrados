@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
-import 'package:sazzon/feature/domain/usecase/register_user_usecase.dart';
-import 'package:sazzon/feature/presentation/Getx/RegisterUser/register_event.dart';
-import 'package:sazzon/feature/presentation/Getx/RegisterUser/register_state.dart';
+import 'package:sazzon/feature/user/domain/usecase/register_user_usecase.dart';
+import 'package:sazzon/feature/user/presentation/Getx/RegisterUser/register_event.dart';
+import 'package:sazzon/feature/user/presentation/Getx/RegisterUser/register_state.dart';
 
 
 class CreatePostController extends GetxController {

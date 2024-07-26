@@ -1,6 +1,6 @@
-import 'package:sazzon/feature/data/datasource/user_api_data_source.dart';
-import 'package:sazzon/feature/data/repositories/user_repository_implement.dart';
-import 'package:sazzon/feature/domain/usecase/register_user_usecase.dart';
+import 'package:sazzon/feature/user/data/datasource/user_api_data_source.dart';
+import 'package:sazzon/feature/user/data/repositories/user_repository_implement.dart';
+import 'package:sazzon/feature/user/domain/usecase/register_user_usecase.dart';
 
 class UsercaseConfig {
 

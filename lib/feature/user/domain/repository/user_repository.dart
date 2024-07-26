@@ -1,4 +1,4 @@
-import 'package:sazzon/feature/data/models/user_models.dart';
+import 'package:sazzon/feature/user/data/models/user_models.dart';
 
 abstract class UserRepository {
   Future<void> registerUser(userModel userModel);

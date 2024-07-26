@@ -1,5 +1,5 @@
 
-import 'package:sazzon/feature/domain/entities/user.dart';
+import 'package:sazzon/feature/user/domain/entities/user.dart';
 
 class userModel extends User {
   userModel({

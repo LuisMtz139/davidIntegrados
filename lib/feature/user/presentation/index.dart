@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sazzon/feature/presentation/pages/iniciarSeion.dart';
-import 'package:sazzon/feature/presentation/pages/registro.dart';
+import 'package:sazzon/feature/user/presentation/pages/iniciarSeion.dart';
+import 'package:sazzon/feature/user/presentation/pages/registro.dart';
 
 class MyHomePage extends StatelessWidget {
   @override
@@ -98,8 +98,12 @@ class MyHomePage extends StatelessWidget {
                     child: Center(
                       child: TextButton(
                         onPressed: () {
-                          print('Iniciar Sesión');
-                        },
+Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => IniciarSesion(),
+                  ),
+                );                      },
                         child: Text(
                           'Iniciar Sesión',
                           style: TextStyle(color: Colors.white),

@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:sazzon/feature/domain/repository/user_repository.dart';
+import 'package:sazzon/feature/user/domain/repository/user_repository.dart';
 
 class LogInUserUseCase {
   final UserRepository userRepository;

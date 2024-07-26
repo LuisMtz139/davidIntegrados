@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sazzon/feature/data/models/user_models.dart';
-import 'package:sazzon/feature/domain/entities/user.dart';
-import 'package:sazzon/feature/presentation/Getx/RegisterUser/registerUserCOntroller.dart';
-import 'package:sazzon/feature/presentation/Getx/RegisterUser/register_event.dart';
-import 'package:sazzon/feature/presentation/pages/iniciarSeion.dart'; // Agregado según lo solicitado
+import 'package:sazzon/feature/user/data/models/user_models.dart';
+import 'package:sazzon/feature/user/domain/entities/user.dart';
+import 'package:sazzon/feature/user/presentation/Getx/RegisterUser/registerUserCOntroller.dart';
+import 'package:sazzon/feature/user/presentation/Getx/RegisterUser/register_event.dart';
+import 'package:sazzon/feature/user/presentation/pages/iniciarSeion.dart'; // Agregado según lo solicitado
 import 'package:get/get.dart';
 
 class Registro1 extends StatefulWidget {
