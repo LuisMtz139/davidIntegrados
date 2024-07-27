@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sazzon/feature/menu/presentation/Menu/getMenuCOntroller.dart';
+import 'package:sazzon/feature/menu/presentation/Menu/getMenu_state.dart';
 import 'package:sazzon/feature/menu/presentation/menu.dart';
 import 'package:sazzon/feature/we_are/presentation/we_are.dart';
 
@@ -10,6 +13,8 @@ class BarMenu extends StatefulWidget {
 }
 
 class _BarMenuState extends State<BarMenu> {
+    late final GetMenuController getMenuController;
+
   void screenWeare(BuildContext context) {
     Navigator.push(
       context,
@@ -17,12 +22,15 @@ class _BarMenuState extends State<BarMenu> {
     );
   }
   void screenMenu(BuildContext context) {
-    Navigator.push(
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const Menu()),
     );
   }
-
+ @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,8 +40,10 @@ class _BarMenuState extends State<BarMenu> {
       child: SizedBox(
         width: 200,
         height: 200,
+      
         child: Drawer(
           child: Stack(
+            
             children: <Widget>[
               // Imagen de fondo
               Container(

@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 
 class Platillo extends StatefulWidget {
-  const Platillo({super.key});
+  final String nombrePlatillo;
+  final String descripcion;
+  final double precio;
+
+  const Platillo({
+    super.key,
+    required this.nombrePlatillo,
+    required this.descripcion,
+    required this.precio,
+  });
 
   @override
   State<Platillo> createState() => _PlatilloState();
@@ -10,7 +19,6 @@ class Platillo extends StatefulWidget {
 
 class _PlatilloState extends State<Platillo> {
   final _formKey = GlobalKey<FormState>();
-
   bool _showBurgerBar = false;
 
   void _toggleBurgerBar() {
@@ -145,27 +153,23 @@ class _PlatilloState extends State<Platillo> {
                                 ),
                               ),
                             ),
-                            const SizedBox(
+                            SizedBox(
                               width: 150,
                               height: 120,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Brochetas de pollo',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.start,
+                                    widget.nombrePlatillo,
+                                    style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    '\$66',
-                                    style: TextStyle(
-                                      fontSize: 24,
-                                      // fontWeight: FontWeight.bold,
-                                    ),
-                                    textAlign: TextAlign.start,
+                                    '\$${widget.precio.toStringAsFixed(2)}',
+                                    style: const TextStyle(
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ],
                               ),
@@ -184,11 +188,11 @@ class _PlatilloState extends State<Platillo> {
                             bottomLeft: Radius.circular(20),
                           ),
                         ),
-                        child: const Center(
+                        child:  Center(
                           child: Padding(
                             padding: EdgeInsets.all(20.0),
                             child: Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eu risus sit amet sem vehicula dignissim. Nunc condimentum ut magna aliquet laoreet. Nam et sodales eros.',
+                              widget.descripcion,
                               style: TextStyle(color: Color(0xFFBDCEA1)),
                             ),
                           ),
@@ -346,7 +350,11 @@ class _PlatilloState extends State<Platillo> {
                                 borderRadius: BorderRadius.circular(13),
                               ),
                             ),
-                            child: const Text('send', style: TextStyle(fontSize: 15, color: Colors.white),),
+                            child: const Text(
+                              'send',
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.white),
+                            ),
                           )
                         ],
                       ),

@@ -5,16 +5,13 @@ import 'package:sazzon/feature/menu/presentation/Menu/getMenuCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/Menu/getMenu_state.dart';
 import 'package:sazzon/feature/menu/presentation/Menu/getMenu_event.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
-import 'package:sazzon/feature/menu/presentation/platillo.dart';
 
-class Menu extends StatefulWidget {
-  const Menu({super.key});
-
+class MenuPage4 extends StatefulWidget {
   @override
-  State<Menu> createState() => _MenuState();
+  _MenuPageState createState() => _MenuPageState();
 }
 
-class _MenuState extends State<Menu> {
+class _MenuPageState extends State<MenuPage4> {
   final GetMenuController controller = Get.find<GetMenuController>();
   final TextEditingController searchController = TextEditingController();
 
@@ -201,85 +198,7 @@ class _MenuState extends State<Menu> {
               if (controller.state.value is MenuLoading) {
                 return Center(child: CircularProgressIndicator());
               } else if (controller.state.value is PostsLoaded) {
-                var posts = (controller.state.value as PostsLoaded).posts;
-                return ListView.builder(
-                  itemCount: posts.length,
-                  itemBuilder: (context, index) {
-                    var post = posts[index];
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        const SizedBox(height: 20),
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Platillo(
-                  nombrePlatillo: post.nombre_platillo,
-                  descripcion: post.descripcion,
-                  precio: post.precio.toDouble(),
-                ),
-                              ),
-                            );
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 300,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          10, 5, 10, 5),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Image.asset(
-                                            'assets/c.png',
-                                            width: 100,
-                                            height: 101,
-                                            fit: BoxFit.contain,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(post.nombre_platillo,
-                                                    style: TextStyle(
-                                                        fontSize: 16,
-                                                        fontWeight:
-                                                            FontWeight.bold)),
-                                                Text(post.descripcion),
-                                                Text("\$${post.precio}",
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.red)),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
+                return buildMenuButtonsList();
               } else if (controller.state.value is MenuFetchingFailure) {
                 return Center(
                   child: Text(
@@ -292,6 +211,63 @@ class _MenuState extends State<Menu> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildMenuButtonsList() {
+    var posts = (controller.state.value as PostsLoaded).posts;
+    return ListView.builder(
+      itemCount: posts.length,
+      itemBuilder: (context, index) {
+        var post = posts[index];
+        return MenuButtons(post: post);
+      },
+    );
+  }
+}
+
+class MenuButtons extends StatelessWidget {
+  final MenuModel post;
+  const MenuButtons({Key? key, required this.post}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(width: 10),
+            Container(
+              width: 300, // Ancho modificado para adaptarse a más contenido
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(post.nombre_platillo,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        Text(post.descripcion),
+                        Text("\$${post.precio}",
+                            style: TextStyle(fontSize: 14, color: Colors.red)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
