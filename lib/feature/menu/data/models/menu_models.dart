@@ -1,8 +1,4 @@
-
-
-
 import 'package:sazzon/feature/menu/domain/entities/menu.dart';
-
 class MenuModel extends Menu {
   MenuModel({
      String? id,

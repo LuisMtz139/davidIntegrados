@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/domain/usecase/get_menu_usecase.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenu_event.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenu_state.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_event.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
 
 class GetMenuController extends GetxController {
   final GetMenuUseCase getMenuUseCase;

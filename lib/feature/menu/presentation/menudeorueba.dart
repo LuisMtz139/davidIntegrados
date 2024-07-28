@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/data/models/menu_models.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenuCOntroller.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenu_state.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenu_event.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_event.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 
 class MenuPage5 extends StatefulWidget {
@@ -206,25 +206,19 @@ class _MenuPageState extends State<MenuPage5> {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        
                         const SizedBox(height: 20),
                         Row(
-                          
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                                
                             Container(
-                              
                               width: 300, // Ancho para más contenido
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Column(
-                                
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  
                                   Padding(
                                     padding:
                                         const EdgeInsets.fromLTRB(10, 5, 10, 5),
@@ -232,7 +226,6 @@ class _MenuPageState extends State<MenuPage5> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        
                                         Image.asset(
                                           'assets/c.png',
                                           width: 100,
@@ -240,67 +233,66 @@ class _MenuPageState extends State<MenuPage5> {
                                           fit: BoxFit.contain,
                                         ),
                                         Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        Center(
-                                          child: Image.asset(
-                                            'assets/star_1.png',
-                                            width:
-                                                20, // Ancho deseado para la imagen
-                                            height:
-                                                20, // Alto deseado para la imagen
-                                            fit: BoxFit.contain,
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              Center(
+                                                child: Image.asset(
+                                                  'assets/star_1.png',
+                                                  width:
+                                                      20, // Ancho deseado para la imagen
+                                                  height:
+                                                      20, // Alto deseado para la imagen
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Center(
+                                                child: Image.asset(
+                                                  'assets/star_1.png',
+                                                  width:
+                                                      20, // Ancho deseado para la imagen
+                                                  height:
+                                                      20, // Alto deseado para la imagen
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Center(
+                                                child: Image.asset(
+                                                  'assets/star_1.png',
+                                                  width:
+                                                      20, // Ancho deseado para la imagen
+                                                  height:
+                                                      20, // Alto deseado para la imagen
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Center(
+                                                child: Image.asset(
+                                                  'assets/star_1.png',
+                                                  width:
+                                                      20, // Ancho deseado para la imagen
+                                                  height:
+                                                      20, // Alto deseado para la imagen
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                              const SizedBox(width: 5),
+                                              Center(
+                                                child: Image.asset(
+                                                  'assets/star_1.png',
+                                                  width:
+                                                      20, // Ancho deseado para la imagen
+                                                  height:
+                                                      20, // Alto deseado para la imagen
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            ],
                                           ),
                                         ),
-                                        const SizedBox(width: 5),
-                                        Center(
-                                          child: Image.asset(
-                                            'assets/star_1.png',
-                                            width:
-                                                20, // Ancho deseado para la imagen
-                                            height:
-                                                20, // Alto deseado para la imagen
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 5),
-                                        Center(
-                                          child: Image.asset(
-                                            'assets/star_1.png',
-                                            width:
-                                                20, // Ancho deseado para la imagen
-                                            height:
-                                                20, // Alto deseado para la imagen
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 5),
-                                        Center(
-                                          child: Image.asset(
-                                            'assets/star_1.png',
-                                            width:
-                                                20, // Ancho deseado para la imagen
-                                            height:
-                                                20, // Alto deseado para la imagen
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                        const SizedBox(width: 5),
-                                        Center(
-                                          child: Image.asset(
-                                            'assets/star_1.png',
-                                            width:
-                                                20, // Ancho deseado para la imagen
-                                            height:
-                                                20, // Alto deseado para la imagen
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                             
                                         Text(post.nombre_platillo,
                                             style: TextStyle(
                                                 fontSize: 16,
