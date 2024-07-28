@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
 import 'package:sazzon/feature/menu/presentation/menu.dart';
+import 'package:sazzon/feature/user/presentation/pages/updateUser.dart';
 import 'package:sazzon/feature/we_are/presentation/we_are.dart';
 
 class BarMenu extends StatefulWidget {
@@ -13,7 +14,7 @@ class BarMenu extends StatefulWidget {
 }
 
 class _BarMenuState extends State<BarMenu> {
-    late final GetMenuController getMenuController;
+  late final GetMenuController getMenuController;
 
   void screenWeare(BuildContext context) {
     Navigator.push(
@@ -21,16 +22,26 @@ class _BarMenuState extends State<BarMenu> {
       MaterialPageRoute(builder: (context) => const WeAre()),
     );
   }
+
   void screenMenu(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const Menu()),
     );
   }
- @override
+
+  void screenPerfil(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => Updateuser()),
+    );
+  }
+
+  @override
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,10 +51,8 @@ class _BarMenuState extends State<BarMenu> {
       child: SizedBox(
         width: 200,
         height: 200,
-      
         child: Drawer(
           child: Stack(
-            
             children: <Widget>[
               // Imagen de fondo
               Container(
@@ -122,8 +131,7 @@ class _BarMenuState extends State<BarMenu> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onTap: () {
-                      Navigator.pop(context);
-                      // Aquí puedes añadir cualquier acción al seleccionar 'Perfil'
+                      screenPerfil(context);
                     },
                   ),
                   const Divider(color: Color(0xFFF6532A)),

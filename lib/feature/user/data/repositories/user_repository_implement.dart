@@ -19,8 +19,8 @@ class UserRepositoryImp implements UserRepository {
  
   
   @override
-  Future<void> updateUser({required String id, required String name, required String email, required String phone_number}) {
-    throw UnimplementedError();
+  Future<void> updateUser(userModel userModel)async {
+await userApiDataSource.updateUser(userModel);
   }
 
   @override

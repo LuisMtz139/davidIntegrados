@@ -5,12 +5,7 @@ abstract class UserRepository {
 
   Future<void> logIn({ required String email, required String password});
 
-  Future<void> updateUser({
-    required String id,
-    required String name,
-    required String email,
-    required String phone_number,
-  });
+  Future<void> updateUser(userModel userModel);
 
 
 }
