@@ -7,12 +7,7 @@ abstract class UserApiDataSource {
 
   Future<void> logIn({required String email, required String password});
 
-  Future<void> updateUser({
-    required String id,
-    required String name,
-    required String email,
-    required String phoneNumber,
-  });
+  Future<void> updateUser(userModel userModel);
 }
 
 class UserApiDataSourceImp implements UserApiDataSource {
@@ -49,12 +44,26 @@ class UserApiDataSourceImp implements UserApiDataSource {
   }
 
   @override
-  Future<void> updateUser(
-      {required String id,
-      required String name,
-      required String email,
-      required String phoneNumber}) {
-    // TODO: implement updateUser
-    throw UnimplementedError();
+  Future<void> updateUser(userModel userModel) async {
+    try {
+      await http.post(
+        Uri.parse('$_baseUrl/users'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(<String, String>{
+          'name': userModel.name,
+          'phone': userModel.phone,
+          'email': userModel.email,
+          'password': userModel.password,
+          'admin': userModel.admin,
+        }),
+      );
+
+      // Ahora que los datos se han enviado exitosamente, intenta enviar datos pendientes
+    } catch (e) {
+      print('Error during network call: $e');
+      throw Exception('Network error');
+    }
   }
 }

@@ -1,25 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sazzon/feature/coment/data/models/comment_models.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Comment/getcommentCOntroller.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Comment/getcomment_event.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Comment/getcomment_state.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Comment/poshCOntroller.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Comment/posh_event.dart';
 
 class Platillo extends StatefulWidget {
   final String nombrePlatillo;
   final String descripcion;
   final double precio;
-
-  const Platillo({
-    super.key,
-    required this.nombrePlatillo,
-    required this.descripcion,
-    required this.precio,
-  });
+  final String id;
+  const Platillo(
+      {super.key,
+      required this.nombrePlatillo,
+      required this.descripcion,
+      required this.precio,
+      required this.id});
 
   @override
   State<Platillo> createState() => _PlatilloState();
 }
 
 class _PlatilloState extends State<Platillo> {
+  final TextEditingController mycommentController = TextEditingController();
+  final GetCommentController _controller = Get.find<GetCommentController>();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.fetchCoDetails(FetchCommentDetailsEvent(widget.id));
+  }
+
   final _formKey = GlobalKey<FormState>();
   bool _showBurgerBar = false;
+  final PoshCommentController poshCommentController =
+      Get.find<PoshCommentController>();
 
   void _toggleBurgerBar() {
     setState(() {
@@ -188,7 +206,7 @@ class _PlatilloState extends State<Platillo> {
                             bottomLeft: Radius.circular(20),
                           ),
                         ),
-                        child:  Center(
+                        child: Center(
                           child: Padding(
                             padding: EdgeInsets.all(20.0),
                             child: Text(
@@ -318,9 +336,10 @@ class _PlatilloState extends State<Platillo> {
                             width: 250,
                             // height: 70,
                             child: TextFormField(
+                              controller: mycommentController,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return '• Please enter somer email';
+                                  return '• Please tu comentario';
                                 }
                                 return null;
                               },
@@ -329,19 +348,31 @@ class _PlatilloState extends State<Platillo> {
                                 fillColor: Colors.transparent,
                                 contentPadding: const EdgeInsets.only(
                                     left: 10.0, top: 16.0),
-                                hintText: '"Escribe un comentario"',
+                                hintText: '"Escribe un comentario "',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(16.0),
                                   // borderSide: BorderSide.,
                                 ),
                                 hintStyle: const TextStyle(color: Colors.black),
                               ),
-                              style: const TextStyle(color: Colors.white),
+                              style: const TextStyle(
+                                  color: Color.fromARGB(255, 0, 0, 0)),
                             ),
                           ),
                           const SizedBox(width: 10),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              String mycomment = mycommentController.text;
+                              print('mycomment: $mycomment');
+                              print(widget.id);
+                              final post = CommentModel(
+                                  id_platillo: widget.id,
+                                  id_user: '2',
+                                  comentario: mycomment,
+                                  calificacion: 1);
+                              poshCommentController
+                                  .createComment(CreateCommentEvent(post));
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Color(0xFFF6532A),
                               padding: const EdgeInsets.symmetric(
@@ -359,50 +390,50 @@ class _PlatilloState extends State<Platillo> {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      width: 330,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Arturo'),
-                            SizedBox(height: 10),
-                            Text(
-                                "Las brochetas de pollo que probé en el restaurante fueron excepcionales. El pollo estaba perfectamente marinado y cocido a la perfección. Cada bocado era jugoso y lleno de sabor. Sin duda, volveré por más."),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 330,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Arturo'),
-                            SizedBox(height: 10),
-                            Text(
-                                "Las brochetas de pollo que probé en el restaurante fueron excepcionales. El pollo estaba perfectamente marinado y cocido a la perfección. Cada bocado era jugoso y lleno de sabor. Sin duda, volveré por más."),
-                          ],
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 330,
-                      child: Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Arturo'),
-                            SizedBox(height: 10),
-                            Text(
-                                "Las brochetas de pollo que probé en el restaurante fueron excepcionales. El pollo estaba perfectamente marinado y cocido a la perfección. Cada bocado era jugoso y lleno de sabor. Sin duda, volveré por más."),
-                          ],
-                        ),
-                      ),
+                    Container(
+                      height: 300, // Define un tamaño fijo
+                      child: Obx(() {
+                        if (_controller.state.value is CommentLoading) {
+                          return Center(child: CircularProgressIndicator());
+                        } else if (_controller.state.value is PostsLoaded) {
+                          var posts =
+                              (_controller.state.value as PostsLoaded).posts;
+                          return ListView.builder(
+                            itemCount: posts.length,
+                            itemBuilder: (context, index) {
+                              var post = posts[index];
+                              return Column(
+                                children: [
+                                  SizedBox(
+                                    width: 330,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text('cd'),
+                                          SizedBox(height: 10),
+                                          Text(post.comentario)
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              );
+                            },
+                          );
+                        } else if (_controller.state.value
+                            is CommentFetchingFailure) {
+                          return Center(
+                            child: Text((_controller.state.value
+                                    as CommentFetchingFailure)
+                                .error),
+                          );
+                        } else {
+                          return Center(child: Text("Estado no reconocido"));
+                        }
+                      }),
                     ),
                   ],
                 ),

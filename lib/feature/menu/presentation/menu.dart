@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/data/models/menu_models.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenuCOntroller.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenu_state.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenu_event.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_event.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 import 'package:sazzon/feature/menu/presentation/platillo.dart';
 
@@ -216,10 +216,11 @@ class _MenuState extends State<Menu> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Platillo(
-                  nombrePlatillo: post.nombre_platillo,
-                  descripcion: post.descripcion,
-                  precio: post.precio.toDouble(),
-                ),
+                                  nombrePlatillo: post.nombre_platillo,
+                                  descripcion: post.descripcion,
+                                  precio: post.precio.toDouble(),
+                                  id: post.id.toString(),
+                                ),
                               ),
                             );
                           },

@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/domain/usecase/get_menu_usecase.dart';
 import 'package:sazzon/feature/menu/domain/usecase/getid_menu_usecase.dart';
-import 'package:sazzon/feature/menu/presentation/MenuID/getMenuId_event.dart';
-import 'package:sazzon/feature/menu/presentation/MenuID/getMenuId_state.dart';
+import 'package:sazzon/feature/menu/presentation/getX/MenuID/getMenuId_event.dart';
+import 'package:sazzon/feature/menu/presentation/getX/MenuID/getMenuId_state.dart';
 
 
 class GetMenuIdController extends GetxController {

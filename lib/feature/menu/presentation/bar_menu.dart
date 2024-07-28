@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenuCOntroller.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenu_state.dart';
+
 import 'package:sazzon/feature/menu/presentation/como_funciona.dart';
 import 'package:sazzon/feature/menu/presentation/menu.dart';
 import 'package:sazzon/feature/we_are/presentation/quienes_Somos.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
+import 'package:sazzon/feature/menu/presentation/menu.dart';
+import 'package:sazzon/feature/user/presentation/pages/updateUser.dart';
 
 class BarMenu extends StatefulWidget {
   const BarMenu({super.key});
@@ -34,6 +37,13 @@ class _BarMenuState extends State<BarMenu> {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const HowItWorks()),
+    );
+  }
+
+    void screenPerfil(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => Updateuser()),
     );
   }
 
@@ -133,8 +143,7 @@ class _BarMenuState extends State<BarMenu> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onTap: () {
-                      Navigator.pop(context);
-                      // Aquí puedes añadir cualquier acción al seleccionar 'Perfil'
+                      screenPerfil(context);
                     },
                   ),
                   const Divider(color: Color(0xFFF6532A)),

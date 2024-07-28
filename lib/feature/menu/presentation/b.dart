@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/data/models/menu_models.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenuCOntroller.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenu_state.dart';
-import 'package:sazzon/feature/menu/presentation/Menu/getMenu_event.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
+import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_event.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 
 class MenuPage4 extends StatefulWidget {
