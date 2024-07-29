@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sazzon/feature/menu/presentation/direccion_registro_direccion.dart';
+import 'package:sazzon/feature/address/presentation/direccion_registro_direccion.dart';
 
 class DireccionRegistroNombre extends StatefulWidget {
   const DireccionRegistroNombre({Key? key}) : super(key: key);

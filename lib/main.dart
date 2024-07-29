@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sazzon/address_config.dart';
+import 'package:sazzon/feature/address/presentation/direccion_no_encontrada.dart';
+import 'package:sazzon/feature/address/presentation/getX/getCOntroller.dart';
+import 'package:sazzon/feature/address/presentation/getX/poshCOntroller.dart';
 
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 import 'package:sazzon/feature/menu/presentation/carro.dart';
 import 'package:sazzon/feature/menu/presentation/como_funciona.dart';
-import 'package:sazzon/feature/menu/presentation/direccion_no_encontrada.dart';
 import 'package:sazzon/feature/menu/presentation/fac.dart';
 import 'package:sazzon/feature/menu/presentation/panel_control_gestion_clientes.dart';
 import 'package:sazzon/feature/menu/presentation/panel_de_control.dart';
@@ -31,21 +34,21 @@ import 'package:get/get.dart';
 UsercaseConfig usercaseConfig = UsercaseConfig();
 MenucaseConfig menucaseConfig = MenucaseConfig();
 CommentcaseConfig commentcaseConfig = CommentcaseConfig();
+AddresscaseConfig addresscaseConfig = AddresscaseConfig();
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
   MyApp() {
-    Get.put(CreatePostController(
-        registerUserUseCase: usercaseConfig.registerUserUseCase!));
+    Get.put(CreatePostController(registerUserUseCase: usercaseConfig.registerUserUseCase!));
     Get.put(GetMenuController(getMenuUseCase: menucaseConfig.getMenuUseCase!));
-    Get.put(GetMenuIdController(
-        getMenuIdUseCase: menucaseConfig.getMenuidUseCase!));
+    Get.put(GetMenuIdController(getMenuIdUseCase: menucaseConfig.getMenuidUseCase!));
     Get.put(GetMenuIdController(getMenuIdUseCase: menucaseConfig.getMenuidUseCase!));
     Get.put(GetCommentController(getCommentUseCase: commentcaseConfig.getCommentUseCase!));
     Get.put(PoshCommentController(poshcommentUseCase: commentcaseConfig.poshcommentUseCase!));
-
+    Get.put(GetAddressController(getAddressUseCase: addresscaseConfig.getAddressUseCase!));
+    Get.put(PoshAddressController(poshaddressUseCase: addresscaseConfig.poshaddressUseCase!));
   }
 
   @override
