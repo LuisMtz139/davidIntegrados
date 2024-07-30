@@ -6,6 +6,7 @@ import 'package:sazzon/feature/address/presentation/getX/getcontroller.dart';
 import 'package:sazzon/feature/address/domain/entities/address.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 import 'package:sazzon/feature/address/presentation/direccion_registro_direccion.dart';
+import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/paypal.dart';
 
 class DireccionNoEncontrada extends StatelessWidget {
   final GetAddressController controller = Get.find<GetAddressController>();
@@ -115,8 +116,15 @@ class DireccionNoEncontrada extends StatelessWidget {
                                 horizontal: 16, vertical: 8),
                             child: ElevatedButton(
                               onPressed: () {
-                                print(
-                                    "Continuar compra con la dirección ${selectedAddressIndex.value}");
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => PaypalPaymentView(
+                                      selectedAddressIndex:
+                                          selectedAddressIndex.value,
+                                    ),
+                                  ),
+                                );
                               },
                               child: Text(
                                 "Continuar compra",
