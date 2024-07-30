@@ -1,5 +1,3 @@
-// createpost_state.dart
-
 abstract class CreatePostState {}
 
 class AddressInitial extends CreatePostState {}

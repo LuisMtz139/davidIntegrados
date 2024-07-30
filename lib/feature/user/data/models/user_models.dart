@@ -3,7 +3,7 @@ import 'package:sazzon/feature/user/domain/entities/user.dart';
 
 class userModel extends User {
   userModel({
-     String? id,
+     int? id,
     required String name,
     required String email,
     required String phone,
@@ -20,7 +20,7 @@ class userModel extends User {
 
   factory userModel.fromJson(Map<String, dynamic> json) {
     return userModel(
-      id: json['id'],
+      id: json['id'] is int ? json['id'] : int.parse(json['id']),
       name: json['name'],
       email: json['email'],
       phone: json['phone'],

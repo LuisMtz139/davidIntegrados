@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sazzon/feature/address/data/models/address_models.dart';
+import 'package:sazzon/feature/address/presentation/getX/posh_event.dart';
+import 'package:sazzon/feature/address/presentation/getX/poshcontroller.dart';
 
 class DireccionRegistroDireccion extends StatefulWidget {
   const DireccionRegistroDireccion({Key? key}) : super(key: key);
@@ -10,6 +14,33 @@ class DireccionRegistroDireccion extends StatefulWidget {
 
 class _DireccionRegistroDireccionState
     extends State<DireccionRegistroDireccion> {
+  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController _calleController = TextEditingController();
+  final TextEditingController _postcodeController = TextEditingController();
+  final TextEditingController _coloniaController = TextEditingController();
+  final TextEditingController _numextController = TextEditingController();
+  final TextEditingController _numintController = TextEditingController();
+  final TextEditingController _estadoController = TextEditingController();
+  final TextEditingController _ciudadController = TextEditingController();
+  final TextEditingController _descripcionController = TextEditingController();
+
+  final PoshAddressController createPostController =
+      Get.find<PoshAddressController>();
+
+  @override
+  void dispose() {
+    _calleController.dispose();
+    _postcodeController.dispose();
+    _coloniaController.dispose();
+    _numextController.dispose();
+    _numintController.dispose();
+    _estadoController.dispose();
+    _ciudadController.dispose();
+    _descripcionController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,36 +63,96 @@ class _DireccionRegistroDireccionState
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                SizedBox(height: 20),
-                _buildTextField('Dirección', 'Av. Central entre 2 y 3 poniente',
-                    Colors.red),
-                _buildTextField('Número Exterior', '#2322', Colors.red),
-                _buildTextField('Número Interior (Opcional)', '', Colors.red),
-                _buildTextField('Código Postal', '29000', Colors.red),
-                _buildTextField('Ciudad', 'Chiapas', Colors.red),
-                _buildTextField('Municipio', 'Suchiapa', Colors.red),
-                SizedBox(height: 20),
-                Container(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    child: Text('Guardar Dirección',
-                        style: TextStyle(color: Colors.white)),
-                    onPressed: () {
-                      
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.black,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  SizedBox(height: 20),
+                  _buildTextField(
+                    'Calle',
+                    'Av. Central entre 2 y 3 poniente',
+                    Colors.red,
+                    _calleController,
+                  ),
+                  _buildTextField(
+                    'Código Postal',
+                    '29000',
+                    Colors.red,
+                    _postcodeController,
+                  ),
+                  _buildTextField(
+                    'Colonia',
+                    'Centro',
+                    Colors.red,
+                    _coloniaController,
+                  ),
+                  _buildTextField(
+                    'Número Exterior',
+                    '#2322',
+                    Colors.red,
+                    _numextController,
+                  ),
+                  _buildTextField(
+                    'Número Interior (Opcional)',
+                    '',
+                    Colors.red,
+                    _numintController,
+                  ),
+                  _buildTextField(
+                    'Estado',
+                    'Chiapas',
+                    Colors.red,
+                    _estadoController,
+                  ),
+                  _buildTextField(
+                    'Ciudad',
+                    'Suchiapa',
+                    Colors.red,
+                    _ciudadController,
+                  ),
+                  _buildTextField(
+                    'Descripción',
+                    'Descripción adicional',
+                    Colors.red,
+                    _descripcionController,
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      child: Text(
+                        'Guardar Dirección',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          final post = AddressModel(
+                            userId: 2,
+                            calle: _calleController.text,
+                            postcode: int.parse(_postcodeController.text),
+                            colonia: _coloniaController.text,
+                            num_ext: int.parse(_numextController.text),
+                            num_int: int.parse(_numintController.text),
+                            estado: _estadoController.text,
+                            ciudad: _ciudadController.text,
+                            descripcion: _descripcionController.text,
+                          );
+                          createPostController
+                              .createAddress(CreateAddressEvent(post));
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.black,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(height: 20),
-              ],
+                  SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
         ),
@@ -69,14 +160,16 @@ class _DireccionRegistroDireccionState
     );
   }
 
-  Widget _buildTextField(String label, String placeholder, Color labelColor) {
+  Widget _buildTextField(String label, String placeholder, Color labelColor,
+      TextEditingController controller) {
     return Container(
       margin: EdgeInsets.only(bottom: 16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: TextField(
+      child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           labelText: label,
           labelStyle: TextStyle(color: labelColor),
@@ -90,6 +183,12 @@ class _DireccionRegistroDireccionState
           fillColor: Colors.white,
           contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
         ),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Este campo es obligatorio';
+          }
+          return null;
+        },
       ),
     );
   }

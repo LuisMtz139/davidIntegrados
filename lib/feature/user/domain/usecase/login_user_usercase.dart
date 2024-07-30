@@ -1,14 +1,12 @@
-import 'package:flutter/widgets.dart';
+import 'package:sazzon/feature/user/data/models/user_models.dart';
 import 'package:sazzon/feature/user/domain/repository/user_repository.dart';
+import '../entities/login.dart';
+import '../entities/session.dart';
 
-class LogInUserUseCase {
+class LoginUserUsercase{
   final UserRepository userRepository;
-
-  LogInUserUseCase(this.userRepository);
-
-  Future<void> execute( String email, String password) async {
-    return await userRepository.logIn( email: email, password: password);
- 
- 
+  LoginUserUsercase(this.userRepository);
+  Future<userModel> excute(Login login)async{
+    return await userRepository.postLogin(login);
   }
 }

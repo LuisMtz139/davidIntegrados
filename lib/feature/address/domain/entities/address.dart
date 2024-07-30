@@ -1,11 +1,12 @@
+
 class Address {
   String? id;
-  final String userId;
+  final int userId;
   final String calle;
-  final String postcode;
+  final int postcode;
   final String colonia;
-  final String num_ext;
-  final String num_int;
+  final int num_ext;
+  final int num_int;
   final String estado;
   final String ciudad;
   final String descripcion;
