@@ -13,7 +13,7 @@ abstract class MenuApiDataSource {
 }
 
 class   MenuApiDataSourceImp implements MenuApiDataSource {
-  final String _baseUrl = 'https://users.sazzon.site/api/v2/directions';
+  final String _baseUrl = 'https://dish.sazzon.site/platillos/';
 
   @override
 Future<List<MenuModel>> getMenu() async {

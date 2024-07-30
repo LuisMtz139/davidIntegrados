@@ -22,6 +22,7 @@ import 'package:sazzon/feature/menu/presentation/getX/Comment/poshCOntroller.dar
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/getX/MenuID/getMenuIdCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/menu.dart';
+import 'package:sazzon/feature/recovery_password/presentation/recovey.dart';
 import 'package:sazzon/feature/user/presentation/Getx/RegisterUser/registerUserCOntroller.dart';
 import 'package:sazzon/feature/user/presentation/pages/iniciarSeion.dart';
 import 'package:sazzon/feature/user/presentation/pages/registro.dart';
@@ -32,8 +33,10 @@ import 'package:sazzon/usercase_config.dart';
 import 'package:provider/provider.dart';
 import 'package:get/get.dart';
 
-import 'feature/user/presentation/Getx/Login/postlogin_getx.dart';
-import 'feature/user/presentation/pages/inicarSesionTest.dart';
+import 'feature/recovery_password/presentation/PasswordGetX/registerUserCOntroller.dart';
+import 'feature/recovery_password/presentation/updatepassword.dart';
+import 'feature/user/domain/usecase/password_user_usecase.dart';
+
 
 
 UsercaseConfig usercaseConfig = UsercaseConfig();
@@ -48,7 +51,6 @@ void main() {
 class MyApp extends StatelessWidget {
   MyApp() {
     Get.put(CreatePostController(registerUserUseCase: usercaseConfig.registerUserUseCase!));
-    Get.put(LoginController(loginUserUsercase: usercaseConfig.loginUserUsercase!));
     Get.put(GetMenuController(getMenuUseCase: menucaseConfig.getMenuUseCase!));
     Get.put(GetMenuIdController(getMenuIdUseCase: menucaseConfig.getMenuidUseCase!));
     Get.put(GetMenuIdController(getMenuIdUseCase: menucaseConfig.getMenuidUseCase!));
@@ -56,11 +58,11 @@ class MyApp extends StatelessWidget {
     Get.put(PoshCommentController(poshcommentUseCase: commentcaseConfig.poshcommentUseCase!));
     Get.put(GetAddressController(getAddressUseCase: addresscaseConfig.getAddressUseCase!));
     Get.put(PoshAddressController(poshaddressUseCase: addresscaseConfig.poshaddressUseCase!));
-
+    Get.put(PasswordController(updatePasswrodUseCase: usercaseConfig.updatePasswrodUseCase!));
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(home: LoginPage1());
+    return GetMaterialApp(home: Updatepassword());
   }
 }
