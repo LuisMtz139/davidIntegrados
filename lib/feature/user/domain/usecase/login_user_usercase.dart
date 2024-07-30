@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:sazzon/feature/user/domain/repository/user_repository.dart';
 
 class LogInUserUseCase {

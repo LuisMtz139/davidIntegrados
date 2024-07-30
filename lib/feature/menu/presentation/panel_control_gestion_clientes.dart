@@ -47,10 +47,10 @@ class _WeAreState extends State<PanelControlGestionClientes> {
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Panel de control',
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
@@ -88,7 +88,7 @@ class _WeAreState extends State<PanelControlGestionClientes> {
           child: Icon(icon, size: 24),
         ),
         const SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 12)),
+        Text(label, style: const TextStyle(fontSize: 12)),
       ],
     );
   }
@@ -102,7 +102,7 @@ class _WeAreState extends State<PanelControlGestionClientes> {
           BoxShadow(
             color: Colors.black.withOpacity(0.1),
             blurRadius: 4,
-            offset: Offset(0, 2),
+            offset: const Offset(0, 2),
           ),
         ],
       ),
@@ -110,12 +110,12 @@ class _WeAreState extends State<PanelControlGestionClientes> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
             decoration: BoxDecoration(
               color: Colors.grey[200],
-              borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
             ),
-            child: Text(
+            child: const Text(
               'Gestión de clientes',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
             ),
@@ -145,7 +145,7 @@ class _WeAreState extends State<PanelControlGestionClientes> {
                   padding: const EdgeInsets.all(12.0),
                   child: Text(
                     header,
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ),
               ))

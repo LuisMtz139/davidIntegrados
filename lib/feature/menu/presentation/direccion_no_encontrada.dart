@@ -43,29 +43,29 @@ class _WeAreState extends State<DireccionNoEncontrada> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Text(
                 "No hay ningúna dirección registrada, para continuar con la compra agrega una dirección porfavor",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 16),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
-              child: Text("Agregar Dirección"),
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DireccionRegistroNombre()),
+                      builder: (context) => const DireccionRegistroNombre()),
                 );
               },
               style: ElevatedButton.styleFrom(
                 foregroundColor: Colors.white,
                 backgroundColor: Colors.black,
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
               ),
+              child: const Text("Agregar Dirección"),
             ),
           ],
         ),

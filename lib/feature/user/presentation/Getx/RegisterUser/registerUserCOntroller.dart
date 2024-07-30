@@ -11,7 +11,7 @@ class CreatePostController extends GetxController {
   createUser(CreateUserEvent event) async {
     state.value = UserLoading();
     try {
-      await registerUserUseCase?.execute(event.user);
+      await registerUserUseCase.execute(event.user);
       print("object");
       state.value = UserCreatedSuccessfully();
     } catch (e) {

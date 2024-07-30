@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:sazzon/feature/menu/data/models/menu_models.dart';
 import 'package:sazzon/feature/menu/domain/repository/menu_repository.dart';
 
@@ -16,7 +15,7 @@ class PoshMenuUseCase {
     } catch (e,stackTrace) {
       print('Error during user registration: $e');
       print('StackTrace: $stackTrace');
-      throw e;
+      rethrow;
     }
   }
 

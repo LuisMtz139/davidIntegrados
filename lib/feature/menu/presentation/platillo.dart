@@ -49,7 +49,7 @@ class _PlatilloState extends State<Platillo> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFBDCEA1),
-      drawer: Container(child: BarMenu()),
+      drawer: Container(child: const BarMenu()),
       appBar: AppBar(
         iconTheme: const IconThemeData(
           color: Colors.white, // Cambia el color del ícono aquí
@@ -208,10 +208,10 @@ class _PlatilloState extends State<Platillo> {
                         ),
                         child: Center(
                           child: Padding(
-                            padding: EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(20.0),
                             child: Text(
                               widget.descripcion,
-                              style: TextStyle(color: Color(0xFFBDCEA1)),
+                              style: const TextStyle(color: Color(0xFFBDCEA1)),
                             ),
                           ),
                         ),
@@ -374,7 +374,7 @@ class _PlatilloState extends State<Platillo> {
                                   .createComment(CreateCommentEvent(post));
                             },
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xFFF6532A),
+                              backgroundColor: const Color(0xFFF6532A),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 13.0), // Ajustar la altura
                               shape: RoundedRectangleBorder(
@@ -390,11 +390,11 @@ class _PlatilloState extends State<Platillo> {
                         ],
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       height: 300, // Define un tamaño fijo
                       child: Obx(() {
                         if (_controller.state.value is CommentLoading) {
-                          return Center(child: CircularProgressIndicator());
+                          return const Center(child: CircularProgressIndicator());
                         } else if (_controller.state.value is PostsLoaded) {
                           var posts =
                               (_controller.state.value as PostsLoaded).posts;
@@ -407,13 +407,13 @@ class _PlatilloState extends State<Platillo> {
                                   SizedBox(
                                     width: 330,
                                     child: Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text('cd'),
-                                          SizedBox(height: 10),
+                                          const Text('cd'),
+                                          const SizedBox(height: 10),
                                           Text(post.comentario)
                                         ],
                                       ),
@@ -431,7 +431,7 @@ class _PlatilloState extends State<Platillo> {
                                 .error),
                           );
                         } else {
-                          return Center(child: Text("Estado no reconocido"));
+                          return const Center(child: Text("Estado no reconocido"));
                         }
                       }),
                     ),

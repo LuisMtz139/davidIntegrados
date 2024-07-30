@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 
 class Carro extends StatefulWidget {
   const Carro({super.key});
@@ -27,16 +26,16 @@ class _WeAreState extends State<Carro> {
       backgroundColor: const Color(0xFFBDCEA1),
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.white),
+          icon: const Icon(Icons.menu, color: Colors.white),
           onPressed: () {},
         ),
-        title: Text(
+        title: const Text(
           "SEZZON",
           style: TextStyle(color: Colors.white),
         ),
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_cart, color: Colors.white),
+            icon: const Icon(Icons.shopping_cart, color: Colors.white),
             onPressed: () {},
           ),
         ],
@@ -46,7 +45,7 @@ class _WeAreState extends State<Carro> {
         children: [
           Expanded(
             child: ListView(
-              padding: EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               children: [
                 CartItem(
                   name: "Brochetas de pollo",
@@ -59,23 +58,23 @@ class _WeAreState extends State<Carro> {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Total: \$ $total",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 ElevatedButton(
-                  child: Text("Finalizar pedido"),
                   style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
                     backgroundColor: Colors.deepOrange,
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                   ),
                   onPressed: () {},
+                  child: const Text("Finalizar pedido"),
                 ),
               ],
             ),
@@ -94,19 +93,19 @@ class CartItem extends StatelessWidget {
   final VoidCallback onDecrease;
 
   const CartItem({
-    Key? key,
+    super.key,
     required this.name,
     required this.price,
     required this.quantity,
     required this.onIncrease,
     required this.onDecrease,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(8),
-      margin: EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.only(bottom: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
@@ -116,7 +115,7 @@ class CartItem extends StatelessWidget {
           Container(
             width: 50,
             height: 50,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
               image: DecorationImage(
                 image: AssetImage('assets/a.png'),
@@ -124,12 +123,12 @@ class CartItem extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(width: 16),
+          const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+                Text(name, style: const TextStyle(fontWeight: FontWeight.bold)),
                 Text("\$$price"),
               ],
             ),
@@ -137,14 +136,14 @@ class CartItem extends StatelessWidget {
           Row(
             children: [
               IconButton(
-                icon: Icon(Icons.remove),
+                icon: const Icon(Icons.remove),
                 onPressed: quantity > 0 ? onDecrease : null,
               ),
               Text("$quantity"),
-              IconButton(icon: Icon(Icons.add), onPressed: onIncrease),
+              IconButton(icon: const Icon(Icons.add), onPressed: onIncrease),
             ],
           ),
-          IconButton(icon: Icon(Icons.delete), onPressed: () {}),
+          IconButton(icon: const Icon(Icons.delete), onPressed: () {}),
         ],
       ),
     );

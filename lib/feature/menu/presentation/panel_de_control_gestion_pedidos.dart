@@ -42,9 +42,9 @@ class _WeAreState extends State<PanelControlGestionPedidos> {
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Text(
                     'Panel de control',
                     style: TextStyle(color: Colors.white, fontSize: 18),
@@ -190,8 +190,8 @@ class _WeAreState extends State<PanelControlGestionPedidos> {
       builder: (BuildContext context) {
         return Container(
           height: MediaQuery.of(context).size.height * 0.9,
-          decoration: BoxDecoration(
-            color: const Color(0xFFBDCEA1),
+          decoration: const BoxDecoration(
+            color: Color(0xFFBDCEA1),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -200,8 +200,8 @@ class _WeAreState extends State<PanelControlGestionPedidos> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
+              const Padding(
+                padding: EdgeInsets.all(16.0),
                 child: Text(
                   'Detalles del pedido',
                   style: TextStyle(
@@ -222,14 +222,14 @@ class _WeAreState extends State<PanelControlGestionPedidos> {
                           'Dirección de entrega: Av. 4 mz G, lote 6, col. Capulines',
                           'Número de celular: 9981612282',
                         ]),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         _buildInfoSection('Información del pedido', [
                           'ID_Pedido: 41',
                           'Fecha: 21/06/2024',
                         ]),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         _buildArticulosPedidos(),
-                        SizedBox(height: 16),
+                        const SizedBox(height: 16),
                         _buildResumenPedido(),
                       ],
                     ),
@@ -247,8 +247,8 @@ class _WeAreState extends State<PanelControlGestionPedidos> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-        ...items.map((item) => Text(item)).toList(),
+        Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+        ...items.map((item) => Text(item)),
       ],
     );
   }
@@ -257,7 +257,7 @@ class _WeAreState extends State<PanelControlGestionPedidos> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Artículos pedidos',
+        const Text('Artículos pedidos',
             style: TextStyle(fontWeight: FontWeight.bold)),
         _buildCategoriaArticulos('Desayunos', [
           {'nombre': 'Platillo Pancakes', 'cantidad': 2, 'precio': 40.00},
@@ -277,7 +277,7 @@ class _WeAreState extends State<PanelControlGestionPedidos> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(categoria, style: TextStyle(fontWeight: FontWeight.bold)),
+        Text(categoria, style: const TextStyle(fontWeight: FontWeight.bold)),
         ...articulos
             .map((articulo) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -290,13 +290,13 @@ class _WeAreState extends State<PanelControlGestionPedidos> {
                         '- Subtotal: \$${(articulo['cantidad'] * articulo['precio']).toStringAsFixed(2)}'),
                   ],
                 ))
-            .toList(),
+            ,
       ],
     );
   }
 
   Widget _buildResumenPedido() {
-    return Column(
+    return const Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text('Resumen del Pedido',

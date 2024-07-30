@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:sazzon/feature/coment/data/models/comment_models.dart';
 import 'package:sazzon/feature/coment/domain/repository/comment_repository.dart';
 
@@ -17,7 +16,7 @@ class PoshcommentUseCase {
     } catch (e,stackTrace) {
       print('Error during user registration: $e');
       print('StackTrace: $stackTrace');
-      throw e;
+      rethrow;
     }
   }
 

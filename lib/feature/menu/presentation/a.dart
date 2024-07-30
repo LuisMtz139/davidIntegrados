@@ -6,6 +6,8 @@ import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_event.dart';
 
 class MenuPage extends StatefulWidget {
+  const MenuPage({super.key});
+
   @override
   _MenuPageState createState() => _MenuPageState();
 }
@@ -23,11 +25,11 @@ class _MenuPageState extends State<MenuPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Menú de Platillos"),
+        title: const Text("Menú de Platillos"),
       ),
       body: Obx(() {
         if (controller.state.value is MenuLoading) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else if (controller.state.value is PostsLoaded) {
           return buildMenuButtonsList();
         } else if (controller.state.value is MenuFetchingFailure) {
@@ -35,7 +37,7 @@ class _MenuPageState extends State<MenuPage> {
             child: Text((controller.state.value as MenuFetchingFailure).error),
           );
         } else {
-          return Center(child: Text("Estado no reconocido"));
+          return const Center(child: Text("Estado no reconocido"));
         }
       }),
     );
@@ -55,7 +57,7 @@ class _MenuPageState extends State<MenuPage> {
 
 class MenuButtons extends StatelessWidget {
   final MenuModel post;
-  const MenuButtons({Key? key, required this.post}) : super(key: key);
+  const MenuButtons({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -86,9 +88,9 @@ class MenuButtons extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(post.nombre_platillo, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                        Text(post.nombre_platillo, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
                         Text(post.descripcion),
-                        Text("\$${post.precio}", style: TextStyle(fontSize: 14, color: Colors.red)),
+                        Text("\$${post.precio}", style: const TextStyle(fontSize: 14, color: Colors.red)),
                       ],
                     ),
                   ),

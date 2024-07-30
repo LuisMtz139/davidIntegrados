@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sazzon/feature/menu/data/models/menu_models.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_event.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 
 class MenuPage5 extends StatefulWidget {
+  const MenuPage5({super.key});
+
   @override
   _MenuPageState createState() => _MenuPageState();
 }
@@ -196,7 +197,7 @@ class _MenuPageState extends State<MenuPage5> {
           Expanded(
             child: Obx(() {
               if (controller.state.value is MenuLoading) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (controller.state.value is PostsLoaded) {
                 var posts = (controller.state.value as PostsLoaded).posts;
                 return ListView.builder(
@@ -294,12 +295,12 @@ class _MenuPageState extends State<MenuPage5> {
                                           ),
                                         ),
                                         Text(post.nombre_platillo,
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold)),
                                         Text(post.descripcion),
                                         Text("\$${post.precio}",
-                                            style: TextStyle(
+                                            style: const TextStyle(
                                                 fontSize: 14,
                                                 color: Colors.red)),
                                       ],
@@ -320,7 +321,7 @@ class _MenuPageState extends State<MenuPage5> {
                       (controller.state.value as MenuFetchingFailure).error),
                 );
               } else {
-                return Center(child: Text("Estado no reconocido"));
+                return const Center(child: Text("Estado no reconocido"));
               }
             }),
           ),

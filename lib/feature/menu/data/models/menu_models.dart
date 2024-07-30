@@ -1,22 +1,14 @@
 import 'package:sazzon/feature/menu/domain/entities/menu.dart';
 class MenuModel extends Menu {
   MenuModel({
-     String? id,
-    required String nombre_platillo,
-    required String descripcion,
-    required int precio,
-    required String imagen,
-    required String categoria,
-     String? ingredientes
-  }) : super(
-    id: id,
-    nombre_platillo: nombre_platillo,
-    descripcion:descripcion,
-    precio: precio,
-    categoria: categoria,
-    imagen:imagen,
-    ingredientes:ingredientes
-  );
+     super.id,
+    required super.nombre_platillo,
+    required super.descripcion,
+    required super.precio,
+    required super.imagen,
+    required super.categoria,
+     super.ingredientes
+  });
 
   factory MenuModel.fromJson(Map<String, dynamic> json) {
     return MenuModel(

@@ -284,9 +284,9 @@ class _RecoveyState extends State<Recovey> {
                     onPressed: _submitForm,
                     style: ButtonStyle(
                       backgroundColor: flag
-                          ? MaterialStateProperty.all<Color>(Colors.red)
-                          : MaterialStateProperty.all<Color>(Colors.black),
-                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          ? WidgetStateProperty.all<Color>(Colors.red)
+                          : WidgetStateProperty.all<Color>(Colors.black),
+                      shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         const RoundedRectangleBorder(
                           borderRadius: BorderRadius.only(
                             topRight: Radius.circular(10.0),

@@ -50,10 +50,10 @@ class _PaneldeControlState extends State<PaneldeControl> {
                 color: Colors.black,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Row(
+              child: const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Panel de control',
                     style: TextStyle(color: Colors.white, fontSize: 18),
                   ),
@@ -76,8 +76,8 @@ class _PaneldeControlState extends State<PaneldeControl> {
             const SizedBox(height: 16),
             ElevatedButton.icon(
               onPressed: () {},
-              icon: Icon(Icons.download),
-              label: Text('Descarga app'),
+              icon: const Icon(Icons.download),
+              label: const Text('Descarga app'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,
@@ -97,15 +97,15 @@ class _PaneldeControlState extends State<PaneldeControl> {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(8),
           ),
           child: Icon(icon, color: Colors.black),
         ),
-        SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 12)),
+        const SizedBox(height: 4),
+        Text(label, style: const TextStyle(fontSize: 12)),
       ],
     );
   }
@@ -113,18 +113,18 @@ class _PaneldeControlState extends State<PaneldeControl> {
   Widget _buildBarChart() {
     return Container(
       height: 300,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         children: [
-          Text(
+          const Text(
             'Ventas de Platillos por Categoría',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Expanded(
             child: BarChart(
               BarChartData(
@@ -157,17 +157,17 @@ class _PaneldeControlState extends State<PaneldeControl> {
                           return RotatedBox(
                             quarterTurns: 3,
                             child: Text(titles[value.toInt()],
-                                style: TextStyle(fontSize: 10)),
+                                style: const TextStyle(fontSize: 10)),
                           );
                         }
-                        return Text('');
+                        return const Text('');
                       },
                     ),
                   ),
                   topTitles:
-                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                   rightTitles:
-                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 ),
                 borderData: FlBorderData(show: false),
                 barGroups: [
@@ -200,7 +200,7 @@ class _PaneldeControlState extends State<PaneldeControl> {
                       barRods: [BarChartRodData(toY: 82, color: Colors.red)]),
                 ],
                 maxY: 100,
-                gridData: FlGridData(show: true, drawVerticalLine: false),
+                gridData: const FlGridData(show: true, drawVerticalLine: false),
               ),
             ),
           ),
@@ -212,18 +212,18 @@ class _PaneldeControlState extends State<PaneldeControl> {
   Widget _buildLineChart() {
     return Container(
       height: 300,
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(8),
       ),
       child: Column(
         children: [
-          Text(
+          const Text(
             'Tendencias de Ventas a lo Largo del Tiempo',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
           Expanded(
             child: LineChart(
               LineChartData(
@@ -259,27 +259,27 @@ class _PaneldeControlState extends State<PaneldeControl> {
                           return RotatedBox(
                             quarterTurns: 3,
                             child: Text(months[value.toInt()],
-                                style: TextStyle(fontSize: 10)),
+                                style: const TextStyle(fontSize: 10)),
                           );
                         }
-                        return Text('');
+                        return const Text('');
                       },
                     ),
                   ),
                   topTitles:
-                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                   rightTitles:
-                      AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                      const AxisTitles(sideTitles: SideTitles(showTitles: false)),
                 ),
                 borderData: FlBorderData(show: true),
-                gridData: FlGridData(show: true, drawVerticalLine: true),
+                gridData: const FlGridData(show: true, drawVerticalLine: true),
                 lineBarsData: [
                   LineChartBarData(
                     spots: List.generate(12,
                         (index) => FlSpot(index.toDouble(), 10.0 + index * 8)),
                     isCurved: false,
                     color: Colors.blue,
-                    dotData: FlDotData(show: true),
+                    dotData: const FlDotData(show: true),
                     belowBarData: BarAreaData(show: false),
                   ),
                 ],

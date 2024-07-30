@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:sazzon/feature/menu/data/models/menu_models.dart';
 import 'package:sazzon/feature/menu/domain/repository/menu_repository.dart';
 
@@ -12,7 +11,7 @@ class GetMenuUseCase {
       return await menuRepository.getMenu();
     } catch (e) {
       print('Error al obtener xd usuarios: $e');
-      throw e;
+      rethrow;
     }
   }
 }

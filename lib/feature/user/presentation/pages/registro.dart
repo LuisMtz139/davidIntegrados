@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sazzon/feature/user/data/models/user_models.dart';
-import 'package:sazzon/feature/user/domain/entities/user.dart';
 import 'package:sazzon/feature/user/presentation/Getx/RegisterUser/registerUserCOntroller.dart';
 import 'package:sazzon/feature/user/presentation/Getx/RegisterUser/register_event.dart';
-import 'package:sazzon/feature/user/presentation/pages/iniciarSeion.dart'; // Agregado según lo solicitado
+// Agregado según lo solicitado
 import 'package:get/get.dart';
 
 class Registro1 extends StatefulWidget {
+  const Registro1({super.key});
+
   @override
   _Registro1State createState() => _Registro1State();
 }
@@ -55,19 +55,19 @@ class _Registro1State extends State<Registro1> {
       body: Stack(
         children: [
           Container(
-            color: Color(0xFFBDCEA1),
+            color: const Color(0xFFBDCEA1),
             padding: const EdgeInsets.symmetric(horizontal: 80.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 160),
-                Text(
+                const SizedBox(height: 160),
+                const Text(
                   'Ingresa tu nombre',
                   style: TextStyle(fontSize: 18),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: 320,
                     height: 50,
                     child: TextField(
@@ -80,20 +80,20 @@ class _Registro1State extends State<Registro1> {
                           borderSide: BorderSide.none,
                         ),
                         hintText: 'Nombre de usuario',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.white),
                       ),
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(height: 16), // Espacio adicional entre campos
-                Text(
+                const SizedBox(height: 16), // Espacio adicional entre campos
+                const Text(
                   'Ingresa una contraseña',
                   style: TextStyle(fontSize: 18),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: 320,
                     height: 50,
                     child: TextField(
@@ -107,13 +107,13 @@ class _Registro1State extends State<Registro1> {
                           borderSide: BorderSide.none,
                         ),
                         hintText: '******',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.white),
                       ),
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                     height:
                         8), // Espacio adicional entre campos y las condiciones
                 Padding(
@@ -121,7 +121,7 @@ class _Registro1State extends State<Registro1> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      SizedBox(height: 3),
+                      const SizedBox(height: 3),
                       Text(
                         '\u2022 Debe contener al menos 8 caracteres',
                         style: TextStyle(
@@ -143,14 +143,14 @@ class _Registro1State extends State<Registro1> {
                     ],
                   ),
                 ),
-                SizedBox(height: 16), // Espacio adicional entre campos
-                Text(
+                const SizedBox(height: 16), // Espacio adicional entre campos
+                const Text(
                   'Ingresa número telefónico',
                   style: TextStyle(fontSize: 18),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: 320,
                     height: 50,
                     child: TextField(
@@ -164,20 +164,20 @@ class _Registro1State extends State<Registro1> {
                           borderSide: BorderSide.none,
                         ),
                         hintText: 'Número de teléfono',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.white),
                       ),
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(height: 16), // Espacio adicional entre campos
-                Text(
+                const SizedBox(height: 16), // Espacio adicional entre campos
+                const Text(
                   'Ingresa un correo electrónico',
                   style: TextStyle(fontSize: 18),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: 320,
                     height: 50,
                     child: TextField(
@@ -191,14 +191,14 @@ class _Registro1State extends State<Registro1> {
                           borderSide: BorderSide.none,
                         ),
                         hintText: 'Correo electrónico',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.white),
                       ),
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(height: 48),
-                Spacer(),
+                const SizedBox(height: 48),
+                const Spacer(),
               ],
             ),
           ),
@@ -210,8 +210,8 @@ class _Registro1State extends State<Registro1> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                    child: Text(
+                    padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                    child: const Text(
                       'SEZZON',
                       style: TextStyle(
                         fontSize: 35,
@@ -251,15 +251,15 @@ class _Registro1State extends State<Registro1> {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                padding: EdgeInsets.symmetric(horizontal: 110, vertical: 15),
-                shape: RoundedRectangleBorder(
+                padding: const EdgeInsets.symmetric(horizontal: 110, vertical: 15),
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
                     bottomLeft: Radius.circular(20.0),
                   ),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Registrate',
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
@@ -271,7 +271,7 @@ class _Registro1State extends State<Registro1> {
                 top: 68,
                 right: 250, // Ajusta para mover el contenedor
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 90, vertical: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 30),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black, width: 2),
                     borderRadius: BorderRadius.circular(8),
@@ -284,7 +284,7 @@ class _Registro1State extends State<Registro1> {
                 top: 65, // Ajusta para mover la flecha
                 right: 330, // Ajusta para mover la flecha
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white, size: 55),
+                  icon: const Icon(Icons.arrow_back, color: Colors.white, size: 55),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },

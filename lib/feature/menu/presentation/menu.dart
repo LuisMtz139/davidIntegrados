@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sazzon/feature/menu/data/models/menu_models.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_event.dart';
@@ -199,7 +198,7 @@ class _MenuState extends State<Menu> {
           Expanded(
             child: Obx(() {
               if (controller.state.value is MenuLoading) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (controller.state.value is PostsLoaded) {
                 var posts = (controller.state.value as PostsLoaded).posts;
                 return ListView.builder(
@@ -256,13 +255,13 @@ class _MenuState extends State<Menu> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(post.nombre_platillo,
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 16,
                                                         fontWeight:
                                                             FontWeight.bold)),
                                                 Text(post.descripcion),
                                                 Text("\$${post.precio}",
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 14,
                                                         color: Colors.red)),
                                               ],
@@ -287,7 +286,7 @@ class _MenuState extends State<Menu> {
                       (controller.state.value as MenuFetchingFailure).error),
                 );
               } else {
-                return Center(child: Text("Estado no reconocido"));
+                return const Center(child: Text("Estado no reconocido"));
               }
             }),
           ),

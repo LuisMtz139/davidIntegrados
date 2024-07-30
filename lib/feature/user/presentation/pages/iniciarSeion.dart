@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:sazzon/feature/menu/presentation/menu.dart'; // Agregado según lo solicitado
 
 class IniciarSesion extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
+  IniciarSesion({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,19 +14,19 @@ class IniciarSesion extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            color: Color(0xFFBDCEA1),
+            color: const Color(0xFFBDCEA1),
             padding: const EdgeInsets.symmetric(horizontal: 80.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 450),
-                Text(
+                const SizedBox(height: 450),
+                const Text(
                   'Ingresa un correo electrónico',
                   style: TextStyle(fontSize: 18),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: 320,
                     height: 50,
                     child: TextField(
@@ -39,20 +40,20 @@ class IniciarSesion extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                         hintText: 'Correo electrónico',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.white),
                       ),
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(height: 40), // Espacio adicional entre campos
-                Text(
+                const SizedBox(height: 40), // Espacio adicional entre campos
+                const Text(
                   'Ingresa una contraseña',
                   style: TextStyle(fontSize: 18),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Center(
-                  child: Container(
+                  child: SizedBox(
                     width: 320,
                     height: 50,
                     child: TextField(
@@ -66,20 +67,20 @@ class IniciarSesion extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                         hintText: '***********',
-                        hintStyle: TextStyle(color: Colors.white),
+                        hintStyle: const TextStyle(color: Colors.white),
                       ),
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                     height: 30), // Espacio adicional entre campos y el texto
                 Center(
                   child: GestureDetector(
                     onTap: () {
                       print('Olvidé mi contraseña');
                     },
-                    child: Text(
+                    child: const Text(
                       '¡Olvidé mi contraseña!',
                       style: TextStyle(
                         color: Colors.white,
@@ -98,8 +99,8 @@ class IniciarSesion extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerRight,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                child: Text(
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: const Text(
                   'SEZZON',
                   style: TextStyle(
                     fontSize: 35,
@@ -122,21 +123,21 @@ class IniciarSesion extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Menu(),
+                    builder: (context) => const Menu(),
                   ),
                 );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                padding: EdgeInsets.symmetric(horizontal: 110, vertical: 15),
-                shape: RoundedRectangleBorder(
+                padding: const EdgeInsets.symmetric(horizontal: 110, vertical: 15),
+                shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
                     bottomLeft: Radius.circular(20.0),
                   ),
                 ),
               ),
-              child: Text(
+              child: const Text(
                 'Iniciar sesión',
                 style: TextStyle(color: Colors.white, fontSize: 16),
                 
@@ -150,7 +151,7 @@ class IniciarSesion extends StatelessWidget {
                 top: 68,
                 right: 250, // Ajusta para mover el contenedor
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 90, vertical: 30),
+                  padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 30),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black, width: 2),
                     borderRadius: BorderRadius.circular(8),
@@ -162,7 +163,7 @@ class IniciarSesion extends StatelessWidget {
                 top: 65, // Ajusta para mover la flecha
                 right: 330, // Ajusta para mover la flecha
                 child: IconButton(
-                  icon: Icon(Icons.arrow_back, color: Colors.white, size: 55),
+                  icon: const Icon(Icons.arrow_back, color: Colors.white, size: 55),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -205,7 +206,7 @@ class IniciarSesion extends StatelessWidget {
                 ),
               ),
               //agrega un texto que diga “Tripa vacía, corazón sin alegría”
-              Positioned(
+              const Positioned(
                 top: 240,
                 right: 170, // Ajustado para mantener la separación original
                 child: Text(

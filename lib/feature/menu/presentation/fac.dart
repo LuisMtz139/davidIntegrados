@@ -9,7 +9,7 @@ class Fac extends StatefulWidget {
 }
 
 class _FacState extends State<Fac> {
-  List<bool> _isExpanded = List.generate(4, (_) => false);
+  final List<bool> _isExpanded = List.generate(4, (_) => false);
 
   @override
   Widget build(BuildContext context) {

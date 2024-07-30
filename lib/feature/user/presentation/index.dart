@@ -3,10 +3,12 @@ import 'package:sazzon/feature/user/presentation/pages/iniciarSeion.dart';
 import 'package:sazzon/feature/user/presentation/pages/registro.dart';
 
 class MyHomePage extends StatelessWidget {
+  const MyHomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFBDCEA1), // Agrega el color de fondo
+      backgroundColor: const Color(0xFFBDCEA1), // Agrega el color de fondo
       body: LayoutBuilder(
         builder: (context, constraints) {
           // Get the screen size
@@ -23,7 +25,7 @@ class MyHomePage extends StatelessWidget {
                   children: [
                     ClipRRect(
                       borderRadius:
-                          BorderRadius.horizontal(right: Radius.circular(20)),
+                          const BorderRadius.horizontal(right: Radius.circular(20)),
                       child: Container(
                         color: Colors.black,
                         width: constraints.maxWidth > 600
@@ -38,11 +40,11 @@ class MyHomePage extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Registro1(),
+                                  builder: (context) => const Registro1(),
                                 ),
                               );
                             },
-                            child: Text(
+                            child: const Text(
                               'Registrarse',
                               style: TextStyle(color: Colors.white),
                             ),
@@ -65,7 +67,7 @@ class MyHomePage extends StatelessWidget {
                           ),
                         ),
                         if (constraints.maxWidth <= 600) ...[
-                          SizedBox(
+                          const SizedBox(
                               height: 40), // Espacio entre el texto y la imagen
                           Image.asset(
                             'assets/images/Gerbera-PNG-amarilla.png',
@@ -86,7 +88,7 @@ class MyHomePage extends StatelessWidget {
                 left: 0, // Alinea el botón con el borde izquierdo
                 child: ClipRRect(
                   borderRadius:
-                      BorderRadius.horizontal(right: Radius.circular(20)),
+                      const BorderRadius.horizontal(right: Radius.circular(20)),
                   child: Container(
                     color: Colors.black,
                     width: constraints.maxWidth > 600
@@ -104,7 +106,7 @@ Navigator.push(
                     builder: (context) => IniciarSesion(),
                   ),
                 );                      },
-                        child: Text(
+                        child: const Text(
                           'Iniciar Sesión',
                           style: TextStyle(color: Colors.white),
                         ),
@@ -155,7 +157,7 @@ Navigator.push(
                       0.45, // Ajusta esto para centrar el texto verticalmente
                   left: screenWidth * 0.50 -
                       160, // Centra el texto horizontalmente
-                  child: Container(
+                  child: const SizedBox(
                     width: 200, // Ancho del contenedor del texto
                     child: Text(
                       '“Ordena sin piedad que aquí te vamos a cuidar...”',
@@ -178,7 +180,7 @@ Navigator.push(
 }
 
 void main() {
-  runApp(MaterialApp(
+  runApp(const MaterialApp(
     home: MyHomePage(),
   ));
 }

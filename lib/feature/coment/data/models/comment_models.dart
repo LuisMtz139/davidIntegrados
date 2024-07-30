@@ -1,20 +1,13 @@
-import 'package:flutter/material.dart';
 import 'package:sazzon/feature/coment/domain/entities/comment.dart';
 
 class CommentModel extends Comment {
   CommentModel({
-    String? id,
-    required String id_platillo,
-    required String id_user,
-    required String comentario,
-    required double calificacion,
-  }) : super(
-          id: id,
-          id_platillo: id_platillo,
-          id_user: id_user,
-          comentario: comentario,
-          calificacion: calificacion,
-        );
+    super.id,
+    required super.id_platillo,
+    required super.id_user,
+    required super.comentario,
+    required super.calificacion,
+  });
 
   factory CommentModel.fromJson(Map<String, dynamic> json) {
     return CommentModel(

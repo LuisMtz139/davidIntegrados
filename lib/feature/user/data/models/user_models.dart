@@ -3,20 +3,13 @@ import 'package:sazzon/feature/user/domain/entities/user.dart';
 
 class userModel extends User {
   userModel({
-     String? id,
-    required String name,
-    required String email,
-    required String phone,
-    required String password,
-    required String admin
-  }) : super(
-    id: id,
-    name: name,
-    email: email,
-    phone: phone,
-    password: password,
-    admin:admin
-  );
+     super.id,
+    required super.name,
+    required super.email,
+    required super.phone,
+    required super.password,
+    required super.admin
+  });
 
   factory userModel.fromJson(Map<String, dynamic> json) {
     return userModel(

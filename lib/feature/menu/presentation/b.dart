@@ -7,6 +7,8 @@ import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_event.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 
 class MenuPage4 extends StatefulWidget {
+  const MenuPage4({super.key});
+
   @override
   _MenuPageState createState() => _MenuPageState();
 }
@@ -196,7 +198,7 @@ class _MenuPageState extends State<MenuPage4> {
           Expanded(
             child: Obx(() {
               if (controller.state.value is MenuLoading) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               } else if (controller.state.value is PostsLoaded) {
                 return buildMenuButtonsList();
               } else if (controller.state.value is MenuFetchingFailure) {
@@ -205,7 +207,7 @@ class _MenuPageState extends State<MenuPage4> {
                       (controller.state.value as MenuFetchingFailure).error),
                 );
               } else {
-                return Center(child: Text("Estado no reconocido"));
+                return const Center(child: Text("Estado no reconocido"));
               }
             }),
           ),
@@ -228,7 +230,7 @@ class _MenuPageState extends State<MenuPage4> {
 
 class MenuButtons extends StatelessWidget {
   final MenuModel post;
-  const MenuButtons({Key? key, required this.post}) : super(key: key);
+  const MenuButtons({super.key, required this.post});
 
   @override
   Widget build(BuildContext context) {
@@ -254,11 +256,11 @@ class MenuButtons extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(post.nombre_platillo,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                         Text(post.descripcion),
                         Text("\$${post.precio}",
-                            style: TextStyle(fontSize: 14, color: Colors.red)),
+                            style: const TextStyle(fontSize: 14, color: Colors.red)),
                       ],
                     ),
                   ),

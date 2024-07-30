@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 
 class HowItWorks extends StatelessWidget {
-  const HowItWorks({Key? key}) : super(key: key);
+  const HowItWorks({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.white),
+          icon: const Icon(Icons.menu, color: Colors.white),
           onPressed: () {},
         ),
-        title: Text('SEZZON', style: TextStyle(color: Colors.white)),
+        title: const Text('SEZZON', style: TextStyle(color: Colors.white)),
         actions: [
           IconButton(
-            icon: Icon(Icons.shopping_cart, color: Colors.white),
+            icon: const Icon(Icons.shopping_cart, color: Colors.white),
             onPressed: () {},
           ),
         ],
         backgroundColor: Colors.black,
       ),
       body: Container(
-        color: Color(0xFFCFDCB2), // Color de fondo verde claro
+        color: const Color(0xFFCFDCB2), // Color de fondo verde claro
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(30.50),
+            const Padding(
+              padding: EdgeInsets.all(30.50),
               child: Center(
                 child: Text(
                   '¿Cómo funciona SEZZON?',
@@ -64,10 +64,10 @@ class HowItWorks extends StatelessWidget {
                       children: [
                         _buildStep('Paso 1', Icons.restaurant_menu,
                             'Selecciona tus alimentos'),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         _buildStep('Paso 2', Icons.local_shipping,
                             'Recibe tu pedido el domingo'),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         _buildStep(
                             'Paso 3', Icons.microwave, 'Calienta en el horno'),
                       ],
@@ -87,15 +87,15 @@ class HowItWorks extends StatelessWidget {
       children: [
         Text(
           step,
-          style: TextStyle(
+          style: const TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Icon(icon, size: 70, color: Colors.black), // Cambio a color negro
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Text(
           description,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 18, color: Colors.black), // Cambio a color negro
           textAlign: TextAlign.center,
         ),
