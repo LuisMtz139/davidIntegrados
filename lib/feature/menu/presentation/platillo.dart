@@ -34,6 +34,8 @@ class _PlatilloState extends State<Platillo> {
   final GetCommentController _controller = Get.find<GetCommentController>();
   final PoshCommentController poshCommentController = Get.find<PoshCommentController>();
   final _formKey = GlobalKey<FormState>();
+  
+  int _contador = 0;
 
   @override
   void initState() {
@@ -50,6 +52,20 @@ class _PlatilloState extends State<Platillo> {
     } else {
       return AssetImage(imageString);
     }
+  }
+
+  void _incrementCounter() {
+    setState(() {
+      _contador++;
+    });
+  }
+
+  void _decrementCounter() {
+    setState(() {
+      if (_contador > 0) {
+        _contador--;
+      }
+    });
   }
 
   @override
@@ -175,7 +191,7 @@ class _PlatilloState extends State<Platillo> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _decrementCounter,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
                     shape: const RoundedRectangleBorder(
@@ -194,16 +210,16 @@ class _PlatilloState extends State<Platillo> {
                     color: Color(0xFFF6532A),
                     borderRadius: BorderRadius.all(Radius.circular(20)),
                   ),
-                  child: const Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Añadir", style: TextStyle(fontSize: 20, color: Colors.white)),
-                      Text("0", style: TextStyle(fontSize: 32, color: Colors.white)),
+                      const Text("Añadir", style: TextStyle(fontSize: 20, color: Colors.white)),
+                      Text("$_contador", style: const TextStyle(fontSize: 32, color: Colors.white)),
                     ],
                   ),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _incrementCounter,
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(vertical: 5.0),
                     shape: const RoundedRectangleBorder(

@@ -29,6 +29,7 @@ import 'package:sazzon/menucase_config.dart';
 import 'package:sazzon/usercase_config.dart';
 import 'package:get/get.dart';
 
+import 'feature/menu/presentation/shoping/shopingcar.dart';
 import 'feature/recovery_password/presentation/PasswordGetX/registerUserCOntroller.dart';
 import 'feature/recovery_password/presentation/updatepassword.dart';
 import 'feature/user/domain/usecase/password_user_usecase.dart';
@@ -65,6 +66,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(home: DireccionNoEncontrada());
+    return GetMaterialApp(home: DireccionNoEncontrada());//DireccionNoEncontrada
   }
 }
