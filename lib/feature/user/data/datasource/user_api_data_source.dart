@@ -3,19 +3,21 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
-import '../../domain/entities/login.dart';
+import '../../domain/entities/updatepassword.dart';
+import '../models/password_models.dart';
 
 abstract class UserApiDataSource {
   Future<void> registerUser(userModel userModel);
 
-  Future <userModel> postLogin(Login login);
 
   Future<void> updateUser(userModel userModel);
+
+   Future<void> updatepassword(PasswordModels passwordModels);
 }
 
 class UserApiDataSourceImp implements UserApiDataSource {
   final String _baseUrl = 'https://users.sazzon.site/api/v1';
-
+ 
   
 
   @override
@@ -67,9 +69,24 @@ class UserApiDataSourceImp implements UserApiDataSource {
   }
   
   @override
-  Future<userModel> postLogin(Login login) {
-    // TODO: implement postLogin
-    throw UnimplementedError();
+  Future<void> updatepassword(PasswordModels passwordModels) async {
+  try {
+      await http.put(
+        Uri.parse('$_baseUrl/users/${passwordModels.id}/password'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(<String, String>{
+          'password': passwordModels.password,
+          
+        }),
+      );
+
+      // Ahora que los datos se han actualizado exitosamente, intenta enviar datos pendientes
+    } catch (e) {
+      print('Error during network call: $e');
+      throw Exception('Network error');
+    }
   }
   
 

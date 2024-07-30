@@ -9,7 +9,7 @@ class Fac extends StatefulWidget {
 }
 
 class _FacState extends State<Fac> {
-  final List<bool> _isExpanded = List.generate(4, (_) => false);
+  final List<bool> _isExpanded = List.generate(5, (_) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -59,13 +59,19 @@ class _FacState extends State<Fac> {
   }
 
   List<Widget> _buildFAQItems() {
-    List<String> questions =
-        List.filled(4, '¿Dónde y cuándo se realizan entregas?');
+    List<String> questions = [
+      '¿Dónde y cuándo se realizan entregas?',
+      '¿Qué es Knoweats?',
+      '¿Cómo puedo hacer mi pedido?',
+      '¿Cómo contacto para soporte?',
+      '¿Cuáles son los horarios de entrega durante días festivos?'
+    ];
     List<String> answers = [
-      'Haz tu pedido de lunes a viernes hasta las 23:59h y recíbelo el domingo.\n\nEl horario de reparto es de 9:00 a 15:00h.\n\nImportante: Los días festivos pueden sufrir cambios debido a días festivos locales y nacionales y/o huelgas de transporte u otras circunstancias.',
-      'Haz tu pedido de lunes a viernes hasta las 23:59h y recíbelo el domingo.\n\nEl horario de reparto es de 9:00 a 15:00h.\n\nImportante: Los días festivos pueden sufrir cambios debido a días festivos locales y nacionales y/o huelgas de transporte u otras circunstancias.',
-      'Haz tu pedido de lunes a viernes hasta las 23:59h y recíbelo el domingo.\n\nEl horario de reparto es de 9:00 a 15:00h.\n\nImportante: Los días festivos pueden sufrir cambios debido a días festivos locales y nacionales y/o huelgas de transporte u otras circunstancias.',
-      'Haz tu pedido de lunes a viernes hasta las 23:59h y recíbelo el domingo.\n\nEl horario de reparto es de 9:00 a 15:00h.\n\nImportante: Los días festivos pueden sufrir cambios debido a días festivos locales y nacionales y/o huelgas de transporte u otras circunstancias.',
+      'Haz tu pedido de lunes a viernes (hasta las 23:59h) y recíbelo el domingo.\n\nEl horario de reparto es de 9:00 a 15:00h.\n\nImportante: Los días de entrega pueden sufrir cambios debido a días festivos (locales y nacionales) y/o huelgas de transporte u otras circunstancias.',
+      'Knoweats es un servicio online de platos preparados de forma 100% natural con el objetivo de hacerle la vida más fácil a los amantes de la comida sana. Nuestros platos están cocinados con ingredientes locales de la mejor calidad para ofrecerte platos ricos y sabrosos todas las semanas.',
+      'Si tienes cualquier duda o problema para realizar tu pedido en la web, ponte en contacto con nosotros y te ayudaremos a gestionar el pedido.',
+      'La forma más rápida de obtener ayuda es escribiéndonos un correo electrónico a sazzon.2024@gmail.com',
+      'Durante días festivos, el horario de entrega puede variar. Por favor, consulta nuestra página web o contacta con nuestro servicio de atención al cliente para obtener información actualizada.'
     ];
 
     return List.generate(questions.length, (index) {

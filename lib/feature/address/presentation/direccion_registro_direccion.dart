@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sazzon/feature/address/data/models/address_models.dart';
+import 'package:sazzon/feature/address/presentation/direccion_no_encontrada.dart';
 import 'package:sazzon/feature/address/presentation/getX/posh_event.dart';
 import 'package:sazzon/feature/address/presentation/getX/poshcontroller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class DireccionRegistroDireccion extends StatefulWidget {
   const DireccionRegistroDireccion({Key? key}) : super(key: key);
@@ -27,6 +31,49 @@ class _DireccionRegistroDireccionState
 
   final PoshAddressController createPostController =
       Get.find<PoshAddressController>();
+
+  Future<void> registerAddress() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        final userId = prefs.getString('userId');
+
+        if (userId == null) {
+          Get.snackbar('Error', 'No se encontró el ID del usuario');
+          return;
+        }
+
+        final response = await http.post(
+          Uri.parse('https://users.sazzon.site/api/v2/directions'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            "userId": userId,
+            "calle": _calleController.text,
+            "postcode": _postcodeController.text,
+            "colonia": _coloniaController.text,
+            "num_ext": _numextController.text,
+            "num_int": _numintController.text,
+            "estado": _estadoController.text,
+            "ciudad": _ciudadController.text,
+            "descripcion": _descripcionController.text,
+          }),
+        );
+
+        if (response.statusCode == 200) {
+          Get.snackbar('Éxito', 'Dirección registrada correctamente');
+          // Aquí puedes agregar la lógica para navegar a otra pantalla o actualizar la lista de direcciones
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => DireccionNoEncontrada()),
+          );
+        } else {
+          Get.snackbar('Error', 'No se pudo registrar la dirección');
+        }
+      } catch (e) {
+        Get.snackbar('Error', 'Ocurrió un error al registrar la dirección: $e');
+      }
+    }
+  }
 
   @override
   void dispose() {
@@ -68,85 +115,34 @@ class _DireccionRegistroDireccionState
               child: Column(
                 children: [
                   SizedBox(height: 20),
+                  _buildTextField('Calle', 'Av. Central entre 2 y 3 poniente',
+                      Colors.red, _calleController),
+                  _buildTextField('Código Postal', '29000', Colors.red,
+                      _postcodeController),
                   _buildTextField(
-                    'Calle',
-                    'Av. Central entre 2 y 3 poniente',
-                    Colors.red,
-                    _calleController,
-                  ),
+                      'Colonia', 'Centro', Colors.red, _coloniaController),
+                  _buildTextField('Número Exterior', '#2322', Colors.red,
+                      _numextController),
+                  _buildTextField('Número Interior (Opcional)', '', Colors.red,
+                      _numintController),
                   _buildTextField(
-                    'Código Postal',
-                    '29000',
-                    Colors.red,
-                    _postcodeController,
-                  ),
+                      'Estado', 'Chiapas', Colors.red, _estadoController),
                   _buildTextField(
-                    'Colonia',
-                    'Centro',
-                    Colors.red,
-                    _coloniaController,
-                  ),
-                  _buildTextField(
-                    'Número Exterior',
-                    '#2322',
-                    Colors.red,
-                    _numextController,
-                  ),
-                  _buildTextField(
-                    'Número Interior (Opcional)',
-                    '',
-                    Colors.red,
-                    _numintController,
-                  ),
-                  _buildTextField(
-                    'Estado',
-                    'Chiapas',
-                    Colors.red,
-                    _estadoController,
-                  ),
-                  _buildTextField(
-                    'Ciudad',
-                    'Suchiapa',
-                    Colors.red,
-                    _ciudadController,
-                  ),
-                  _buildTextField(
-                    'Descripción',
-                    'Descripción adicional',
-                    Colors.red,
-                    _descripcionController,
-                  ),
+                      'Ciudad', 'Suchiapa', Colors.red, _ciudadController),
+                  _buildTextField('Descripción', 'Descripción adicional',
+                      Colors.red, _descripcionController),
                   SizedBox(height: 20),
                   Container(
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      child: Text(
-                        'Guardar Dirección',
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          final post = AddressModel(
-                            userId: 2,
-                            calle: _calleController.text,
-                            postcode: int.parse(_postcodeController.text),
-                            colonia: _coloniaController.text,
-                            num_ext: int.parse(_numextController.text),
-                            num_int: int.parse(_numintController.text),
-                            estado: _estadoController.text,
-                            ciudad: _ciudadController.text,
-                            descripcion: _descripcionController.text,
-                          );
-                          createPostController
-                              .createAddress(CreateAddressEvent(post));
-                        }
-                      },
+                      child: Text('Guardar Dirección',
+                          style: TextStyle(color: Colors.white)),
+                      onPressed: registerAddress,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                            borderRadius: BorderRadius.circular(10)),
                       ),
                     ),
                   ),

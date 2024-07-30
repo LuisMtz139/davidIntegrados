@@ -4,6 +4,9 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:sazzon/feature/menu/presentation/menu.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../recovery_password/presentation/updatepassword.dart';
 
 class IniciarSesio extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -27,9 +30,17 @@ class IniciarSesio extends StatelessWidget {
       );
 
       if (response.statusCode == 200) {
+        final Map<String, dynamic> data = json.decode(response.body);
+
+        // Guardar el ID del usuario en SharedPreferences
+        if (data.containsKey('id')) {
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString('userId', data['id'].toString());
+        }
+
         // Navegar a la pantalla Home usando GetX
         Get.off(() => Menu());
-        return json.decode(response.body);
+        return data;
       } else {
         throw Exception('Failed to login');
       }
@@ -109,7 +120,8 @@ class IniciarSesio extends StatelessWidget {
                 Center(
                   child: GestureDetector(
                     onTap: () {
-                      print('Olvidé mi contraseña');
+                      Get.to(() =>
+                          How()); // Navegamos a la pantalla Updatepassword
                     },
                     child: Text(
                       '¡Olvidé mi contraseña!',
