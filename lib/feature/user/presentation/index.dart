@@ -24,8 +24,8 @@ class MyHomePage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ClipRRect(
-                      borderRadius:
-                          const BorderRadius.horizontal(right: Radius.circular(20)),
+                      borderRadius: const BorderRadius.horizontal(
+                          right: Radius.circular(20)),
                       child: Container(
                         color: Colors.black,
                         width: constraints.maxWidth > 600
@@ -100,12 +100,13 @@ class MyHomePage extends StatelessWidget {
                     child: Center(
                       child: TextButton(
                         onPressed: () {
-Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => IniciarSesion(),
-                  ),
-                );                      },
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => IniciarSesio(),
+                            ),
+                          );
+                        },
                         child: const Text(
                           'Iniciar Sesión',
                           style: TextStyle(color: Colors.white),

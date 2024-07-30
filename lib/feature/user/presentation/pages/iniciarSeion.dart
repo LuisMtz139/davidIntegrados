@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sazzon/feature/menu/presentation/menu.dart'; // Agregado según lo solicitado
 
-class IniciarSesion extends StatelessWidget {
+class IniciarSesio extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  IniciarSesion({super.key});
+  IniciarSesio({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -99,7 +99,8 @@ class IniciarSesion extends StatelessWidget {
             child: Align(
               alignment: Alignment.centerRight,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
                 child: const Text(
                   'SEZZON',
                   style: TextStyle(
@@ -129,7 +130,8 @@ class IniciarSesion extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                padding: const EdgeInsets.symmetric(horizontal: 110, vertical: 15),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 110, vertical: 15),
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
@@ -140,8 +142,6 @@ class IniciarSesion extends StatelessWidget {
               child: const Text(
                 'Iniciar sesión',
                 style: TextStyle(color: Colors.white, fontSize: 16),
-                
-                  
               ),
             ),
           ),
@@ -151,7 +151,8 @@ class IniciarSesion extends StatelessWidget {
                 top: 68,
                 right: 250, // Ajusta para mover el contenedor
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 90, vertical: 30),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 90, vertical: 30),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black, width: 2),
                     borderRadius: BorderRadius.circular(8),
@@ -163,7 +164,8 @@ class IniciarSesion extends StatelessWidget {
                 top: 65, // Ajusta para mover la flecha
                 right: 330, // Ajusta para mover la flecha
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.white, size: 55),
+                  icon: const Icon(Icons.arrow_back,
+                      color: Colors.white, size: 55),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
