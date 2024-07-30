@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 
 class HowItWorks extends StatelessWidget {
   const HowItWorks({super.key});
@@ -6,22 +7,34 @@ class HowItWorks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFCFDCB2),
+      drawer: const BarMenu(),
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.menu, color: Colors.white),
-          onPressed: () {},
+        iconTheme: const IconThemeData(
+          color: Colors.white,
         ),
-        title: const Text('SEZZON', style: TextStyle(color: Colors.white)),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.shopping_cart, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SizedBox(width: 0),
+            const Text(
+              "SEZZON",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.shopping_cart,
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
+        centerTitle: true,
         backgroundColor: Colors.black,
       ),
       body: Container(
-        color: const Color(0xFFCFDCB2), // Color de fondo verde claro
+        color: const Color(0xFFCFDCB2),
         child: Column(
           children: [
             const Padding(
@@ -42,7 +55,6 @@ class HowItWorks extends StatelessWidget {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  // Imagen de fondo de madera
                   Positioned(
                     left: -MediaQuery.of(context).size.width * 0.2,
                     right: -MediaQuery.of(context).size.width * 0.2,
@@ -56,7 +68,6 @@ class HowItWorks extends StatelessWidget {
                       ),
                     ),
                   ),
-                  // Contenido sobre la imagen
                   Padding(
                     padding: const EdgeInsets.all(40.0),
                     child: Column(
@@ -91,12 +102,11 @@ class HowItWorks extends StatelessWidget {
               fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
         ),
         const SizedBox(height: 10),
-        Icon(icon, size: 70, color: Colors.black), // Cambio a color negro
+        Icon(icon, size: 70, color: Colors.black),
         const SizedBox(height: 10),
         Text(
           description,
-          style: const TextStyle(
-              fontSize: 18, color: Colors.black), // Cambio a color negro
+          style: const TextStyle(fontSize: 18, color: Colors.black),
           textAlign: TextAlign.center,
         ),
       ],

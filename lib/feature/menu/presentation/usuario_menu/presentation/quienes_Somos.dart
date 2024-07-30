@@ -21,7 +21,7 @@ class _WeAreState extends State<WeAre> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const SizedBox(width: 10),
+            const SizedBox(width: 0),
             const Text(
               "SEZZON",
               style: TextStyle(color: Colors.white, fontSize: 20),
@@ -130,7 +130,7 @@ class _WeAreState extends State<WeAre> {
                           child: SizedBox(
                             width: 220,
                             child: Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eu risus sit amet sem vehicula dignissim. Nunc condimentum ut magna aliquet laoreet. Nam et sodales eros.',
+                              'Soluciones a tu apretada agenda semanal. Entendemos que no siempre tienes tiempo para cocinar, por eso ofrecemos una variedad de platos que puedes elegir para consumir durante toda la semana.',
                               style: TextStyle(
                                   fontSize: 14,
                                   color: Color.fromARGB(255, 0, 0, 0)),
@@ -221,7 +221,7 @@ class _WeAreState extends State<WeAre> {
                           child: SizedBox(
                             width: 210,
                             child: Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eu risus sit amet sem vehicula dignissim. Nunc condimentum ut magna aliquet laoreet. Nam et sodales eros.',
+                              'Nuestro servicio se realiza exclusivamente los días domingos. Nos preocupamos por tu tiempo y comodidad, haciendo que recibir alimentos frescos y deliciosos sea un proceso sin complicaciones.',
                               style:
                                   TextStyle(fontSize: 14, color: Colors.white),
                               textAlign:
@@ -314,7 +314,7 @@ class _WeAreState extends State<WeAre> {
                           child: SizedBox(
                             width: 220,
                             child: Text(
-                              'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eu risus sit amet sem vehicula dignissim. Nunc condimentum ut magna aliquet laoreet. Nam et sodales eros.',
+                              'Sabemos lo importante que es disfrutar de una buena comida sin la necesidad de pasar horas en la cocina. Al elegir nuestros platillos, garantizas una semana llena de opciones sabrosas.',
                               style: TextStyle(
                                   fontSize: 14,
                                   color: Color.fromARGB(255, 255, 255, 255)),

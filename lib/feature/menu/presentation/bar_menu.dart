@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/fac.dart';
 
-import 'package:sazzon/feature/menu/presentation/como_funciona.dart';
+import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/como_funciona.dart';
 import 'package:sazzon/feature/menu/presentation/menu.dart';
-import 'package:sazzon/feature/we_are/presentation/quienes_Somos.dart';
+import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/quienes_Somos.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
 import 'package:sazzon/feature/user/presentation/pages/updateUser.dart';
 
@@ -37,10 +38,18 @@ class _BarMenuState extends State<BarMenu> {
     );
   }
 
-    void screenPerfil(BuildContext context) {
+  void screenPerfil(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => const Updateuser()),
+    );
+  }
+
+  // Nuevo método para navegar a FAQ
+  void screenFaq(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const Fac()),
     );
   }
 
@@ -61,7 +70,6 @@ class _BarMenuState extends State<BarMenu> {
         child: Drawer(
           child: Stack(
             children: <Widget>[
-              // Imagen de fondo
               Container(
                 decoration: const BoxDecoration(
                   color: Colors.black,
@@ -73,20 +81,16 @@ class _BarMenuState extends State<BarMenu> {
                   decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/tree.png'),
-                      fit: BoxFit.contain, // Ajusta el fit según sea necesario
+                      fit: BoxFit.contain,
                     ),
                   ),
                   child: Image.asset(
                     'assets/tree.png',
-                    width: 1900, // Ancho deseado para la imagen
-                    // height: 386,
-                    fit: BoxFit
-                        .scaleDown, // Asegura que la imagen se ajuste dentro del Container
+                    width: 1900,
+                    fit: BoxFit.scaleDown,
                   ),
                 ),
               ),
-
-              // Contenido del Drawer
               ListView(
                 padding: EdgeInsets.zero,
                 children: <Widget>[
@@ -95,7 +99,6 @@ class _BarMenuState extends State<BarMenu> {
                         style: TextStyle(color: Colors.white)),
                     onTap: () {
                       screenMenu(context);
-                      // Aquí puedes añadir cualquier acción al seleccionar 'Configuración'
                     },
                   ),
                   const Divider(color: Color(0xFFF6532A)),
@@ -105,9 +108,7 @@ class _BarMenuState extends State<BarMenu> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onTap: () {
-                      // Primero, cerramos el Drawer
                       Navigator.pop(context);
-                      // Luego, navegamos a la pantalla WeAre
                       screenWeare(context);
                     },
                   ),
@@ -118,8 +119,8 @@ class _BarMenuState extends State<BarMenu> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onTap: () {
-                      Navigator.pop(context); // Cierra el Drawer
-                      screenHowItWorks(context); // Navega a HowItWorks
+                      Navigator.pop(context);
+                      screenHowItWorks(context);
                     },
                   ),
                   const Divider(color: Color(0xFFF6532A)),
@@ -130,7 +131,8 @@ class _BarMenuState extends State<BarMenu> {
                     ),
                     onTap: () {
                       Navigator.pop(context);
-                      // Aquí puedes añadir cualquier acción al seleccionar 'Preguntas frecuentes'
+                      screenFaq(
+                          context); // Cambio aquí para usar el nuevo método
                     },
                   ),
                   const Divider(color: Color(0xFFF6532A)),

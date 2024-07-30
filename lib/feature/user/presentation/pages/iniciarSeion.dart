@@ -1,11 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:sazzon/feature/menu/presentation/menu.dart'; // Agregado según lo solicitado
+import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
+import 'package:sazzon/feature/menu/presentation/menu.dart';
 
 class IniciarSesio extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   IniciarSesio({super.key});
+
+  Future<Map<String, dynamic>> postLogin(String email, String password) async {
+    final String baseUrl = 'https://users.sazzon.site/api/v1';
+
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/userslogin'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'email': email,
+          'password': password,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Navegar a la pantalla Home usando GetX
+        Get.off(() => Menu());
+        return json.decode(response.body);
+      } else {
+        throw Exception('Failed to login');
+      }
+    } catch (e) {
+      print('Error during login: $e');
+      throw Exception('Login error');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,19 +46,19 @@ class IniciarSesio extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-            color: const Color(0xFFBDCEA1),
+            color: Color(0xFFBDCEA1),
             padding: const EdgeInsets.symmetric(horizontal: 80.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const SizedBox(height: 450),
-                const Text(
+                SizedBox(height: 450),
+                Text(
                   'Ingresa un correo electrónico',
                   style: TextStyle(fontSize: 18),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Center(
-                  child: SizedBox(
+                  child: Container(
                     width: 320,
                     height: 50,
                     child: TextField(
@@ -40,20 +72,20 @@ class IniciarSesio extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                         hintText: 'Correo electrónico',
-                        hintStyle: const TextStyle(color: Colors.white),
+                        hintStyle: TextStyle(color: Colors.white),
                       ),
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                const SizedBox(height: 40), // Espacio adicional entre campos
-                const Text(
+                SizedBox(height: 40),
+                Text(
                   'Ingresa una contraseña',
                   style: TextStyle(fontSize: 18),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Center(
-                  child: SizedBox(
+                  child: Container(
                     width: 320,
                     height: 50,
                     child: TextField(
@@ -67,20 +99,19 @@ class IniciarSesio extends StatelessWidget {
                           borderSide: BorderSide.none,
                         ),
                         hintText: '***********',
-                        hintStyle: const TextStyle(color: Colors.white),
+                        hintStyle: TextStyle(color: Colors.white),
                       ),
-                      style: const TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 ),
-                const SizedBox(
-                    height: 30), // Espacio adicional entre campos y el texto
+                SizedBox(height: 30),
                 Center(
                   child: GestureDetector(
                     onTap: () {
                       print('Olvidé mi contraseña');
                     },
-                    child: const Text(
+                    child: Text(
                       '¡Olvidé mi contraseña!',
                       style: TextStyle(
                         color: Colors.white,
@@ -94,14 +125,13 @@ class IniciarSesio extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 70, // Ajusta la posición según sea necesario
-            right: 20, // Ajusta la posición según sea necesario
+            top: 70,
+            right: 20,
             child: Align(
               alignment: Alignment.centerRight,
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-                child: const Text(
+                padding: EdgeInsets.symmetric(horizontal: 40, vertical: 10),
+                child: Text(
                   'SEZZON',
                   style: TextStyle(
                     fontSize: 35,
@@ -116,30 +146,37 @@ class IniciarSesio extends StatelessWidget {
             bottom: 45,
             left: -30,
             child: ElevatedButton(
-              onPressed: () {
-                String email = emailController.text;
-                String password = passwordController.text;
-                print('Correo electrónico: $email');
-                print('Contraseña: $password');
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const Menu(),
-                  ),
-                );
+              onPressed: () async {
+                if (emailController.text.isNotEmpty &&
+                    passwordController.text.isNotEmpty) {
+                  try {
+                    final result = await postLogin(emailController.text.trim(),
+                        passwordController.text.trim());
+                    print('Login successful: $result');
+                    // Handle successful login here (e.g., navigate to home screen)
+                    Get.snackbar('Éxito', 'Inicio de sesión exitoso',
+                        snackPosition: SnackPosition.BOTTOM);
+                  } catch (e) {
+                    print('Login failed: $e');
+                    Get.snackbar('Error', 'Inicio de sesión fallido',
+                        snackPosition: SnackPosition.BOTTOM);
+                  }
+                } else {
+                  Get.snackbar('Error', 'Por favor, completa todos los campos',
+                      snackPosition: SnackPosition.BOTTOM);
+                }
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 110, vertical: 15),
-                shape: const RoundedRectangleBorder(
+                padding: EdgeInsets.symmetric(horizontal: 110, vertical: 15),
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20.0),
                     bottomLeft: Radius.circular(20.0),
                   ),
                 ),
               ),
-              child: const Text(
+              child: Text(
                 'Iniciar sesión',
                 style: TextStyle(color: Colors.white, fontSize: 16),
               ),
@@ -149,10 +186,9 @@ class IniciarSesio extends StatelessWidget {
             children: <Widget>[
               Positioned(
                 top: 68,
-                right: 250, // Ajusta para mover el contenedor
+                right: 250,
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 90, vertical: 30),
+                  padding: EdgeInsets.symmetric(horizontal: 90, vertical: 30),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black, width: 2),
                     borderRadius: BorderRadius.circular(8),
@@ -161,11 +197,10 @@ class IniciarSesio extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 65, // Ajusta para mover la flecha
-                right: 330, // Ajusta para mover la flecha
+                top: 65,
+                right: 330,
                 child: IconButton(
-                  icon: const Icon(Icons.arrow_back,
-                      color: Colors.white, size: 55),
+                  icon: Icon(Icons.arrow_back, color: Colors.white, size: 55),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -173,11 +208,11 @@ class IniciarSesio extends StatelessWidget {
               ),
               Positioned(
                 top: 300,
-                right: 300, // Ajustado para mantener la separación original
+                right: 300,
                 child: Transform.rotate(
-                  angle: 1, // Ajusta el ángulo de rotación según sea necesario
+                  angle: 1,
                   child: Image.asset(
-                    'assets/images/gerbera_rosa-removebg-preview.png', // Replace with your image path
+                    'assets/images/gerbera_rosa-removebg-preview.png',
                     width: 150,
                     height: 150,
                   ),
@@ -185,11 +220,11 @@ class IniciarSesio extends StatelessWidget {
               ),
               Positioned(
                 top: 150,
-                right: 310, // Ajustado para mantener la separación original
+                right: 310,
                 child: Transform.rotate(
-                  angle: 1, // Ajusta el ángulo de rotación según sea necesario
+                  angle: 1,
                   child: Image.asset(
-                    'assets/images/Gerbera-PNG-amarilla.png', // Replace with your image path
+                    'assets/images/Gerbera-PNG-amarilla.png',
                     width: 100,
                     height: 100,
                   ),
@@ -197,20 +232,19 @@ class IniciarSesio extends StatelessWidget {
               ),
               Positioned(
                 top: 140,
-                left: 240, // Ajustado para mantener la separación original
+                left: 240,
                 child: Transform.rotate(
-                  angle: 0, // Ajusta el ángulo de rotación según sea necesario
+                  angle: 0,
                   child: Image.asset(
-                    'assets/images/sarten.png', // Replace with your image path
+                    'assets/images/sarten.png',
                     width: 300,
                     height: 300,
                   ),
                 ),
               ),
-              //agrega un texto que diga “Tripa vacía, corazón sin alegría”
-              const Positioned(
+              Positioned(
                 top: 240,
-                right: 170, // Ajustado para mantener la separación original
+                right: 170,
                 child: Text(
                   'Tripa vacía,\ncorazón sin \nalegría',
                   style: TextStyle(

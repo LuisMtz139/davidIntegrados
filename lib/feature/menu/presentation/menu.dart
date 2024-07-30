@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
@@ -215,10 +217,16 @@ class _MenuState extends State<Menu> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Platillo(
-                                  nombrePlatillo: post.nombre_platillo,
-                                  descripcion: post.descripcion,
-                                  precio: post.precio.toDouble(),
-                                  id: post.id.toString(),
+                                  nombrePlatillo: post.nombre_platillo ??
+                                      'Sin nombre', // Proporciona un valor por defecto si es nulo
+                                  descripcion:
+                                      post.descripcion ?? 'Sin descripción',
+                                  precio: post.precio?.toDouble() ??
+                                      0.0, // Asume un precio por defecto si es nulo
+                                  id: post.id ??
+                                      '', // Proporciona una cadena vacía si el id es nulo
+                                  imagen: post.imagen ??
+                                      '', // Proporciona una cadena vacía si la imagen es nula
                                 ),
                               ),
                             );
@@ -242,11 +250,12 @@ class _MenuState extends State<Menu> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Image.asset(
-                                            'assets/c.png',
+                                          Image.memory(
+                                            base64Decode(
+                                                post.imagen.split(',').last),
                                             width: 100,
                                             height: 101,
-                                            fit: BoxFit.contain,
+                                            fit: BoxFit.cover,
                                           ),
                                           Padding(
                                             padding: const EdgeInsets.all(8.0),

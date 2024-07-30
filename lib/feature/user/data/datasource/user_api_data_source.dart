@@ -15,43 +15,7 @@ abstract class UserApiDataSource {
 
 class UserApiDataSourceImp implements UserApiDataSource {
   final String _baseUrl = 'https://users.sazzon.site/api/v1';
-  @override
-   Future<userModel> postLogin(Login login) async {
-    final Uri url = Uri.parse('$_baseUrl/userslogin');
-    final response = await http.post(
-      url,
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode({
-        'email': login.email,
-        'password': login.password,
-      }),
-    );
 
-    if (response.statusCode != 200) {
-      print('Failed to create user: ${response.statusCode}');
-      throw Exception('usuario y/o contraseña inválidos');
-    }
-
-    final body = jsonDecode(response.body);
-    if (body == null) {
-      throw Exception('Invalid or missing data in response');
-    }
-
-    int id = body['id'] is int ? body['id'] : int.parse(body['id']);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setInt('id', id);
-
-    return userModel(
-      id: id,
-      name: body['name'],
-      email: body['email'],
-      phone: body['phone'],
-      password: body['password'],
-      admin: body['admin'],
-    );
-  }
   
 
   @override
@@ -100,6 +64,12 @@ class UserApiDataSourceImp implements UserApiDataSource {
       print('Error during network call: $e');
       throw Exception('Network error');
     }
+  }
+  
+  @override
+  Future<userModel> postLogin(Login login) {
+    // TODO: implement postLogin
+    throw UnimplementedError();
   }
   
 
