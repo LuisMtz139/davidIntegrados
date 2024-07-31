@@ -23,35 +23,34 @@ class MyHomePage extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.horizontal(
-                          right: Radius.circular(20)),
-                      child: Container(
-                        color: Colors.black,
-                        width: constraints.maxWidth > 600
-                            ? screenWidth * 0.3
-                            : screenWidth *
-                                0.5, // Ajusta el ancho del contenedor según necesites
-                        height:
-                            50, // Ajusta la altura del contenedor según necesites
-                        child: Center(
-                          child: TextButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Registro1(),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              'Registrarse',
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
+                    GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Registro1(),
+                      ),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.horizontal(right: Radius.circular(20)),
+                    child: Container(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      width: constraints.maxWidth > 600
+                          ? screenWidth * 0.3
+                          : screenWidth *
+                              0.5, // Ajusta el ancho del contenedor según necesites
+                      height:
+                          50, // Ajusta la altura del contenedor según necesites
+                      child: Center(
+                        child: const Text(
+                          'Registrarse',
+                          style: TextStyle(color: Colors.white),
                         ),
                       ),
                     ),
+                  ),
+                ),
                     SizedBox(
                         width: constraints.maxWidth > 600
                             ? 10
@@ -86,27 +85,26 @@ class MyHomePage extends StatelessWidget {
                         ? 0.05
                         : 0.03), // Ajusta según el tamaño de la pantalla
                 left: 0, // Alinea el botón con el borde izquierdo
-                child: ClipRRect(
-                  borderRadius:
-                      const BorderRadius.horizontal(right: Radius.circular(20)),
-                  child: Container(
-                    color: Colors.black,
-                    width: constraints.maxWidth > 600
-                        ? screenWidth * 0.3
-                        : screenWidth *
-                            0.5, // Ajusta el ancho del contenedor según necesites
-                    height:
-                        50, // Ajusta la altura del contenedor según necesites
-                    child: Center(
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => IniciarSesio(),
-                            ),
-                          );
-                        },
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => IniciarSesio(),
+                      ),
+                    );
+                  },
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.horizontal(right: Radius.circular(20)),
+                    child: Container(
+                      color: Color.fromARGB(255, 0, 0, 0),
+                      width: constraints.maxWidth > 600
+                          ? screenWidth * 0.3
+                          : screenWidth *
+                              0.5, // Ajusta el ancho del contenedor según necesites
+                      height:
+                          50, // Ajusta la altura del contenedor según necesites
+                      child: Center(
                         child: const Text(
                           'Iniciar Sesión',
                           style: TextStyle(color: Colors.white),
@@ -119,8 +117,8 @@ class MyHomePage extends StatelessWidget {
               // Nueva imagen
               Positioned(
                 top: constraints.maxWidth > 600
-                    ? screenHeight * 0.35
-                    : screenHeight * 0.099, // Centra la imagen verticalmente
+                    ? screenHeight * 0.45
+                    : screenHeight * 0.299, // Centra la imagen verticalmente
                 right: constraints.maxWidth > 600
                     ? -screenWidth * 0.25
                     : -screenWidth *
@@ -128,13 +126,13 @@ class MyHomePage extends StatelessWidget {
                 child: Image.asset(
                   'assets/images/plato madera.png', // Ruta de la imagen
                   width: constraints.maxWidth > 600
-                      ? screenWidth * 0.6
+                      ? screenWidth * 0.10
                       : screenWidth *
-                          2, // Ajusta el tamaño de la imagen según necesites
+                          0.5, // Ajusta el tamaño de la imagen según necesites
                   height: constraints.maxWidth > 600
                       ? screenHeight * 0.6
                       : screenHeight *
-                          1, // Ajusta el tamaño de la imagen según necesites
+                          0.5, // Ajusta el tamaño de la imagen según necesites
                 ),
               ),
               if (constraints.maxWidth <= 600) ...[
