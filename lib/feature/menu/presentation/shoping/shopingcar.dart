@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class Platillo {
   final String nombre;
   final double precio;
   final int cantidad;
 
-  Platillo({required this.nombre, required this.precio, required this.cantidad});
+  Platillo(
+      {required this.nombre, required this.precio, required this.cantidad});
 
   factory Platillo.fromJson(Map<String, dynamic> json, int cantidad) {
     return Platillo(
@@ -26,7 +29,7 @@ class ShoppingCartPage extends StatefulWidget {
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   late Future<List<Platillo>> platillos;
   double total = 0.0;
-  String idUser="5";
+  String idUser = "5";
   @override
   void initState() {
     super.initState();
@@ -34,8 +37,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Future<List<Platillo>> fetchPlatillos() async {
-    final response =
-        await http.get(Uri.parse('https://orders.sazzon.site/orders/users/$idUser'));
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('userId');
+    final response = await http
+        .get(Uri.parse('https://orders.sazzon.site/orders/users/$userId'));
 
     if (response.statusCode == 200) {
       try {
@@ -61,7 +66,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Future<void> deletePlatillo(String id) async {
-    final response = await http.delete(Uri.parse('https://orders.sazzon.site/orders/$id'));
+    final response =
+        await http.delete(Uri.parse('https://orders.sazzon.site/orders/$id'));
 
     if (response.statusCode == 200) {
       setState(() {
@@ -69,14 +75,18 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         fetchTotal(); // Actualiza el total después de eliminar un platillo
       });
     } else {
-      print('Failed to delete platillo: ${response.statusCode} ${response.body}');
+      print(
+          'Failed to delete platillo: ${response.statusCode} ${response.body}');
       throw Exception('Failed to delete platillo');
     }
   }
 
   Future<void> fetchTotal() async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('userId');
     // Obtener el total actualizado después de la eliminación
-    final response = await http.get(Uri.parse('https://orders.sazzon.site/orders/users/$idUser'));
+    final response = await http
+        .get(Uri.parse('https://orders.sazzon.site/orders/users/$userId'));
     if (response.statusCode == 200) {
       List<dynamic> jsonResponse = json.decode(response.body);
       setState(() {
@@ -84,13 +94,15 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       });
     } else {
       throw Exception('Failed to fetch total');
+      
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white, // Establece el fondo de la aplicación en blanco
+      backgroundColor:
+          Colors.white, // Establece el fondo de la aplicación en blanco
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text('SEZZON', style: TextStyle(fontSize: 20)),
@@ -116,7 +128,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-               
                 ),
               ),
             ),
@@ -161,7 +172,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 ),
                                 Spacer(),
                                 Container(
-                                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 8),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(10),
                                     color: Colors.orange,
@@ -178,7 +190,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 IconButton(
                                   icon: Icon(Icons.delete, color: Colors.black),
                                   onPressed: () {
-                                    deletePlatillo(snapshot.data![index].nombre); // Asegúrate de que el id sea correcto
+                                    deletePlatillo(snapshot.data![index]
+                                        .nombre); // Asegúrate de que el id sea correcto
                                   },
                                 ),
                               ],
@@ -191,36 +204,37 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 },
               ),
             ),
-               
-                    Text(
-                      'Total: \$${total.toStringAsFixed(2)}',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      textAlign: TextAlign.center, // Centrar el texto
-                    ),
-                    SizedBox(height: 10), // Espacio entre el texto y el botón
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 255, 102, 0), // Color del botón
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        minimumSize: Size(double.infinity, 50), // El botón ocupa casi todo el ancho
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        'Finalizar pedido',
-                        style: TextStyle(
-                          color: const Color.fromARGB(255, 255, 255, 255),
-                          fontSize: 16,
-                        ),
-                      ),
-                    ),
-                  ],
 
+            Text(
+              'Total: \$${total.toStringAsFixed(2)}',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center, // Centrar el texto
+            ),
+            SizedBox(height: 10), // Espacio entre el texto y el botón
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    Color.fromARGB(255, 255, 102, 0), // Color del botón
+                padding: EdgeInsets.symmetric(vertical: 15),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                minimumSize: Size(
+                    double.infinity, 50), // El botón ocupa casi todo el ancho
+              ),
+              onPressed: () {},
+              child: Text(
+                'Finalizar pedido',
+                style: TextStyle(
+                  color: const Color.fromARGB(255, 255, 255, 255),
+                  fontSize: 16,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -1,12 +1,13 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sazzon/feature/menu/presentation/carro.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_event.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
-import 'package:sazzon/feature/menu/presentation/platillo.dart';
+import 'package:sazzon/feature/menu/presentation/platillo.dart' as platilloPage;
+import 'package:sazzon/feature/menu/presentation/shoping/shopingcar.dart';
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
@@ -43,7 +44,14 @@ class _MenuState extends State<Menu> {
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShoppingCartPage(),
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.shopping_cart,
                 color: Colors.white,
@@ -216,7 +224,7 @@ class _MenuState extends State<Menu> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Platillo(
+                                builder: (context) => platilloPage.Platillo(
                                   nombrePlatillo: post.nombre_platillo ??
                                       'Sin nombre', // Proporciona un valor por defecto si es nulo
                                   descripcion:
