@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:sazzon/feature/user/presentation/administrador/admin/panel_control_gestion_clientes.dart';
+import 'package:sazzon/feature/user/presentation/administrador/panel_de_control.dart';
 import 'dart:convert';
 
 import 'package:sazzon/feature/menu/presentation/menu.dart';
@@ -38,8 +40,20 @@ class IniciarSesio extends StatelessWidget {
           await prefs.setString('userId', data['id'].toString());
         }
 
-        // Navegar a la pantalla Home usando GetX
-        Get.off(() => Menu());
+        // Validación del dominio de correo electrónico
+        if (email.endsWith('@sazzon.com')) {
+          // Navegar a la vista específica para @sazzon.com
+          Get.off(() =>
+              PanelControlGestionClientes()); // Asegúrate de importar SazzonView
+        } else if (email.endsWith('@gmail.com')) {
+          // Navegar a la pantalla Menu para @gmail.com
+          Get.off(() => Menu());
+        } else {
+          // Para otros dominios de correo, puedes decidir qué hacer
+          // Por ahora, redirigimos a Menu como comportamiento predeterminado
+          Get.off(() => Menu());
+        }
+
         return data;
       } else {
         throw Exception('Failed to login');
@@ -63,7 +77,7 @@ class IniciarSesio extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: 450),
-                Text(
+                const Text(
                   'Ingresa un correo electrónico',
                   style: TextStyle(fontSize: 18),
                 ),

@@ -11,10 +11,10 @@ import 'package:sazzon/feature/menu/presentation/carro.dart';
 import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/como_funciona.dart';
 import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/fac.dart';
 import 'package:sazzon/feature/menu/presentation/menu.dart';
-import 'package:sazzon/feature/menu/presentation/admin/panel_control_gestion_clientes.dart';
-import 'package:sazzon/feature/menu/presentation/panel_de_control.dart';
-import 'package:sazzon/feature/menu/presentation/admin/panel_de_control_gestion_de_pltillos.dart';
-import 'package:sazzon/feature/menu/presentation/admin/panel_de_control_gestion_pedidos.dart';
+import 'package:sazzon/feature/user/presentation/administrador/admin/panel_control_gestion_clientes.dart';
+import 'package:sazzon/feature/user/presentation/administrador/panel_de_control.dart';
+import 'package:sazzon/feature/user/presentation/administrador/admin/panel_de_control_gestion_de_pltillos.dart';
+import 'package:sazzon/feature/user/presentation/administrador/admin/panel_de_control_gestion_pedidos.dart';
 import 'package:sazzon/commentcase_config.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Comment/getcommentCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Comment/poshCOntroller.dart';
@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(home: MyHomePage()); //DireccionNoEncontrada
+    return GetMaterialApp(
+        home: PanelControlGestionClientes()); //DireccionNoEncontrada
   }
 }
