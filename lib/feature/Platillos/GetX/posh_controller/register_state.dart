@@ -2,13 +2,13 @@
 
 abstract class CreatePostState {}
 
-class UserInitial extends CreatePostState {}
+class PlatillosInitial extends CreatePostState {}
 
-class UserLoading extends CreatePostState {}
+class PlatillosLoading extends CreatePostState {}
 
-class UserCreatedSuccessfully extends CreatePostState {}
+class PlatillosCreatedSuccessfully extends CreatePostState {}
 
-class UserCreationFailure extends CreatePostState {
+class PlatillosCreationFailure extends CreatePostState {
   final String error;
-  UserCreationFailure(this.error);
+  PlatillosCreationFailure(this.error);
 }
