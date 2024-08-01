@@ -1,13 +1,12 @@
-
-import 'package:sazzon/feature/user/domain/entities/user.dart';
+import '../../domain/entities/user.dart';
 
 class userModel extends User {
   userModel({
-     int? id,
+    int? id,
     required String name,
     required String email,
     required String phone,
-    required String password,
+    String? password,
     required String admin
   }) : super(
     id: id,
@@ -15,7 +14,7 @@ class userModel extends User {
     email: email,
     phone: phone,
     password: password,
-    admin:admin
+    admin: admin
   );
 
   factory userModel.fromJson(Map<String, dynamic> json) {
@@ -23,12 +22,11 @@ class userModel extends User {
       id: json['id'] is int ? json['id'] : int.parse(json['id']),
       name: json['name'],
       email: json['email'],
-      phone: json['phone'],
+      phone: json['phone'].toString(),
       password: json['password'],
-      admin:json['admin']
+      admin: json['admin'].toString(),
     );
   }
-
 
   factory userModel.fromEntity(User user) {
     return userModel(
@@ -37,7 +35,7 @@ class userModel extends User {
       email: user.email,
       phone: user.phone,
       password: user.password,
-      admin:user.admin
+      admin: user.admin,
     );
   }
 
@@ -48,7 +46,7 @@ class userModel extends User {
       'email': email,
       'phone': phone,
       'password': password,
-      'admin':admin
+      'admin': admin,
     };
   }
 }

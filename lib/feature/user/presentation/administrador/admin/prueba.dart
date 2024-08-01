@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
-import '../../Getx/getOrder/get_event.dart';
-import '../../Getx/getOrder/get_state.dart';
-import '../../Getx/getOrder/getcontroller.dart';
+import '../../../../Platillos/getOrder/get_event.dart';
+import '../../../../Platillos/getOrder/get_state.dart';
+import '../../../../Platillos/getOrder/getcontroller.dart';
 
-class PanelControlGestionClientes extends StatefulWidget {
-  const PanelControlGestionClientes({super.key});
+
+class PanelControlGestionClientespruba extends StatefulWidget {
+  const PanelControlGestionClientespruba({super.key});
 
   @override
-  State<PanelControlGestionClientes> createState() => _WeAreState();
+  State<PanelControlGestionClientespruba> createState() => _WeAreState();
 }
 
-class _WeAreState extends State<PanelControlGestionClientes> {
-  final GetUserController _controller = Get.find<GetUserController>();
+class _WeAreState extends State<PanelControlGestionClientespruba> {
+  final GetPlatillosController _controller = Get.find<GetPlatillosController>();
 
   @override
   void initState() {
     super.initState();
-    _controller.fetchUserDetails(FetchuserDetailsEvent());
+    _controller.fetchPlatilloDetails(FetchPlatillosDetailsEvent());
   }
 
   @override
@@ -121,10 +122,10 @@ class _WeAreState extends State<PanelControlGestionClientes> {
         ],
       ),
       child: Obx(() {
-        if (_controller.state.value is userLoading) {
+        if (_controller.state.value is platillosLoading) {
           return const Center(child: CircularProgressIndicator());
-        } else if (_controller.state.value is userFetchingFailure) {
-          return Center(child: Text((_controller.state.value as userFetchingFailure).error));
+        } else if (_controller.state.value is PlatillosFetchingFailure) {
+          return Center(child: Text((_controller.state.value as PlatillosFetchingFailure).error));
         } else if (_controller.state.value is PostsLoaded) {
           final users = (_controller.state.value as PostsLoaded).posts;
           return Column(
@@ -150,7 +151,7 @@ class _WeAreState extends State<PanelControlGestionClientes> {
                     children: [
                       _buildTableHeader(),
                       ...users.map((user) => _buildClientRow(
-                          user.id.toString(), user.name, user.email, user.phone)).toList(),
+                         user.ingredientes,user.nombre_platillo, user.nombre_platillo, user.categoria)).toList(),
                     ],
                   ),
                 ),
@@ -167,7 +168,7 @@ class _WeAreState extends State<PanelControlGestionClientes> {
   TableRow _buildTableHeader() {
     return TableRow(
       decoration: BoxDecoration(color: Colors.grey[100]),
-      children: ['ID', 'Nombre', 'Correo', 'Número celular']
+      children: ['ID', 'ID', 'Correo', 'Número celular']
           .map((header) => TableCell(
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),

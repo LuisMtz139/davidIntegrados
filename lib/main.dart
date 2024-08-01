@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sazzon/address_config.dart';
+import 'package:sazzon/feature/Platillos/getOrder/getcontroller.dart';
 import 'package:sazzon/feature/address/presentation/direccion_no_encontrada.dart';
 import 'package:sazzon/feature/address/presentation/direccion_registro_direccion.dart';
 import 'package:sazzon/feature/address/presentation/getX/getcontroller.dart';
@@ -11,8 +12,8 @@ import 'package:sazzon/feature/menu/presentation/carro.dart';
 import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/como_funciona.dart';
 import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/fac.dart';
 import 'package:sazzon/feature/menu/presentation/menu.dart';
+import 'package:sazzon/feature/user/presentation/Getx/getOrder/getcontroller.dart';
 import 'package:sazzon/feature/user/presentation/administrador/admin/panel_control_gestion_clientes.dart';
-import 'package:sazzon/feature/user/presentation/administrador/panel_de_control.dart';
 import 'package:sazzon/feature/user/presentation/administrador/admin/panel_de_control_gestion_de_pltillos.dart';
 import 'package:sazzon/feature/user/presentation/administrador/admin/panel_de_control_gestion_pedidos.dart';
 import 'package:sazzon/commentcase_config.dart';
@@ -26,6 +27,7 @@ import 'package:sazzon/feature/user/presentation/Getx/RegisterUser/registerUserC
 import 'package:sazzon/feature/user/presentation/index.dart';
 import 'package:sazzon/feature/user/presentation/pages/iniciarSeion.dart';
 import 'package:sazzon/menucase_config.dart';
+import 'package:sazzon/platillos_config.dart';
 import 'package:sazzon/usercase_config.dart';
 import 'package:get/get.dart';
 
@@ -38,6 +40,7 @@ UsercaseConfig usercaseConfig = UsercaseConfig();
 MenucaseConfig menucaseConfig = MenucaseConfig();
 CommentcaseConfig commentcaseConfig = CommentcaseConfig();
 AddresscaseConfig addresscaseConfig = AddresscaseConfig();
+PlatillosConfig platillosConfig = PlatillosConfig();
 
 void main() {
   runApp(MyApp());
@@ -62,11 +65,14 @@ class MyApp extends StatelessWidget {
         poshaddressUseCase: addresscaseConfig.poshaddressUseCase!));
     Get.put(PasswordController(
         updatePasswrodUseCase: usercaseConfig.updatePasswrodUseCase!));
+    Get.put(GetUserController(getUserUsecase: usercaseConfig.getUserUsecase!));
+    Get.put(GetPlatillosController(getPlatillosUsecase: platillosConfig.getPlatillosUsecase!));
+    
   }
 
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-        home: PanelControlGestionClientes()); //DireccionNoEncontrada
+        home: Menu()); //DireccionNoEncontrada
   }
 }

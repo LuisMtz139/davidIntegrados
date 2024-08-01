@@ -41,6 +41,7 @@ class _PlatilloState extends State<Platillo> {
   void initState() {
     super.initState();
     _controller.fetchCoDetails(FetchCommentDetailsEvent(widget.id));
+    print( 'hola soy id de platillo: '+widget.id);
   }
 
   ImageProvider _getImageProvider(String imageString) {

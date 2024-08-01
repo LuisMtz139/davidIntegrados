@@ -25,4 +25,9 @@ class UserRepositoryImp implements UserRepository {
   Future<void> updatepassword(PasswordModels passwordModels) async {
     await userApiDataSource.updatepassword(passwordModels);
   }
+  
+  @override
+  Future<List<userModel>> getorders() {
+    return userApiDataSource.getorders();
+  }
 }
