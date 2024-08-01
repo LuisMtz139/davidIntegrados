@@ -10,9 +10,8 @@ class PlatillosRepositoryImp implements PlatillosRepository {
   PlatillosRepositoryImp({required this.platillosApiDataSource});
   
   @override
-  Future<void> PoshPlatillos(PlatillosModel platillosModel) {
-    // TODO: implement PoshPlatillos
-    throw UnimplementedError();
+  Future<void> PoshPlatillos(PlatillosModel platillosModel)async {
+    await platillosApiDataSource.PoshPlatilllos(platillosModel);
   }
   
   @override
@@ -25,6 +24,11 @@ class PlatillosRepositoryImp implements PlatillosRepository {
   Future<void> updatePlatillos(PlatillosModel platillosModel) {
     // TODO: implement updatePlatillos
     throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> deletePlatillo(String id)async {
+    await platillosApiDataSource.deletePlatillo(id);
   }
 
   

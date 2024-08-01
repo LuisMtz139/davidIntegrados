@@ -33,6 +33,8 @@ import 'package:sazzon/platillos_config.dart';
 import 'package:sazzon/usercase_config.dart';
 import 'package:get/get.dart';
 
+import 'feature/Platillos/GetX/delite_controller/registerCOntroller.dart';
+import 'feature/Platillos/GetX/posh_controller/registerCOntroller.dart';
 import 'feature/menu/presentation/shoping/shopingcar.dart';
 import 'feature/recovery_password/presentation/PasswordGetX/registerUserCOntroller.dart';
 import 'feature/recovery_password/presentation/updatepassword.dart';
@@ -71,6 +73,8 @@ class MyApp extends StatelessWidget {
     Get.put(GetPlatillosController(
         getPlatillosUsecase: platillosConfig.getPlatillosUsecase!));
     Get.put(GetOrdenController(getOrdenUsecase: ordenConfig.getOrdenUsecase!));
+    Get.put(CreatePlatillosController(poshPlatilllosUsecase: platillosConfig.poshPlatilllosUsecase!));
+    Get.put(DelitePlatillosController(delitePlatilloUsecase: platillosConfig.delitePlatilloUsecase!));
   }
 
   @override
