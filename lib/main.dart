@@ -12,7 +12,6 @@ import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/como_
 import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/fac.dart';
 import 'package:sazzon/feature/menu/presentation/menu.dart';
 import 'package:sazzon/feature/user/presentation/administrador/admin/panel_control_gestion_clientes.dart';
-import 'package:sazzon/feature/user/presentation/administrador/panel_de_control.dart';
 import 'package:sazzon/feature/user/presentation/administrador/admin/panel_de_control_gestion_de_pltillos.dart';
 import 'package:sazzon/feature/user/presentation/administrador/admin/panel_de_control_gestion_pedidos.dart';
 import 'package:sazzon/commentcase_config.dart';
@@ -66,7 +65,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        home: PanelControlGestionClientes()); //DireccionNoEncontrada
+    return GetMaterialApp(home: MyHomePage()); //DireccionNoEncontrada
   }
 }

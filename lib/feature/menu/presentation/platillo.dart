@@ -32,9 +32,10 @@ class Platillo extends StatefulWidget {
 class _PlatilloState extends State<Platillo> {
   final TextEditingController mycommentController = TextEditingController();
   final GetCommentController _controller = Get.find<GetCommentController>();
-  final PoshCommentController poshCommentController = Get.find<PoshCommentController>();
+  final PoshCommentController poshCommentController =
+      Get.find<PoshCommentController>();
   final _formKey = GlobalKey<FormState>();
-  
+
   int _contador = 0;
 
   @override
@@ -47,7 +48,8 @@ class _PlatilloState extends State<Platillo> {
     if (imageString.startsWith('data:image')) {
       String base64Image = imageString.split(',')[1];
       return MemoryImage(base64Decode(base64Image));
-    } else if (imageString.startsWith('http') || imageString.startsWith('https')) {
+    } else if (imageString.startsWith('http') ||
+        imageString.startsWith('https')) {
       return NetworkImage(imageString);
     } else {
       return AssetImage(imageString);
@@ -187,58 +189,37 @@ class _PlatilloState extends State<Platillo> {
               ),
             ),
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: _decrementCounter,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10.0),
-                        bottomLeft: Radius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                  child: const Text('-', style: TextStyle(fontSize: 30, color: Colors.black)),
+            Container(
+              width: 100,
+              height: 88,
+              decoration: const BoxDecoration(
+                color: Color(0xFFF6532A),
+                borderRadius: BorderRadius.all(Radius.circular(20)),
+              ),
+              child: ElevatedButton(
+                onPressed: () {
+                  // Aquí puedes añadir la lógica para añadir el platillo
+                  setState(() {
+                    _contador++;
+                  });
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  shadowColor: Colors.transparent,
                 ),
-                Container(
-                  width: 100,
-                  height: 88,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF6532A),
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text("Añadir", style: TextStyle(fontSize: 20, color: Colors.white)),
-                      Text("$_contador", style: const TextStyle(fontSize: 32, color: Colors.white)),
-                    ],
-                  ),
+                child: const Text(
+                  "Añadir",
+                  style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
-                ElevatedButton(
-                  onPressed: _incrementCounter,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10.0),
-                        bottomRight: Radius.circular(10.0),
-                      ),
-                    ),
-                  ),
-                  child: const Text('+', style: TextStyle(fontSize: 30, color: Colors.black)),
-                ),
-              ],
+              ),
             ),
             const SizedBox(height: 20),
             Container(
               width: double.infinity,
               decoration: const BoxDecoration(
                 color: Colors.white,
-                border: Border(top: BorderSide(color: Color(0xFFF6532A), width: 6.0)),
+                border: Border(
+                    top: BorderSide(color: Color(0xFFF6532A), width: 6.0)),
               ),
               child: Column(
                 children: [
@@ -262,7 +243,8 @@ class _PlatilloState extends State<Platillo> {
                               controller: mycommentController,
                               decoration: InputDecoration(
                                 hintText: 'Escribe un comentario',
-                                border: OutlineInputBorder(borderRadius: BorderRadius.circular(16.0)),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(16.0)),
                               ),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
@@ -277,26 +259,33 @@ class _PlatilloState extends State<Platillo> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 Get.dialog(
-                                  const Center(child: CircularProgressIndicator()),
+                                  const Center(
+                                      child: CircularProgressIndicator()),
                                   barrierDismissible: false,
                                 );
                                 final post = CommentModel(
                                   id_platillo: widget.id,
-                                  id_user: '2', // Asegúrate de tener un ID de usuario válido
+                                  id_user:
+                                      '2', // Asegúrate de tener un ID de usuario válido
                                   comentario: mycommentController.text,
-                                  calificacion: 1, // Considera agregar una forma de calificar
+                                  calificacion:
+                                      1, // Considera agregar una forma de calificar
                                 );
-                                await poshCommentController.createComment(CreateCommentEvent(post));
+                                await poshCommentController
+                                    .createComment(CreateCommentEvent(post));
                                 mycommentController.clear();
-                                await _controller.fetchCoDetails(FetchCommentDetailsEvent(widget.id));
+                                await _controller.fetchCoDetails(
+                                    FetchCommentDetailsEvent(widget.id));
                                 Get.back(); // Cierra el diálogo de carga
                               }
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFF6532A),
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13)),
                             ),
-                            child: const Text('Enviar', style: TextStyle(color: Colors.white)),
+                            child: const Text('Enviar',
+                                style: TextStyle(color: Colors.white)),
                           ),
                         ],
                       ),
@@ -309,7 +298,8 @@ class _PlatilloState extends State<Platillo> {
                       if (_controller.state.value is CommentLoading) {
                         return const Center(child: CircularProgressIndicator());
                       } else if (_controller.state.value is PostsLoaded) {
-                        var posts = (_controller.state.value as PostsLoaded).posts;
+                        var posts =
+                            (_controller.state.value as PostsLoaded).posts;
                         return ListView.builder(
                           itemCount: posts.length,
                           itemBuilder: (context, index) {
@@ -320,12 +310,16 @@ class _PlatilloState extends State<Platillo> {
                             );
                           },
                         );
-                      } else if (_controller.state.value is CommentFetchingFailure) {
+                      } else if (_controller.state.value
+                          is CommentFetchingFailure) {
                         return Center(
-                          child: Text((_controller.state.value as CommentFetchingFailure).error),
+                          child: Text((_controller.state.value
+                                  as CommentFetchingFailure)
+                              .error),
                         );
                       } else {
-                        return const Center(child: Text("Estado no reconocido"));
+                        return const Center(
+                            child: Text("Estado no reconocido"));
                       }
                     }),
                   ),
