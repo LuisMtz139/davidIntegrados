@@ -14,6 +14,7 @@ class PanelControlGestionClientes extends StatefulWidget {
 
 class _WeAreState extends State<PanelControlGestionClientes> {
   final GetUserController _controller = Get.find<GetUserController>();
+  int contador = 0;
 
   @override
   void initState() {

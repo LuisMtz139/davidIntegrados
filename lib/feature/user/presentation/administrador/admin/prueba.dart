@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
-import '../../../../Platillos/getOrder/get_event.dart';
-import '../../../../Platillos/getOrder/get_state.dart';
-import '../../../../Platillos/getOrder/getcontroller.dart';
+import '../../../../Platillos/GetX/get_controller/get_state.dart';
+import '../../../../Platillos/get_controller/get_event.dart';
+import '../../../../Platillos/get_controller/getcontroller.dart';
 
 
 class PanelControlGestionClientespruba extends StatefulWidget {

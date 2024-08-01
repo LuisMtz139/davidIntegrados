@@ -29,7 +29,7 @@ class ShoppingCartPage extends StatefulWidget {
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   late Future<List<Platillo>> platillos;
   double total = 0.0;
-  String idUser = "5";
+  String idUser = "1";
   @override
   void initState() {
     super.initState();

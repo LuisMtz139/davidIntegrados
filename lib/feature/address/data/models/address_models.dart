@@ -3,7 +3,7 @@ import 'package:sazzon/feature/address/domain/entities/address.dart';
 class AddressModel extends Address {
   AddressModel({
     String? id,
-    required int userId,
+    int? userId,
     required String calle,
     required int postcode,
     required String colonia,
