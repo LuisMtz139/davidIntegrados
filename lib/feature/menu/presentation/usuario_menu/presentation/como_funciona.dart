@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
+import 'package:sazzon/feature/menu/presentation/shoping/shopingcar.dart';
+import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/fac.dart';
 
 class HowItWorks extends StatelessWidget {
   const HowItWorks({super.key});
@@ -22,7 +24,14 @@ class HowItWorks extends StatelessWidget {
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShoppingCartPage(),
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.shopping_cart,
                 color: Colors.white,

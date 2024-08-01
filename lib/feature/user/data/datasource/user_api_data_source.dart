@@ -3,22 +3,22 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import '../../../menu/presentation/shoping/shopingcar.dart';
 import '../../domain/entities/updatepassword.dart';
 import '../models/password_models.dart';
 
 abstract class UserApiDataSource {
   Future<void> registerUser(userModel userModel);
 
+  Future<List<userModel>> getorders();
 
   Future<void> updateUser(userModel userModel);
 
-   Future<void> updatepassword(PasswordModels passwordModels);
+  Future<void> updatepassword(PasswordModels passwordModels);
 }
 
 class UserApiDataSourceImp implements UserApiDataSource {
   final String _baseUrl = 'https://users.sazzon.site/api/v1';
- 
-  
 
   @override
   Future<void> registerUser(userModel) async {
@@ -32,7 +32,7 @@ class UserApiDataSourceImp implements UserApiDataSource {
           'name': userModel.name,
           'phone': userModel.phone,
           'email': userModel.email,
-          'password': userModel.password,
+          'password': userModel.password ?? '',
           'admin': userModel.admin,
         }),
       );
@@ -56,7 +56,7 @@ class UserApiDataSourceImp implements UserApiDataSource {
           'name': userModel.name,
           'phone': userModel.phone,
           'email': userModel.email,
-          'password': userModel.password,
+          'password': userModel.password ?? '',
           'admin': userModel.admin,
         }),
       );
@@ -67,10 +67,10 @@ class UserApiDataSourceImp implements UserApiDataSource {
       throw Exception('Network error');
     }
   }
-  
+
   @override
   Future<void> updatepassword(PasswordModels passwordModels) async {
-  try {
+    try {
       await http.put(
         Uri.parse('$_baseUrl/users/${passwordModels.id}/password'),
         headers: {
@@ -78,7 +78,6 @@ class UserApiDataSourceImp implements UserApiDataSource {
         },
         body: jsonEncode(<String, String>{
           'password': passwordModels.password,
-          
         }),
       );
 
@@ -88,6 +87,18 @@ class UserApiDataSourceImp implements UserApiDataSource {
       throw Exception('Network error');
     }
   }
-  
 
-}
+  @override
+  Future<List<userModel>> getorders() async {
+ final response = await http.get(Uri.parse('https://users.sazzon.site/api/v1/users'));
+
+  if (response.statusCode == 200) {
+    List<dynamic> jsonResponse = json.decode(response.body);
+    List<userModel> users = jsonResponse
+        .map((user) => userModel.fromJson(user))
+        .toList();
+    return users;
+  } else {
+    throw Exception('Failed to load users');
+  }
+}}

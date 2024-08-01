@@ -8,6 +8,10 @@ import 'package:sazzon/feature/menu/presentation/getX/Comment/getcomment_event.d
 import 'package:sazzon/feature/menu/presentation/getX/Comment/getcomment_state.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Comment/poshCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Comment/posh_event.dart';
+import 'package:sazzon/feature/menu/presentation/shoping/shopingcar.dart';
+import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/fac.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class Platillo extends StatefulWidget {
   final String nombrePlatillo;
@@ -42,6 +46,13 @@ class _PlatilloState extends State<Platillo> {
   void initState() {
     super.initState();
     _controller.fetchCoDetails(FetchCommentDetailsEvent(widget.id));
+    _savePlatilloId(widget.id);
+    print('hola soy id de platillo: ' + widget.id);
+  }
+
+  Future<void> _savePlatilloId(String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('platillo_id', id);
   }
 
   ImageProvider _getImageProvider(String imageString) {
@@ -83,8 +94,18 @@ class _PlatilloState extends State<Platillo> {
         ),
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.shopping_cart, color: Colors.white),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ShoppingCartPage(),
+                ),
+              );
+            },
+            icon: const Icon(
+              Icons.shopping_cart,
+              color: Colors.white,
+            ),
           )
         ],
         centerTitle: true,
@@ -198,18 +219,19 @@ class _PlatilloState extends State<Platillo> {
               ),
               child: ElevatedButton(
                 onPressed: () {
-                  // Aquí puedes añadir la lógica para añadir el platillo
                   setState(() {
                     _contador++;
                   });
+                  // Crear la orden
+                  createOrder(widget.id, _contador);
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
+                  backgroundColor: Colors.transparent,
                   shadowColor: Colors.transparent,
                 ),
                 child: const Text(
                   "Añadir",
-                  style: TextStyle(fontSize: 20, color: Colors.white),
+                  style: TextStyle(fontSize: 17, color: Colors.white),
                 ),
               ),
             ),
@@ -330,5 +352,38 @@ class _PlatilloState extends State<Platillo> {
         ),
       ),
     );
+  }
+
+  Future<void> createOrder(String platilloId, int quantity) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('userId');
+
+    if (userId == null) {
+      print('Error: Usuario no encontrado');
+      return;
+    }
+
+    final url = Uri.parse('https://orders.sazzon.site/orders');
+
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        'userId': int.parse(userId),
+        'directionId': 2,
+        'dishIds': [platilloId],
+        'quantities': [quantity],
+        'status': ''
+      }),
+    );
+
+    if (response.statusCode == 201) {
+      print('Orden creada exitosamente');
+    } else {
+      print('Error al crear la orden: ${response.statusCode}');
+      print('Respuesta: ${response.body}');
+    }
   }
 }

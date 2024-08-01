@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
+import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/fac.dart';
+import '../../Getx/getOrder/get_event.dart';
+import '../../Getx/getOrder/get_state.dart';
+import '../../Getx/getOrder/getcontroller.dart';
 
 class PanelControlGestionClientes extends StatefulWidget {
   const PanelControlGestionClientes({super.key});
@@ -9,6 +14,14 @@ class PanelControlGestionClientes extends StatefulWidget {
 }
 
 class _WeAreState extends State<PanelControlGestionClientes> {
+  final GetUserController _controller = Get.find<GetUserController>();
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.fetchUserDetails(FetchuserDetailsEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -69,7 +82,9 @@ class _WeAreState extends State<PanelControlGestionClientes> {
               ],
             ),
             const SizedBox(height: 26),
-            _buildClientTable(),
+            Expanded(
+              child: _buildClientTable(),
+            ),
           ],
         ),
       ),
@@ -106,33 +121,47 @@ class _WeAreState extends State<PanelControlGestionClientes> {
           ),
         ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            decoration: BoxDecoration(
-              color: Colors.grey[200],
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
-            ),
-            child: const Text(
-              'Gestión de clientes',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            ),
-          ),
-          Table(
-            border: TableBorder(
-              horizontalInside: BorderSide(color: Colors.grey[300]!),
-            ),
+      child: Obx(() {
+        if (_controller.state.value is userLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (_controller.state.value is userFetchingFailure) {
+          return Center(child: Text((_controller.state.value as userFetchingFailure).error));
+        } else if (_controller.state.value is PostsLoaded) {
+          final users = (_controller.state.value as PostsLoaded).posts;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildTableHeader(),
-              _buildClientRow(
-                  '1', 'Marina Shago', 'marina@gmail.com', '996152234'),
-              _buildClientRow('2', 'José Pérez', 'Jose@gmail.com', '981256745'),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
+                ),
+                child: const Text(
+                  'Gestión de clientes',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Table(
+                    border: TableBorder(
+                      horizontalInside: BorderSide(color: Colors.grey[300]!),
+                    ),
+                    children: [
+                      _buildTableHeader(),
+                      ...users.map((user) => _buildClientRow(
+                          user.id.toString(), user.name, user.email, user.phone)).toList(),
+                    ],
+                  ),
+                ),
+              ),
             ],
-          ),
-        ],
-      ),
+          );
+        } else {
+          return const Center(child: Text('No data available'));
+        }
+      }),
     );
   }
 

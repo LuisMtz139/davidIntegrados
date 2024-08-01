@@ -9,6 +9,7 @@ abstract class UserRepository {
   Future<void> updatepassword(PasswordModels passwordModels);
 
   Future<void> updateUser(userModel userModel);
+  Future<List<userModel>>getorders();
 
 
 }

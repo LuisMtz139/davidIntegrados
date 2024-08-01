@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
+import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/fac.dart';
+import '../../../../Platillos/getOrder/get_event.dart';
+import '../../../../Platillos/getOrder/get_state.dart';
+import '../../../../Platillos/getOrder/getcontroller.dart';
 
 class PanelDeControlGestionDePltillos extends StatefulWidget {
   const PanelDeControlGestionDePltillos({super.key});
@@ -9,7 +14,15 @@ class PanelDeControlGestionDePltillos extends StatefulWidget {
 }
 
 class _WeAreState extends State<PanelDeControlGestionDePltillos> {
+  final GetPlatillosController _controller = Get.find<GetPlatillosController>();
   final TextEditingController _ingredientesController = TextEditingController();
+  int contador = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller.fetchPlatilloDetails(FetchPlatillosDetailsEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,43 +128,65 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Colors.grey[300]!),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-            decoration: const BoxDecoration(
-              color: Colors.black,
-              borderRadius:
-                  BorderRadius.vertical(top: Radius.circular(8)),
-            ),
-            child: const Text(
-              'Gestión de platillos',
-              style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: Colors.white),
-            ),
-          ),
-          Table(
-            columnWidths: const {
-              0: FlexColumnWidth(1),
-              1: FlexColumnWidth(2),
-              2: FlexColumnWidth(2),
-              3: FlexColumnWidth(1),
-              4: FlexColumnWidth(1),
-            },
-            border: TableBorder.all(color: Colors.grey[300]!),
+      child: Obx(() {
+        if (_controller.state.value is platillosLoading) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (_controller.state.value is PlatillosFetchingFailure) {
+          return Center(
+              child: Text(
+                  (_controller.state.value as PlatillosFetchingFailure).error));
+        } else if (_controller.state.value is PostsLoaded) {
+          final platillos = (_controller.state.value as PostsLoaded).posts;
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              _buildTableHeader(),
-              _buildPlatilloRow(
-                  '1', 'Milanesa', 'Comida', Icons.edit, Icons.delete),
-              _buildPlatilloRow(
-                  '2', 'Mole', 'Comida', Icons.edit, Icons.delete),
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                decoration: const BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(8)),
+                ),
+                child: const Text(
+                  'Gestión de platillos',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                      color: Colors.white),
+                ),
+              ),
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Table(
+                    columnWidths: const {
+                      0: FlexColumnWidth(1),
+                      1: FlexColumnWidth(2),
+                      2: FlexColumnWidth(2),
+                      3: FlexColumnWidth(1),
+                      4: FlexColumnWidth(1),
+                    },
+                    border: TableBorder.all(color: Colors.grey[300]!),
+                    children: [
+                      _buildTableHeader(),
+                      ...platillos
+                          .map((platillo) => _buildPlatilloRow(
+                              (contador++).toString(),
+                              platillo.nombre_platillo,
+                              platillo.categoria,
+                              Icons.edit,
+                              Icons.delete))
+                          .toList(),
+                    ],
+                  ),
+                ),
+              ),
             ],
-          ),
-        ],
-      ),
+          );
+        } else {
+          return const Center(child: Text('No data available'));
+        }
+      }),
     );
   }
 

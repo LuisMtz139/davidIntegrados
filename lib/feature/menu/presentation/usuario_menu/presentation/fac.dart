@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
+import 'package:sazzon/feature/menu/presentation/shoping/shopingcar.dart';
 
 class Fac extends StatefulWidget {
   const Fac({super.key});
@@ -27,8 +28,18 @@ class _FacState extends State<Fac> {
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             IconButton(
-              onPressed: () {},
-              icon: const Icon(Icons.shopping_cart, color: Colors.white),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShoppingCartPage(),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.shopping_cart,
+                color: Colors.white,
+              ),
             )
           ],
         ),

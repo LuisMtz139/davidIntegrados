@@ -64,7 +64,8 @@ class _WeAreState extends State<Carro> {
               children: [
                 Text(
                   "Total: \$ $total",
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(

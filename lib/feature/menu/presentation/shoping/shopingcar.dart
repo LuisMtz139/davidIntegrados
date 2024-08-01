@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:sazzon/feature/address/presentation/direccion_no_encontrada.dart';
 import 'dart:convert';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Platillo {
   final String nombre;
   final double precio;
   final int cantidad;
+  final int orderId;
 
-  Platillo(
-      {required this.nombre, required this.precio, required this.cantidad});
+  Platillo({
+    required this.nombre,
+    required this.precio,
+    required this.cantidad,
+    required this.orderId,
+  });
 
-  factory Platillo.fromJson(Map<String, dynamic> json, int cantidad) {
+  factory Platillo.fromJson(
+      Map<String, dynamic> json, int cantidad, int orderId) {
     return Platillo(
       nombre: json['nombre'] ?? '',
       precio: (json['precio'] ?? 0).toDouble(),
       cantidad: cantidad,
+      orderId: orderId,
     );
   }
 }
@@ -29,7 +36,7 @@ class ShoppingCartPage extends StatefulWidget {
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   late Future<List<Platillo>> platillos;
   double total = 0.0;
-  String idUser = "5";
+
   @override
   void initState() {
     super.initState();
@@ -37,6 +44,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Future<List<Platillo>> fetchPlatillos() async {
+    print("entreeeeeeeeeeeeeeeeeeee");
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getString('userId');
     final response = await http
@@ -46,22 +54,54 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       try {
         List<dynamic> jsonResponse = json.decode(response.body);
         List<Platillo> platillosList = [];
+        double totalTemp = 0.0;
+        List<int> orderIds = [];
+        List<double> prices = [];
+
         for (var order in jsonResponse) {
+          var orderId = order['id'];
           var platillos = order['platillos'];
           var quantities = order['quantities'];
           for (int i = 0; i < platillos.length; i++) {
-            platillosList.add(Platillo.fromJson(platillos[i], quantities[i]));
+            var platillo =
+                Platillo.fromJson(platillos[i], quantities[i], orderId);
+            platillosList.add(platillo);
+
+            totalTemp += platillo.precio;
+
+            if (!orderIds.contains(orderId)) {
+              orderIds.add(orderId);
+              prices.add(platillo.precio);
+            }
+
+            print(
+                'Tarjeta ID: $orderId, Platillo: ${platillo.nombre}, Precio: \$${platillo.precio.toStringAsFixed(2)}');
           }
         }
+
+        // Guardar la lista de IDs en SharedPreferences
+        await prefs.setString('orderIds', orderIds.join(','));
+
+        // Guardar la lista de precios en SharedPreferences
+        await prefs.setString(
+            'prices', prices.map((p) => p.toStringAsFixed(2)).join(','));
+
+        print('Lista de IDs de las tarjetas: $orderIds');
+        print('Lista de precios: $prices');
+        print('IDs y precios guardados en SharedPreferences');
+
+        print(
+            'Suma total de precios de las tarjetas: \$${totalTemp.toStringAsFixed(2)}');
+
         setState(() {
-          total = jsonResponse[0]['total'].toDouble();
+          total = totalTemp;
         });
         return platillosList;
       } catch (e) {
         throw Exception('Error parsing JSON: $e');
       }
     } else {
-      throw Exception('Failed to load platillos');
+      throw Exception('Sin platillos');
     }
   }
 
@@ -72,7 +112,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     if (response.statusCode == 200) {
       setState(() {
         platillos = fetchPlatillos();
-        fetchTotal(); // Actualiza el total después de eliminar un platillo
       });
     } else {
       print(
@@ -81,28 +120,10 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
     }
   }
 
-  Future<void> fetchTotal() async {
-    final prefs = await SharedPreferences.getInstance();
-    final userId = prefs.getString('userId');
-    // Obtener el total actualizado después de la eliminación
-    final response = await http
-        .get(Uri.parse('https://orders.sazzon.site/orders/users/$userId'));
-    if (response.statusCode == 200) {
-      List<dynamic> jsonResponse = json.decode(response.body);
-      setState(() {
-        total = jsonResponse[0]['total'].toDouble();
-      });
-    } else {
-      throw Exception('Failed to fetch total');
-      
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:
-          Colors.white, // Establece el fondo de la aplicación en blanco
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text('SEZZON', style: TextStyle(fontSize: 20)),
@@ -150,13 +171,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                             padding: const EdgeInsets.all(8.0),
                             child: Row(
                               children: [
-                                Image.asset(
-                                  'assets/images/Gerbera-PNG-amarilla.png',
-                                  width: 70,
-                                  height: 70,
-                                  fit: BoxFit.cover,
-                                ),
-                                SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -190,8 +204,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 IconButton(
                                   icon: Icon(Icons.delete, color: Colors.black),
                                   onPressed: () {
-                                    deletePlatillo(snapshot.data![index]
-                                        .nombre); // Asegúrate de que el id sea correcto
+                                    deletePlatillo(snapshot.data![index].orderId
+                                        .toString());
                                   },
                                 ),
                               ],
@@ -204,28 +218,31 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 },
               ),
             ),
-
             Text(
               'Total: \$${total.toStringAsFixed(2)}',
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
-              textAlign: TextAlign.center, // Centrar el texto
+              textAlign: TextAlign.center,
             ),
-            SizedBox(height: 10), // Espacio entre el texto y el botón
+            SizedBox(height: 10),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor:
-                    Color.fromARGB(255, 255, 102, 0), // Color del botón
+                backgroundColor: Color.fromARGB(255, 255, 102, 0),
                 padding: EdgeInsets.symmetric(vertical: 15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                minimumSize: Size(
-                    double.infinity, 50), // El botón ocupa casi todo el ancho
+                minimumSize: Size(double.infinity, 50),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DireccionNoEncontrada()),
+                );
+              },
               child: Text(
                 'Finalizar pedido',
                 style: TextStyle(

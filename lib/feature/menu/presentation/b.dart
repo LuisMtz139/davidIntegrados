@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/data/models/menu_models.dart';
+import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_event.dart';
-import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
+import 'package:sazzon/feature/menu/presentation/shoping/shopingcar.dart';
 
 class MenuPage4 extends StatefulWidget {
   const MenuPage4({super.key});
@@ -41,7 +42,14 @@ class _MenuPageState extends State<MenuPage4> {
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ShoppingCartPage(),
+                  ),
+                );
+              },
               icon: const Icon(
                 Icons.shopping_cart,
                 color: Colors.white,
@@ -260,7 +268,8 @@ class MenuButtons extends StatelessWidget {
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                         Text(post.descripcion),
                         Text("\$${post.precio}",
-                            style: const TextStyle(fontSize: 14, color: Colors.red)),
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.red)),
                       ],
                     ),
                   ),

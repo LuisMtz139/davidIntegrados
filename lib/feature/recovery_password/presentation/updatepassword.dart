@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 class How extends StatefulWidget {
   @override
   _HowState createState() => _HowState();
@@ -122,12 +121,6 @@ class _HowState extends State<How> {
             'SEZZÓN',
             style: TextStyle(color: Colors.white),
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.shopping_cart, color: Colors.white),
-              onPressed: () {},
-            ),
-          ],
           centerTitle: true,
         ),
         body: Container(
