@@ -78,7 +78,7 @@ class DireccionNoEncontrada extends StatelessWidget {
         print('Pago procesado exitosamente');
         final responseData = jsonDecode(response.body);
         final urlPayment = responseData['url_payment'];
-
+        print('esta es la url $urlPayment');
         if (urlPayment != null && urlPayment.isNotEmpty) {
           print('Intentando abrir URL: $urlPayment');
           final Uri url = Uri.parse(urlPayment);
