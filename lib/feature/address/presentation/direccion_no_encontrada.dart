@@ -405,7 +405,7 @@ class DireccionNoEncontrada extends StatelessWidget {
                           );
                         },
                         child: Text(
-                          "F Dirección",
+                          "Agregar jDirección",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,

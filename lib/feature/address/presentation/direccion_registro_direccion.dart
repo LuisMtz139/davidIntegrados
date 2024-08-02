@@ -93,17 +93,16 @@ class _DireccionRegistroDireccionState
     return Scaffold(
       backgroundColor: const Color(0xFFBDCEA1),
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.menu, color: Colors.white),
-          onPressed: () {},
+        iconTheme: const IconThemeData(color: Colors.white),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Text(
+              "SEZZON",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+          ],
         ),
-        title: Text('SEZZÓN', style: TextStyle(color: Colors.white)),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
         backgroundColor: Colors.black,
       ),
       body: SafeArea(
