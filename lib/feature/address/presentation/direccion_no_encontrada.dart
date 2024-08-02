@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sazzon/feature/address/presentation/getX/get_event.dart';
 import 'package:sazzon/feature/address/presentation/getX/get_state.dart';
 import 'package:sazzon/feature/address/presentation/getX/getcontroller.dart';
 import 'package:sazzon/feature/address/domain/entities/address.dart';
@@ -14,12 +13,25 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:url_launcher/url_launcher.dart';
 
-class DireccionNoEncontrada extends StatelessWidget {
+class DireccionNoEncontrada extends StatefulWidget {
+  DireccionNoEncontrada({Key? key}) : super(key: key);
+
+  @override
+  _DireccionNoEncontradaState createState() => _DireccionNoEncontradaState();
+}
+
+class _DireccionNoEncontradaState extends State<DireccionNoEncontrada> {
   final GetAddressController controller = Get.find<GetAddressController>();
   final RxInt selectedAddressIndex = (-1).obs;
   final RxBool isProcessingOrder = false.obs;
 
-  DireccionNoEncontrada({super.key});
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.fetchCoDetails();
+    });
+  }
 
   void _showErrorSnackBar(String message) {
     Get.snackbar(
@@ -281,93 +293,82 @@ class DireccionNoEncontrada extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.black,
       ),
-      body: Obx(() {
-        if (controller.state.value is AddressLoading) {
-          return Center(child: CircularProgressIndicator());
-        } else if (controller.state.value is PostsLoaded) {
-          final posts = (controller.state.value as PostsLoaded).posts;
-          return CustomScrollView(
-            slivers: [
-              SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final address = posts[index];
-                    return Obx(() => GestureDetector(
-                          onTap: () async {
-                            selectedAddressIndex.value = index;
-                            print('Address ID: ${address.id}');
+      body: Stack(
+        children: [
+          Obx(() {
+            if (controller.state.value is AddressLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (controller.state.value is PostsLoaded) {
+              final posts = (controller.state.value as PostsLoaded).posts;
+              return CustomScrollView(
+                slivers: [
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final address = posts[index];
+                        return Obx(() => GestureDetector(
+                              onTap: () async {
+                                selectedAddressIndex.value = index;
+                                print('Address ID: ${address.id}');
 
-                            final prefs = await SharedPreferences.getInstance();
-                            final userId = prefs.getString('userId');
-                            print("userId obtenido: $userId");
-
-                            await prefs.setString(
-                                'selectedAddressId', address.id.toString());
-                            print(
-                                'ID guardado en almacenamiento local: ${address.id}');
-
-                            // Fetch details based on userId
-                            if (userId != null) {
-                              controller.fetchCoDetails(
-                                  FetchAddressDetailsEvent(userId));
-                            } else {
-                              print(
-                                  "User ID no encontrado en el almacenamiento local");
-                            }
-                          },
-                          child: Card(
-                            margin: EdgeInsets.all(8.0),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              side: BorderSide(
-                                color: selectedAddressIndex.value == index
-                                    ? Colors.orange
-                                    : Colors.transparent,
-                                width: 2,
-                              ),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(16.0),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.location_on,
-                                    color: Colors.orange,
-                                    size: 24,
+                                final prefs =
+                                    await SharedPreferences.getInstance();
+                                await prefs.setString(
+                                    'selectedAddressId', address.id.toString());
+                                print(
+                                    'ID guardado en almacenamiento local: ${address.id}');
+                              },
+                              child: Card(
+                                margin: EdgeInsets.all(8.0),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(12),
+                                  side: BorderSide(
+                                    color: selectedAddressIndex.value == index
+                                        ? Colors.orange
+                                        : Colors.transparent,
+                                    width: 2,
                                   ),
-                                  SizedBox(width: 16),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Enviar a domicilio',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16,
-                                          ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.location_on,
+                                        color: Colors.orange,
+                                        size: 24,
+                                      ),
+                                      SizedBox(width: 16),
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'Enviar a domicilio',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 16,
+                                              ),
+                                            ),
+                                            SizedBox(height: 4),
+                                            Text(address.calle),
+                                            Text(address.colonia),
+                                            Text('CP: ${address.postcode}'),
+                                          ],
                                         ),
-                                        SizedBox(height: 4),
-                                        Text(address.calle),
-                                        Text(address.colonia),
-                                        Text('CP: ${address.postcode}'),
-                                      ],
-                                    ),
+                                      ),
+                                    ],
                                   ),
-                                ],
+                                ),
                               ),
-                            ),
-                          ),
-                        ));
-                  },
-                  childCount: posts.length,
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Column(
-                  children: [
-                    Obx(() => selectedAddressIndex.value != -1
+                            ));
+                      },
+                      childCount: posts.length,
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Obx(() => selectedAddressIndex.value != -1
                         ? Padding(
                             padding: EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 8),
@@ -392,50 +393,53 @@ class DireccionNoEncontrada extends StatelessWidget {
                             ),
                           )
                         : SizedBox.shrink()),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    DireccionRegistroDireccion()),
-                          );
-                        },
-                        child: Text(
-                          "Agregar jDirección",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18,
-                          ),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          padding: EdgeInsets.symmetric(vertical: 20),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          minimumSize: Size(double.infinity, 60),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 16),
-                  ],
+                  ),
+                  SliverToBoxAdapter(
+                    child: SizedBox(height: 80), // Espacio para el botón fijo
+                  ),
+                ],
+              );
+            } else if (controller.state.value is AddressFetchingFailure) {
+              final error =
+                  (controller.state.value as AddressFetchingFailure).error;
+              return Center(child: Text('Error: $error'));
+            } else {
+              return Center(
+                  child: Text("No hay ninguna dirección registrada."));
+            }
+          }),
+          Positioned(
+            left: 16,
+            right: 16,
+            bottom: 16,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DireccionRegistroDireccion()),
+                );
+              },
+              child: Text(
+                "Agregar Dirección",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
                 ),
               ),
-            ],
-          );
-        } else if (controller.state.value is AddressFetchingFailure) {
-          final error =
-              (controller.state.value as AddressFetchingFailure).error;
-          return Center(child: Text('Error: $error'));
-        } else {
-          return Center(child: Text("No hay ninguna dirección registrada."));
-        }
-      }),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.black,
+                padding: EdgeInsets.symmetric(vertical: 20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                minimumSize: Size(double.infinity, 60),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
