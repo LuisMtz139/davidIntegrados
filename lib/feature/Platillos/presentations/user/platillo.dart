@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'dart:convert';
 import 'package:sazzon/feature/coment/data/models/comment_models.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
-import 'package:sazzon/feature/menu/presentation/getX/Comment/getcommentCOntroller.dart';
-import 'package:sazzon/feature/menu/presentation/getX/Comment/getcomment_event.dart';
-import 'package:sazzon/feature/menu/presentation/getX/Comment/getcomment_state.dart';
-import 'package:sazzon/feature/menu/presentation/getX/Comment/poshCOntroller.dart';
-import 'package:sazzon/feature/menu/presentation/getX/Comment/posh_event.dart';
+import 'package:sazzon/feature/coment/presentations/getx/Comment/getcommentCOntroller.dart';
+import 'package:sazzon/feature/coment/presentations/getx/Comment/getcomment_event.dart';
+import 'package:sazzon/feature/coment/presentations/getx/Comment/getcomment_state.dart';
+import 'package:sazzon/feature/coment/presentations/getx/Comment/poshCOntroller.dart';
+import 'package:sazzon/feature/coment/presentations/getx/Comment/posh_event.dart';
 
 class Platillo extends StatefulWidget {
   final String nombrePlatillo;

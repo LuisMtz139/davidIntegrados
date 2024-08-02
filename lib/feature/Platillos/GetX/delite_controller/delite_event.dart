@@ -3,12 +3,12 @@
 import 'package:sazzon/feature/Platillos/data/models/platillos_models.dart';
 import 'package:sazzon/feature/user/data/models/user_models.dart';
 
-abstract class CreatePostEvent {}
+abstract class DelitePostEvent {}
 
-class CreatePlatillosEvent extends CreatePostEvent {
+class DelitePlatillosEvent extends DelitePostEvent {
   final String id;
 
 
 
-  CreatePlatillosEvent(  this.id);
+  DelitePlatillosEvent(  this.id);
 }

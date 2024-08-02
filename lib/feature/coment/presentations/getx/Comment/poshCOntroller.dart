@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:sazzon/feature/coment/domain/usecase/posh_Coment_usecase.dart';
-import 'package:sazzon/feature/menu/presentation/getX/Comment/posh_event.dart';
-import 'package:sazzon/feature/menu/presentation/getX/Comment/posh_state.dart';
+import 'package:sazzon/feature/coment/presentations/getx/Comment/posh_event.dart';
+import 'package:sazzon/feature/coment/presentations/getx/Comment/posh_state.dart';
 
 
 class PoshCommentController extends GetxController {

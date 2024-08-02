@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
+import '../../../../Platillos/presentations/admin/panel_de_control_gestion_de_pltillos.dart';
+import '../../../../orden/presentations/admin/panel_de_control_gestion_pedidos.dart';
 import '../../Getx/getOrder/get_event.dart';
 import '../../Getx/getOrder/get_state.dart';
 import '../../Getx/getOrder/getcontroller.dart';
@@ -75,10 +77,18 @@ class _WeAreState extends State<PanelControlGestionClientes> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                _buildButton('Reportes', Icons.bar_chart),
-                _buildButton('Clientes', Icons.people),
-                _buildButton('Pedidos', Icons.receipt_long),
-                _buildButton('Platillos', Icons.restaurant_menu),
+                _buildButton('Reportes', Icons.bar_chart, () {
+                  // Acción para Reportes
+                }),
+                _buildButton('Clientes', Icons.people, () {
+                  Get.to(() => PanelControlGestionClientes());
+                }),
+                _buildButton('Pedidos', Icons.receipt_long, () {
+                  Get.to(() => PanelControlGestionPedidos());
+                }),
+                _buildButton('Platillos', Icons.restaurant_menu, () {
+                  Get.to(() => PanelDeControlGestionDePltillos());
+                }),
               ],
             ),
             const SizedBox(height: 26),
@@ -90,23 +100,26 @@ class _WeAreState extends State<PanelControlGestionClientes> {
       ),
     );
   }
-
-  Widget _buildButton(String label, IconData icon) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
+Widget _buildButton(String label, IconData icon, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, size: 24),
           ),
-          child: Icon(icon, size: 24),
-        ),
-        const SizedBox(height: 4),
-        Text(label, style: const TextStyle(fontSize: 12)),
-      ],
+          const SizedBox(height: 4),
+          Text(label, style: const TextStyle(fontSize: 12)),
+        ],
+      ),
     );
   }
+
 
   Widget _buildClientTable() {
     return Container(

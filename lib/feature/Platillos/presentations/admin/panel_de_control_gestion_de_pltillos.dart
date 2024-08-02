@@ -1,9 +1,21 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sazzon/feature/Platillos/GetX/delite_controller/deliteCOntroller.dart';
+import 'package:sazzon/feature/menu/presentation/getX/posh_controller/registerCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
-import '../../../../Platillos/GetX/get_controller/get_event.dart';
-import '../../../../Platillos/GetX/get_controller/get_state.dart';
-import '../../../../Platillos/GetX/get_controller/getcontroller.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
+import '../../../orden/presentations/admin/panel_de_control_gestion_pedidos.dart';
+import '../../../user/presentation/pages/admin/panel_control_gestion_clientes.dart';
+import '../../GetX/delite_controller/delite_event.dart';
+import '../../../menu/presentation/getX/get_controller/get_event.dart';
+import '../../../menu/presentation/getX/get_controller/get_state.dart';
+import '../../../menu/presentation/getX/get_controller/getcontroller.dart';
+import '../../../menu/presentation/getX/posh_controller/register_event.dart';
+import '../../../menu/presentation/getX/posh_controller/register_state.dart';
+import '../../data/models/platillos_models.dart';
+import '../../domain/entities/patillos.dart';
 
 class PanelDeControlGestionDePltillos extends StatefulWidget {
   const PanelDeControlGestionDePltillos({super.key});
@@ -14,8 +26,22 @@ class PanelDeControlGestionDePltillos extends StatefulWidget {
 
 class _WeAreState extends State<PanelDeControlGestionDePltillos> {
   final GetPlatillosController _controller = Get.find<GetPlatillosController>();
-  final TextEditingController _ingredientesController = TextEditingController();
+  final CreatePlatillosController _createController =
+      Get.find<CreatePlatillosController>();
+  final DelitePlatillosController _controllerDelite =
+      Get.find<DelitePlatillosController>();
+  final TextEditingController _nombreController = TextEditingController();
+  final TextEditingController _descripcionController = TextEditingController();
+  final TextEditingController _precioController = TextEditingController();
+  String? _selectedCategoria;
+  List<String> _selectedIngredientes = [];
+  String? _imagenPath;
   int contador = 0;
+
+  final List<MultiSelectItem<String>> _ingredientes = [
+    MultiSelectItem('66ab235cd5754b87fe965fdf', 'Tomate'),
+    MultiSelectItem('66ab2b9cd5754b87fe965fe7', 'Lechuga'),
+  ];
 
   @override
   void initState() {
@@ -70,11 +96,19 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
             const SizedBox(height: 16),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _buildButton('Reportes', Icons.bar_chart),
-                _buildButton('Clientes', Icons.people),
-                _buildButton('Pedidos', Icons.receipt_long),
-                _buildButton('Platillos', Icons.restaurant_menu),
+             children: [
+                _buildButton('Reportes', Icons.bar_chart, () {
+                  // Acción para Reportes
+                }),
+                _buildButton('Clientes', Icons.people, () {
+                  Get.to(() => PanelControlGestionClientes());
+                }),
+                _buildButton('Pedidos', Icons.receipt_long, () {
+                  Get.to(() => PanelControlGestionPedidos());
+                }),
+                _buildButton('Platillos', Icons.restaurant_menu, () {
+                  Get.to(() => PanelDeControlGestionDePltillos());
+                }),
               ],
             ),
             const SizedBox(height: 26),
@@ -103,23 +137,25 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
     );
   }
 
-  Widget _buildButton(String label, IconData icon) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
+ Widget _buildButton(String label, IconData icon, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, size: 24),
           ),
-          child: Icon(icon, size: 24),
-        ),
-        const SizedBox(height: 4),
-        Text(label, style: const TextStyle(fontSize: 12)),
-      ],
+          const SizedBox(height: 4),
+          Text(label, style: const TextStyle(fontSize: 12)),
+        ],
+      ),
     );
   }
-
   Widget _buildPlatillosTable() {
     return Container(
       decoration: BoxDecoration(
@@ -170,9 +206,10 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
                       _buildTableHeader(),
                       ...platillos
                           .map((platillo) => _buildPlatilloRow(
+                              platillo.id.toString(),
                               (contador++).toString(),
-                              platillo.nombre_platillo,
-                              platillo.categoria,
+                              platillo.nombre_platillo.toString(),
+                              platillo.categoria.toString(),
                               Icons.edit,
                               Icons.delete))
                           .toList(),
@@ -207,11 +244,11 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
     );
   }
 
-  TableRow _buildPlatilloRow(String id, String nombre, String categoria,
-      IconData editIcon, IconData deleteIcon) {
+  TableRow _buildPlatilloRow(String id, String contador, String nombre,
+      String categoria, IconData editIcon, IconData deleteIcon) {
     return TableRow(
       children: [
-        _buildCell(id, TextAlign.center),
+        _buildCell(contador, TextAlign.center),
         _buildCell(nombre, TextAlign.left),
         _buildCell(categoria, TextAlign.left),
         TableCell(
@@ -267,24 +304,25 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 20),
-                  _buildTextField('Nombre del platillo'),
+                  _buildTextField(_nombreController, 'Nombre del platillo'),
                   const SizedBox(height: 10),
                   _buildDropdownField(
                       'Categoría', ['Desayuno', 'Comida', 'Cena']),
                   const SizedBox(height: 10),
-                  _buildIngredientesField(),
-                  const SizedBox(height: 10),
-                  _buildTextField('Instrucciones', maxLines: 3),
+                  _buildTextField(_descripcionController, 'Instrucciones',
+                      maxLines: 3),
                   const SizedBox(height: 10),
                   _buildUploadButton('Subir imagen'),
                   const SizedBox(height: 10),
-                  _buildTextField('Precio'),
+                  _buildTextField(_precioController, 'Precio'),
+                  const SizedBox(height: 10),
+                  _buildIngredientesField(),
                   const SizedBox(height: 20),
                   Row(
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: _guardarPlatillo,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.deepOrange,
                           ),
@@ -305,6 +343,22 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
                       ),
                     ],
                   ),
+                  Obx(() {
+                    if (_createController.state.value is PlatillosLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (_createController.state.value
+                        is PlatillosCreatedSuccessfully) {
+                      _controller
+                          .fetchPlatilloDetails(FetchPlatillosDetailsEvent());
+                      return const Text('Platillo creado exitosamente');
+                    } else if (_createController.state.value
+                        is PlatillosCreationFailure) {
+                      return Text(
+                          'Error: ${(_createController.state.value as PlatillosCreationFailure).error}');
+                    } else {
+                      return Container();
+                    }
+                  }),
                 ],
               ),
             ),
@@ -314,8 +368,10 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
     );
   }
 
-  Widget _buildTextField(String label, {int maxLines = 1}) {
+  Widget _buildTextField(TextEditingController controller, String label,
+      {int maxLines = 1}) {
     return TextField(
+      controller: controller,
       decoration: InputDecoration(
         labelText: label,
         border: const OutlineInputBorder(),
@@ -336,37 +392,76 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
           child: Text(item),
         );
       }).toList(),
-      onChanged: (value) {},
+      onChanged: (value) {
+        _selectedCategoria = value as String?;
+      },
     );
   }
 
   Widget _buildIngredientesField() {
-    return TextField(
-      controller: _ingredientesController,
-      decoration: InputDecoration(
-        labelText: 'Ingredientes',
-        border: const OutlineInputBorder(),
-        suffixIcon: IconButton(
-          icon: const Icon(Icons.delete, size: 20),
-          onPressed: () {
-            setState(() {
-              _ingredientesController.clear();
-            });
-          },
+    return MultiSelectDialogField(
+      items: _ingredientes,
+      title: const Text("Ingredientes"),
+      selectedColor: Colors.blue,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      buttonIcon: const Icon(
+        Icons.arrow_drop_down,
+        color: Colors.grey,
+      ),
+      buttonText: const Text(
+        "Seleccionar Ingredientes",
+        style: TextStyle(
+          color: Colors.grey,
+          fontSize: 16,
         ),
       ),
+      onConfirm: (results) {
+        _selectedIngredientes = results.cast<String>();
+      },
     );
   }
 
   Widget _buildUploadButton(String label) {
     return OutlinedButton.icon(
-      onPressed: () {},
+      onPressed: () async {
+        FilePickerResult? result = await FilePicker.platform.pickFiles();
+        if (result != null) {
+          setState(() {
+            _imagenPath = result.files.single.path;
+          });
+        }
+      },
       icon: const Icon(Icons.upload),
       label: Text(label),
       style: OutlinedButton.styleFrom(
         side: const BorderSide(color: Colors.grey),
       ),
     );
+  }
+
+  void _guardarPlatillo() {
+    final nombre = _nombreController.text;
+    final descripcion = _descripcionController.text;
+    final precio = int.tryParse(_precioController.text) ?? 0;
+    final ingredientes = jsonEncode(_selectedIngredientes); // Convertir a JSON
+    final categoria = _selectedCategoria ?? '';
+
+    final platillo = PlatillosModel(
+      nombre_platillo: nombre,
+      descripcion: descripcion,
+      precio: precio,
+      categoria: categoria,
+      imagen: _imagenPath ?? '',
+      ingredientes: ingredientes,
+    );
+
+    _createController.createPlatillos(CreatePlatillosEvent(platillo)).then((_) {
+      // Después de crear el platillo, recargar la tabla
+      _controller.fetchPlatilloDetails(FetchPlatillosDetailsEvent());
+    });
   }
 
   void _showDeleteConfirmationDialog(String id, String nombre) {
@@ -420,6 +515,12 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
                   ),
                   onPressed: () {
                     // Aquí va la lógica para eliminar el platillo
+                    _controllerDelite.delitePlatillos(DelitePlatillosEvent(id));
+                    _controller
+                        .fetchPlatilloDetails(FetchPlatillosDetailsEvent());
+
+                    //    createPostController.createUser(CreateUserEvent(post));
+
                     Navigator.of(context).pop();
                   },
                   child: const Text('Sí'),

@@ -3,14 +3,16 @@ import '../../domain/entities/patillos.dart';
 class PlatillosModel extends Platillos {
   PlatillosModel({
     String? id,
-    required String nombre_platillo,
+    String? nombre,
+     String? nombre_platillo,
     required String descripcion,
     required int precio,
-    required String categoria,
-    required String imagen,
-    required String ingredientes,
+     String? categoria,
+     String? imagen,
+     String? ingredientes,
   }) : super(
           id: id,
+          nombre:nombre,
           nombre_platillo: nombre_platillo,
           descripcion: descripcion,
           precio: precio,
@@ -22,6 +24,7 @@ class PlatillosModel extends Platillos {
   factory PlatillosModel.fromJson(Map<String, dynamic> json) {
     return PlatillosModel(
       id: json['id'] ?? '',
+      nombre:json['nombre'] ?? '',
       nombre_platillo: json['nombre_platillo'] ?? '',
       descripcion: json['descripcion'] ?? '',
       precio: json['precio'] ?? '',
@@ -34,6 +37,7 @@ class PlatillosModel extends Platillos {
   factory PlatillosModel.fromEntity(Platillos platillos) {
     return PlatillosModel(
       id: platillos.id,
+      nombre: platillos.nombre,
       nombre_platillo: platillos.nombre_platillo,
       descripcion: platillos.descripcion,
       precio: platillos.precio,
@@ -46,6 +50,7 @@ class PlatillosModel extends Platillos {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'nombre': nombre,
       'nombre_platillo': nombre_platillo,
       'descripcion': descripcion,
       'precio': precio,

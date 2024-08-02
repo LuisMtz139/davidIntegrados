@@ -10,12 +10,11 @@ abstract class PlatillosApiDataSource {
   Future<void> PoshPlatilllos(PlatillosModel platillosModel);
   Future<List<PlatillosModel>> getPlatilllos();
   Future<void> updatePlatilllos(AddressModel addressModel);
-    Future<void> deletePlatillo(String id);
-
+  Future<void> deletePlatillo(String id);
 }
 
 class PlatillosApiDataSourceImp implements PlatillosApiDataSource {
-  final String _baseUrl = 'https://dish.sazzon.site/platillos';
+  final String _baseUrl = 'http://184.72.98.136:3002/platillos';
   final String _baseUrl2 = 'https://users.sazzon.site/api/v3/users';
 
   @override
@@ -23,24 +22,25 @@ class PlatillosApiDataSourceImp implements PlatillosApiDataSource {
     final url = '$_baseUrl';
 
     var request = http.MultipartRequest('POST', Uri.parse(url));
-    request.fields['nombre_platillo'] = platillosModel.nombre_platillo;
+    request.fields['nombre_platillo'] = platillosModel.nombre_platillo.toString();
     request.fields['descripcion'] = platillosModel.descripcion;
     request.fields['precio'] = platillosModel.precio.toString();
-    request.fields['categoria'] = platillosModel.categoria;
-    var pic =
-        await http.MultipartFile.fromPath('multimedia', platillosModel.imagen);
+    request.fields['categoria'] = platillosModel.categoria.toString();
+    var pic = await http.MultipartFile.fromPath('imagen',
+        platillosModel.imagen.toString()); // Cambia el nombre del campo si es necesario
     request.files.add(pic);
-    request.fields['ingredientes'] = platillosModel.ingredientes;
+    request.fields['ingredientes'] = platillosModel.ingredientes.toString();
 
+   
     try {
       var response = await request.send();
       if (response.statusCode == 201) {
         print('User created successfully');
       } else {
-        print('Failed to create user');
+        print('Failed to create platillo');
         print('Status code: ${response.statusCode}');
         print('Response body: ${await response.stream.bytesToString()}');
-        throw Exception('Failed to create user');
+        throw Exception('Failed to create platillo');
       }
     } catch (error) {
       print('Error sending data to API: $error');
@@ -70,10 +70,10 @@ class PlatillosApiDataSourceImp implements PlatillosApiDataSource {
     // TODO: implement updatePlatilllos
     throw UnimplementedError();
   }
-  
+
   @override
-  Future<void> deletePlatillo(String id) async{
-   try {
+  Future<void> deletePlatillo(String id) async {
+    try {
       final http.Response response = await http.delete(
         Uri.parse('$_baseUrl/$id'),
       );
@@ -81,8 +81,6 @@ class PlatillosApiDataSourceImp implements PlatillosApiDataSource {
       if (response.statusCode != 200) {
         throw Exception('Failed to delete user');
       }
-
-
     } catch (e) {
       print('Error during network call: $e');
       throw Exception('Network error');

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:sazzon/feature/user/presentation/administrador/admin/panel_control_gestion_clientes.dart';
+import 'package:sazzon/feature/user/presentation/pages/admin/panel_control_gestion_clientes.dart';
 import 'dart:convert';
 
 import 'package:sazzon/feature/menu/presentation/menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../recovery_password/presentation/updatepassword.dart';
+import 'recovery_password/presentation/updatepassword.dart';
 
 class IniciarSesio extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();

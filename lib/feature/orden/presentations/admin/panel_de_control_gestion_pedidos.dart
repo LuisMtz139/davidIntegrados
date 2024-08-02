@@ -4,8 +4,10 @@
   import 'package:sazzon/feature/orden/domain/usecase/get_orden_usecase.dart';
   import 'package:sazzon/feature/orden/data/models/orden_models.dart';
 
-  import '../../../../orden/getOrder/get_state.dart';
-  import '../../../../orden/getOrder/getcontroller.dart';
+  import '../../../Platillos/presentations/admin/panel_de_control_gestion_de_pltillos.dart';
+import '../../../user/presentation/pages/admin/panel_control_gestion_clientes.dart';
+import '../../getOrder/get_state.dart';
+  import '../../getOrder/getcontroller.dart';
 
   class PanelControlGestionPedidos extends StatefulWidget {
     const PanelControlGestionPedidos({super.key});
@@ -64,12 +66,20 @@
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildButton('Reportes', Icons.bar_chart),
-                  _buildButton('Clientes', Icons.people),
-                  _buildButton('Pedidos', Icons.receipt_long),
-                  _buildButton('Platillos', Icons.restaurant_menu),
-                ],
+                 children: [
+                _buildButton('Reportes', Icons.bar_chart, () {
+                  // Acción para Reportes
+                }),
+                _buildButton('Clientes', Icons.people, () {
+                  Get.to(() => PanelControlGestionClientes());
+                }),
+                _buildButton('Pedidos', Icons.receipt_long, () {
+                  Get.to(() => PanelControlGestionPedidos());
+                }),
+                _buildButton('Platillos', Icons.restaurant_menu, () {
+                  Get.to(() => PanelDeControlGestionDePltillos());
+                }),
+              ],
               ),
               const SizedBox(height: 26),
               Obx(() {
@@ -92,8 +102,10 @@
       );
     }
 
-    Widget _buildButton(String label, IconData icon) {
-      return Column(
+   Widget _buildButton(String label, IconData icon, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
         children: [
           Container(
             padding: const EdgeInsets.all(12),
@@ -106,8 +118,9 @@
           const SizedBox(height: 4),
           Text(label, style: const TextStyle(fontSize: 12)),
         ],
-      );
-    }
+      ),
+    );
+  }
     Widget _buildPedidosTable(List<OrdenModel> posts) {
   return Expanded(
     child: Container(
@@ -143,7 +156,7 @@
                 border: TableBorder.all(color: Colors.grey[300]!),
                 children: [
                   _buildTableHeader(),
-                  ...posts.map((post) => _buildPedidoRow( (contador++).toString(), post.user.email, post.address.calle, Icons.visibility)).toList(),
+                  ...posts.map((post) => _buildPedidoRow( (contador++).toString(), post.user.email, post.address.calle, Icons.visibility,post)).toList(),
                 ],
               ),
             ),
@@ -173,7 +186,7 @@
     }
 
     TableRow _buildPedidoRow(
-        String id, String cliente, String direccion, IconData icon) {
+        String id, String cliente, String direccion, IconData icon,OrdenModel posts) {
       return TableRow(
         children: [
           _buildCell(id, TextAlign.center),
@@ -183,7 +196,7 @@
             child: IconButton(
               icon: Icon(icon, size: 20),
               onPressed: () {
-                _showPedidoDetails(context);
+                _showPedidoDetails(context, posts);
               },
             ),
           ),
@@ -202,7 +215,7 @@
         ),
       );
     }
-void _showPedidoDetails(BuildContext context) {
+void _showPedidoDetails(BuildContext context,OrdenModel posts) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -237,16 +250,17 @@ void _showPedidoDetails(BuildContext context) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildInfoSection('Información del cliente', [
-                      'Nombre del cliente: Marina Sibaja Montoya',
-                      'Dirección de entrega: Av. 4 mz G, lote 6, col. Capulines',
-                      'Número de celular: 9981612282',
+                      'Nombre: '+posts.user.name,
+                      'Dirección '+posts.address.calle+' '+posts.address.ciudad+' '+posts.address.colonia,
+                      'Número de celular: '+posts.user.phone,
+                      'email : '+posts.user.email,
                     ]),
                     const SizedBox(height: 16),
-                    _buildInfoSection('Información del pedido', [
+                    /*_buildInfoSection('Información del pedido', [
                       'ID_Pedido: 41',
-                    ]),
+                    ]),*/
                     const SizedBox(height: 16),
-                    _buildArticulosPedidos(),
+                    _buildArticulosPedidos( posts),
                     const SizedBox(height: 16),
                     _buildResumenPedido(),
                   ],
@@ -270,21 +284,16 @@ void _showPedidoDetails(BuildContext context) {
       );
     }
 
-    Widget _buildArticulosPedidos() {
+    Widget _buildArticulosPedidos(OrdenModel posts) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text('Artículos pedidos',
               style: TextStyle(fontWeight: FontWeight.bold)),
           _buildCategoriaArticulos('Desayunos', [
-            {'nombre': 'Platillo Pancakes', 'cantidad': 2, 'precio': 40.00},
+            {'nombre':  posts.platillos.nombre, 'cantidad': 2, 'precio': posts.platillos.precio},
           ]),
-          _buildCategoriaArticulos('Comidas', [
-            {'nombre': 'Platillo Milanesa', 'cantidad': 1, 'precio': 60.00},
-          ]),
-          _buildCategoriaArticulos('Cenas', [
-            {'nombre': 'Platillo Tacos', 'cantidad': 1, 'precio': 20.00},
-          ]),
+         
         ],
       );
     }
