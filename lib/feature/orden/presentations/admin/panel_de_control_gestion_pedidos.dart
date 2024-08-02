@@ -268,7 +268,11 @@ class _WeAreState extends State<PanelControlGestionPedidos> {
                             ' ' +
                             posts.address.ciudad +
                             ' ' +
-                            posts.address.colonia,
+                            posts.address.colonia +
+                            ' numero exterior: ' +
+                            posts.address.num_ext.toString() +
+                            ' numero interior: ' +
+                            posts.address.num_int.toString(),
                         'Número de celular: ' + posts.user.phone,
                         'email : ' + posts.user.email,
                       ]),
@@ -282,7 +286,7 @@ class _WeAreState extends State<PanelControlGestionPedidos> {
                       //  _buildResumenPedido(posts),
                       Text('Resumen del Pedido',
                           style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text('Total: \$'+posts.total.toString()),
+                      Text('Total: \$' + posts.total.toString()),
                     ],
                   ),
                 ),
