@@ -210,7 +210,7 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
                               (contador++).toString(),
                               platillo.nombre_platillo.toString(),
                               platillo.categoria.toString(),
-                              Icons.edit,
+                          
                               Icons.delete))
                           .toList(),
                     ],
@@ -229,7 +229,7 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
   TableRow _buildTableHeader() {
     return TableRow(
       decoration: BoxDecoration(color: Colors.grey[100]),
-      children: ['ID', 'Nombre', 'Categoría', 'Modificar', 'Eliminar']
+      children: ['ID', 'Nombre', 'Categoría','Eliminar']
           .map((header) => TableCell(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -245,20 +245,13 @@ class _WeAreState extends State<PanelDeControlGestionDePltillos> {
   }
 
   TableRow _buildPlatilloRow(String id, String contador, String nombre,
-      String categoria, IconData editIcon, IconData deleteIcon) {
+      String categoria,  IconData deleteIcon) {
     return TableRow(
       children: [
         _buildCell(contador, TextAlign.center),
         _buildCell(nombre, TextAlign.left),
         _buildCell(categoria, TextAlign.left),
-        TableCell(
-          child: IconButton(
-            icon: Icon(editIcon, size: 20),
-            onPressed: () {
-              // Handle edit action
-            },
-          ),
-        ),
+        
         TableCell(
           child: IconButton(
             icon: Icon(deleteIcon, size: 20),
