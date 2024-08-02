@@ -160,8 +160,25 @@ class _DireccionRegistroDireccionState
                             ciudad: _ciudadController.text,
                             descripcion: _descripcionController.text,
                           );
-                          createPostController
+
+                          // Llamar a createAddress
+                          await createPostController
                               .createAddress(CreateAddressEvent(post));
+
+                          // Si todos los campos están llenos y se ha llamado a createAddress,
+                          // procedemos con la navegación
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => DireccionNoEncontrada()),
+                          );
+                        } else {
+                          // Mostrar un mensaje si la validación del formulario falla
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(
+                                    'Por favor, complete todos los campos requeridos.')),
+                          );
                         }
                       },
                       style: ElevatedButton.styleFrom(
