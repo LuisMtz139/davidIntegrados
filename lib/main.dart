@@ -71,13 +71,14 @@ class MyApp extends StatelessWidget {
     Get.put(GetPlatillosController(
         getPlatillosUsecase: platillosConfig.getPlatillosUsecase!));
     Get.put(GetOrdenController(getOrdenUsecase: ordenConfig.getOrdenUsecase!));
-    Get.put(CreatePlatillosController(poshPlatilllosUsecase: platillosConfig.poshPlatilllosUsecase!));
-    Get.put(DelitePlatillosController(delitePlatilloUsecase: platillosConfig.delitePlatilloUsecase!));
+    Get.put(CreatePlatillosController(
+        poshPlatilllosUsecase: platillosConfig.poshPlatilllosUsecase!));
+    Get.put(DelitePlatillosController(
+        delitePlatilloUsecase: platillosConfig.delitePlatilloUsecase!));
   }
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-        home: PanelControlGestionPedidos()); //DireccionNoEncontrada
+    return GetMaterialApp(home: MyHomePage()); //DireccionNoEncontrada
   }
 }

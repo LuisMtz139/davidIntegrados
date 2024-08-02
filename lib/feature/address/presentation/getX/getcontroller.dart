@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sazzon/feature/address/domain/usecase/get_ddress_usecase.dart';
 import 'package:sazzon/feature/address/presentation/getX/get_event.dart';
@@ -13,10 +14,14 @@ class GetAddressController extends GetxController {
     state.value = AddressLoading();
     try {
       var addressDetails = await getAddressUseCase.execute(event.id);
-      state.value = PostsLoaded(addressDetails);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        state.value = PostsLoaded(addressDetails);
+      });
       print("Detalles de la dirección obtenidos");
     } catch (e) {
-      state.value = AddressFetchingFailure(e.toString());
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        state.value = AddressFetchingFailure(e.toString());
+      });
     }
   }
 }

@@ -14,9 +14,9 @@ class AddressApiDataSourceImp implements AddressApiDataSource {
   final String _baseUrl2 = 'https://users.sazzon.site/api/v3/users';
 
   @override
-  Future<List<AddressModel>> getAddress(id) async {
-    var response = await http.get(
-        Uri.parse('$_baseUrl2/$id/directions'));
+  Future<List<AddressModel>> getAddress(String id) async {
+    print(id);
+    var response = await http.get(Uri.parse('$_baseUrl2/$id/directions'));
 
     if (response.statusCode == 200) {
       var body = jsonDecode(response.body);

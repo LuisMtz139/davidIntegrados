@@ -247,8 +247,6 @@ class DireccionNoEncontrada extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    controller.fetchCoDetails(FetchAddressDetailsEvent("2"));
-
     return Scaffold(
       backgroundColor: const Color(0xFFBDCEA1),
       drawer: const BarMenu(),
@@ -300,10 +298,22 @@ class DireccionNoEncontrada extends StatelessWidget {
                             print('Address ID: ${address.id}');
 
                             final prefs = await SharedPreferences.getInstance();
+                            final userId = prefs.getString('userId');
+                            print("userId obtenido: $userId");
+
                             await prefs.setString(
                                 'selectedAddressId', address.id.toString());
                             print(
                                 'ID guardado en almacenamiento local: ${address.id}');
+
+                            // Fetch details based on userId
+                            if (userId != null) {
+                              controller.fetchCoDetails(
+                                  FetchAddressDetailsEvent(userId));
+                            } else {
+                              print(
+                                  "User ID no encontrado en el almacenamiento local");
+                            }
                           },
                           child: Card(
                             margin: EdgeInsets.all(8.0),
@@ -395,7 +405,7 @@ class DireccionNoEncontrada extends StatelessWidget {
                           );
                         },
                         child: Text(
-                          "Agregar Dirección",
+                          "F Dirección",
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
