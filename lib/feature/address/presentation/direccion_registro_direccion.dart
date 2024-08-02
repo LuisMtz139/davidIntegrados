@@ -138,7 +138,33 @@ class _DireccionRegistroDireccionState
                     child: ElevatedButton(
                       child: Text('Guardar Dirección',
                           style: TextStyle(color: Colors.white)),
-                      onPressed: registerAddress,
+                      onPressed: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        final userIdString = prefs.getString('userId');
+
+                        print("userId obtenido: $userIdString");
+
+                        // Convertir el userIdString a int? usando int.tryParse
+                        final userId = userIdString != null
+                            ? int.tryParse(userIdString)
+                            : null;
+
+                        if (_formKey.currentState!.validate()) {
+                          final post = AddressModel(
+                            userId: userId,
+                            calle: _calleController.text,
+                            postcode: int.parse(_postcodeController.text),
+                            colonia: _coloniaController.text,
+                            num_ext: int.parse(_numextController.text),
+                            num_int: int.parse(_numintController.text),
+                            estado: _estadoController.text,
+                            ciudad: _ciudadController.text,
+                            descripcion: _descripcionController.text,
+                          );
+                          createPostController
+                              .createAddress(CreateAddressEvent(post));
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         shape: RoundedRectangleBorder(
