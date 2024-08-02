@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
-import 'package:sazzon/feature/menu/presentation/shoping/shopingcar.dart';
 import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/fac.dart';
+import 'package:sazzon/feature/orden/presentations/User/shopingcar.dart';
 
 class HowItWorks extends StatelessWidget {
   const HowItWorks({super.key});

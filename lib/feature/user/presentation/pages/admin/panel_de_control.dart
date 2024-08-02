@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/fac.dart';
+
+import '../../../../Platillos/presentations/admin/panel_de_control_gestion_de_pltillos.dart';
+import '../../../../orden/presentations/admin/panel_de_control_gestion_pedidos.dart';
+import 'panel_control_gestion_clientes.dart';
 
 class PaneldeControl extends StatefulWidget {
   const PaneldeControl({super.key});
@@ -68,10 +74,18 @@ class _PaneldeControlState extends State<PaneldeControl> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                _buildIconButton(Icons.bar_chart, 'Reportes'),
-                _buildIconButton(Icons.people, 'Clientes'),
-                _buildIconButton(Icons.shopping_bag, 'Pedidos'),
-                _buildIconButton(Icons.restaurant_menu, 'Platillos'),
+                _buildButton('Reportes', Icons.bar_chart, () {
+                  // Acción para Reportes
+                }),
+                _buildButton('Clientes', Icons.people, () {
+                  Get.to(() => PanelControlGestionClientes());
+                }),
+                _buildButton('Pedidos', Icons.receipt_long, () {
+                  Get.to(() => PanelControlGestionPedidos());
+                }),
+                _buildButton('Platillos', Icons.restaurant_menu, () {
+                  Get.to(() => PanelDeControlGestionDePltillos());
+                }),
               ],
             ),
             const SizedBox(height: 16),
@@ -94,23 +108,25 @@ class _PaneldeControlState extends State<PaneldeControl> {
     );
   }
 
-  Widget _buildIconButton(IconData icon, String label) {
-    return Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(8),
+ Widget _buildButton(String label, IconData icon, VoidCallback onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Icon(icon, size: 24),
           ),
-          child: Icon(icon, color: Colors.black),
-        ),
-        const SizedBox(height: 4),
-        Text(label, style: const TextStyle(fontSize: 12)),
-      ],
+          const SizedBox(height: 4),
+          Text(label, style: const TextStyle(fontSize: 12)),
+        ],
+      ),
     );
   }
-
   Widget _buildBarChart() {
     return Container(
       height: 300,

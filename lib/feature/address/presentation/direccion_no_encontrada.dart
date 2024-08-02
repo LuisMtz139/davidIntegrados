@@ -6,7 +6,7 @@ import 'package:sazzon/feature/address/presentation/getX/getcontroller.dart';
 import 'package:sazzon/feature/address/domain/entities/address.dart';
 import 'package:sazzon/feature/address/presentation/direccion_registro_direccion.dart';
 import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
-import 'package:sazzon/feature/menu/presentation/shoping/shopingcar.dart';
+import 'package:sazzon/feature/orden/presentations/User/shopingcar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';

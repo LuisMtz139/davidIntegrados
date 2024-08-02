@@ -6,9 +6,9 @@ import 'package:sazzon/feature/menu/presentation/carro.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_state.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenu_event.dart';
-import 'package:sazzon/feature/menu/presentation/platillo.dart' as platilloPage;
-import 'package:sazzon/feature/menu/presentation/shoping/shopingcar.dart';
-import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/fac.dart';
+import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
+import 'package:sazzon/feature/Platillos/presentations/user/platillo.dart' as platilloPage;
+import 'package:sazzon/feature/orden/presentations/User/shopingcar.dart';
 
 class Menu extends StatefulWidget {
   const Menu({super.key});

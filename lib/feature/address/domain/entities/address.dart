@@ -1,7 +1,6 @@
-
 class Address {
   String? id;
-  final int userId;
+  int? userId;
   final String calle;
   final int postcode;
   final String colonia;

@@ -4,6 +4,8 @@ import 'package:sazzon/feature/address/presentation/direccion_no_encontrada.dart
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../menu/presentation/bar_menu.dart';
+
 class Platillo {
   final String id;
   final String nombre;
@@ -39,7 +41,6 @@ class ShoppingCartPage extends StatefulWidget {
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   late Future<List<Platillo>> platillos;
   double total = 0.0;
-
   @override
   void initState() {
     super.initState();
@@ -122,20 +123,31 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFBDCEA1),
+      drawer: const BarMenu(),
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text('SEZZON', style: TextStyle(fontSize: 20)),
-        leading: IconButton(
-          icon: Icon(Icons.menu),
-          onPressed: () {},
+        iconTheme: const IconThemeData(
+          color: Colors.white,
         ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.shopping_cart),
-            onPressed: () {},
-          ),
-        ],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SizedBox(width: 10),
+            const Text(
+              "SEZZON",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(
+                Icons.shopping_cart,
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
+        centerTitle: true,
+        backgroundColor: Colors.black,
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

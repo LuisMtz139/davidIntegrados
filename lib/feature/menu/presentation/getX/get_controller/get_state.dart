@@ -1,6 +1,6 @@
 
 
-import '../data/models/platillos_models.dart';
+import '../../../../Platillos/data/models/platillos_models.dart';
 
 abstract class CreateGetState {}
 

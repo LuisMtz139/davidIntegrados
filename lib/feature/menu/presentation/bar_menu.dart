@@ -5,7 +5,7 @@ import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/como_
 import 'package:sazzon/feature/menu/presentation/menu.dart';
 import 'package:sazzon/feature/menu/presentation/usuario_menu/presentation/quienes_Somos.dart';
 import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dart';
-import 'package:sazzon/feature/recovery_password/presentation/updatepassword.dart';
+import 'package:sazzon/feature/user/presentation/pages/recovery_password/presentation/updatepassword.dart';
 import 'package:sazzon/feature/user/presentation/pages/updateUser.dart';
 
 class BarMenu extends StatefulWidget {
