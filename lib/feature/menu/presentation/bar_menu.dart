@@ -8,6 +8,8 @@ import 'package:sazzon/feature/menu/presentation/getX/Menu/getMenuCOntroller.dar
 import 'package:sazzon/feature/user/presentation/pages/recovery_password/presentation/updatepassword.dart';
 import 'package:sazzon/feature/user/presentation/pages/updateUser.dart';
 
+import '../../user/presentation/index.dart';
+
 class BarMenu extends StatefulWidget {
   const BarMenu({super.key});
 
@@ -43,6 +45,12 @@ class _BarMenuState extends State<BarMenu> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(builder: (context) => How()),
+    );
+  }
+   void cerrarsecion(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => MyHomePage()),
     );
   }
 
@@ -147,6 +155,15 @@ class _BarMenuState extends State<BarMenu> {
                     },
                   ),
                   const Divider(color: Color(0xFFF6532A)),
+                  ListTile(
+                    title: const Text(
+                      'cerrar sesion',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onTap: () {
+                      cerrarsecion(context);
+                    },
+                  ),
                 ],
               ),
             ],
