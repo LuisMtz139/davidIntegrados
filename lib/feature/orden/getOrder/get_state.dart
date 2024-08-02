@@ -18,3 +18,5 @@ class ordenFetchingFailure extends CreateGetState {
 
   ordenFetchingFailure(this.error);
 }
+class ordenState {}
+

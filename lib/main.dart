@@ -77,6 +77,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(home: MyHomePage()); //DireccionNoEncontrada
+    return GetMaterialApp(
+        home: PanelControlGestionPedidos()); //DireccionNoEncontrada
   }
 }
