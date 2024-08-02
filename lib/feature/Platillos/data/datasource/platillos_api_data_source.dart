@@ -14,7 +14,7 @@ abstract class PlatillosApiDataSource {
 }
 
 class PlatillosApiDataSourceImp implements PlatillosApiDataSource {
-  final String _baseUrl = 'http://184.72.98.136:3002/platillos';
+  final String _baseUrl = 'http://54.87.184.70:3002/platillos';
   final String _baseUrl2 = 'https://users.sazzon.site/api/v3/users';
 
   @override
@@ -53,7 +53,7 @@ class PlatillosApiDataSourceImp implements PlatillosApiDataSource {
   @override
   Future<List<PlatillosModel>> getPlatilllos() async {
     final response =
-        await http.get(Uri.parse('http://54.87.184.70:3002/platillos/'));
+        await http.get(Uri.parse('http://54.87.184.70:3002/platillos'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);
