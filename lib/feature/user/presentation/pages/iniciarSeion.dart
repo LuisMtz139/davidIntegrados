@@ -129,23 +129,6 @@ class IniciarSesio extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 30),
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      Get.to(() =>
-                          How()); // Navegamos a la pantalla Updatepassword
-                    },
-                    child: Text(
-                      '¡Olvidé mi contraseña!',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        decoration: TextDecoration.underline,
-                      ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
