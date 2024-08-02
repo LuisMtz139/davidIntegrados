@@ -278,6 +278,11 @@ class _PlatilloState extends State<Platillo> {
                           const SizedBox(width: 10),
                           ElevatedButton(
                             onPressed: () async {
+                              final prefs =
+                                  await SharedPreferences.getInstance();
+                              final userId = prefs.getString('userId');
+
+                              print("userId obtenido: $userId");
                               if (_formKey.currentState!.validate()) {
                                 Get.dialog(
                                   const Center(
@@ -287,7 +292,7 @@ class _PlatilloState extends State<Platillo> {
                                 final post = CommentModel(
                                   id_platillo: widget.id,
                                   id_user:
-                                      '2', // Asegúrate de tener un ID de usuario válido
+                                      userId.toString(), // Asegúrate de tener un ID de usuario válido
                                   comentario: mycommentController.text,
                                   calificacion:
                                       1, // Considera agregar una forma de calificar
