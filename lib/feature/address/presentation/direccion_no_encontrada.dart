@@ -17,7 +17,7 @@ class DireccionNoEncontrada extends StatelessWidget {
 
   DireccionNoEncontrada({super.key});
 
-  Future<void> _createOrder() async {
+  Future<void> _createOrder(BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString('userId');
@@ -26,9 +26,20 @@ class DireccionNoEncontrada extends StatelessWidget {
       print('userId: $userId');
       print('selectedAddressId: $selectedAddressId');
 
-      Map<String, List> orderData = await getStoredOrderData();
-      List<int> dishIds = orderData['ids'] as List<int>;
-      List<double> quantities = orderData['prices'] as List<double>;
+      // Obtener los IDs y cantidades guardados
+      String? storedIdPrecio = prefs.getString('platilloIdPrecio');
+      List<String> idPrecioList = storedIdPrecio?.split(',') ?? [];
+
+      List<String> dishIds = [];
+      List<int> quantities = [];
+
+      // Procesar la lista de ID-Precio
+      for (int i = 0; i < idPrecioList.length; i += 2) {
+        dishIds.add(idPrecioList[i]);
+        // Asumimos que la cantidad es 1 para cada platillo
+        // Si tienes la cantidad guardada en otro lugar, deberías usarla aquí
+        quantities.add(1);
+      }
 
       print('dishIds: $dishIds');
       print('quantities: $quantities');
@@ -36,8 +47,8 @@ class DireccionNoEncontrada extends StatelessWidget {
       Map<String, dynamic> body = {
         "userId": int.parse(userId ?? "0"),
         "directionId": int.parse(selectedAddressId ?? "0"),
-        "dishIds": dishIds.map((id) => id.toString()).toList(),
-        "quantities": quantities.map((q) => q.toInt()).toList(),
+        "dishIds": dishIds,
+        "quantities": quantities,
         "status": ""
       };
 
@@ -54,34 +65,76 @@ class DireccionNoEncontrada extends StatelessWidget {
       print('Respuesta del servidor:');
       print(response.body);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         print('Orden creada exitosamente');
+        print('Detalles de la orden:');
+        print(response.body);
+
+        // Mostrar un diálogo de éxito
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Orden Creada'),
+              content: Text('Tu orden se ha creado exitosamente.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    // Aquí puedes navegar a otra pantalla si lo deseas
+                  },
+                ),
+              ],
+            );
+          },
+        );
       } else {
         print('Error al crear la orden');
+
+        // Mostrar un diálogo de error
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text(
+                  'Hubo un problema al crear tu orden. Por favor, intenta de nuevo.'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
       }
     } catch (e) {
       print('Excepción capturada: $e');
+
+      // Mostrar un diálogo de error
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text(
+                'Ocurrió un error inesperado. Por favor, intenta de nuevo.'),
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
-  }
-
-  Future<Map<String, List>> getStoredOrderData() async {
-    final prefs = await SharedPreferences.getInstance();
-    String? storedIds = prefs.getString('orderIds');
-    String? storedPrices = prefs.getString('prices');
-
-    List<int> ids = [];
-    List<double> prices = [];
-
-    if (storedIds != null && storedIds.isNotEmpty) {
-      ids = storedIds.split(',').map((id) => int.parse(id)).toList();
-    }
-
-    if (storedPrices != null && storedPrices.isNotEmpty) {
-      prices =
-          storedPrices.split(',').map((price) => double.parse(price)).toList();
-    }
-
-    return {'ids': ids, 'prices': prices};
   }
 
   void _showPaymentModal(BuildContext context) {
@@ -122,7 +175,7 @@ class DireccionNoEncontrada extends StatelessWidget {
               ElevatedButton(
                 onPressed: () async {
                   print('Botón presionado');
-                  await _createOrder();
+                  await _createOrder(context);
                   print('Función _createOrder completada');
                   Navigator.pop(context);
                 },

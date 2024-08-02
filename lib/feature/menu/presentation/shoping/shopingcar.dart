@@ -5,12 +5,14 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Platillo {
+  final String id;
   final String nombre;
   final double precio;
   final int cantidad;
   final int orderId;
 
   Platillo({
+    required this.id,
     required this.nombre,
     required this.precio,
     required this.cantidad,
@@ -20,6 +22,7 @@ class Platillo {
   factory Platillo.fromJson(
       Map<String, dynamic> json, int cantidad, int orderId) {
     return Platillo(
+      id: json['id'] ?? '',
       nombre: json['nombre'] ?? '',
       precio: (json['precio'] ?? 0).toDouble(),
       cantidad: cantidad,
@@ -44,7 +47,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   }
 
   Future<List<Platillo>> fetchPlatillos() async {
-    print("entreeeeeeeeeeeeeeeeeeee");
+    print("Iniciando fetchPlatillos");
     final prefs = await SharedPreferences.getInstance();
     final userId = prefs.getString('userId');
     final response = await http
@@ -55,8 +58,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         List<dynamic> jsonResponse = json.decode(response.body);
         List<Platillo> platillosList = [];
         double totalTemp = 0.0;
-        List<int> orderIds = [];
-        List<double> prices = [];
+        List<String> platilloIdPrecioList = [];
 
         for (var order in jsonResponse) {
           var orderId = order['id'];
@@ -67,31 +69,28 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 Platillo.fromJson(platillos[i], quantities[i], orderId);
             platillosList.add(platillo);
 
-            totalTemp += platillo.precio;
+            totalTemp += platillo.precio * platillo.cantidad;
 
-            if (!orderIds.contains(orderId)) {
-              orderIds.add(orderId);
-              prices.add(platillo.precio);
-            }
+            // Guardar el ID y el precio del platillo en la lista
+            platilloIdPrecioList.add(platillo.id);
+            platilloIdPrecioList.add(platillo.precio.toString());
 
             print(
-                'Tarjeta ID: $orderId, Platillo: ${platillo.nombre}, Precio: \$${platillo.precio.toStringAsFixed(2)}');
+                'Platillo ID: ${platillo.id}, Nombre: ${platillo.nombre}, Precio: \$${platillo.precio.toStringAsFixed(2)}, Cantidad: ${platillo.cantidad}');
           }
         }
 
-        // Guardar la lista de IDs en SharedPreferences
-        await prefs.setString('orderIds', orderIds.join(','));
-
-        // Guardar la lista de precios en SharedPreferences
+        // Guardar la lista de ID-Precio en SharedPreferences
         await prefs.setString(
-            'prices', prices.map((p) => p.toStringAsFixed(2)).join(','));
-
-        print('Lista de IDs de las tarjetas: $orderIds');
-        print('Lista de precios: $prices');
-        print('IDs y precios guardados en SharedPreferences');
+            'platilloIdPrecio', platilloIdPrecioList.join(','));
 
         print(
-            'Suma total de precios de las tarjetas: \$${totalTemp.toStringAsFixed(2)}');
+            'Lista de ID-Precio de los platillos: ${platilloIdPrecioList.join(', ')}');
+        print('Número total de platillos: ${platilloIdPrecioList.length / 2}');
+        print('IDs y precios de platillos guardados en SharedPreferences');
+
+        print(
+            'Suma total de precios de los platillos: \$${totalTemp.toStringAsFixed(2)}');
 
         setState(() {
           total = totalTemp;
@@ -204,8 +203,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 IconButton(
                                   icon: Icon(Icons.delete, color: Colors.black),
                                   onPressed: () {
-                                    deletePlatillo(snapshot.data![index].orderId
-                                        .toString());
+                                    deletePlatillo(snapshot.data![index].id);
                                   },
                                 ),
                               ],
