@@ -22,16 +22,18 @@ class PlatillosApiDataSourceImp implements PlatillosApiDataSource {
     final url = '$_baseUrl';
 
     var request = http.MultipartRequest('POST', Uri.parse(url));
-    request.fields['nombre_platillo'] = platillosModel.nombre_platillo.toString();
+    request.fields['nombre_platillo'] =
+        platillosModel.nombre_platillo.toString();
     request.fields['descripcion'] = platillosModel.descripcion;
     request.fields['precio'] = platillosModel.precio.toString();
     request.fields['categoria'] = platillosModel.categoria.toString();
-    var pic = await http.MultipartFile.fromPath('imagen',
-        platillosModel.imagen.toString()); // Cambia el nombre del campo si es necesario
+    var pic = await http.MultipartFile.fromPath(
+        'imagen',
+        platillosModel.imagen
+            .toString()); // Cambia el nombre del campo si es necesario
     request.files.add(pic);
     request.fields['ingredientes'] = platillosModel.ingredientes.toString();
 
-   
     try {
       var response = await request.send();
       if (response.statusCode == 201) {
@@ -51,7 +53,7 @@ class PlatillosApiDataSourceImp implements PlatillosApiDataSource {
   @override
   Future<List<PlatillosModel>> getPlatilllos() async {
     final response =
-        await http.get(Uri.parse('https://dish.sazzon.site/platillos/'));
+        await http.get(Uri.parse('http://54.87.184.70:3002/platillos/'));
 
     if (response.statusCode == 200) {
       Map<String, dynamic> jsonResponse = json.decode(response.body);

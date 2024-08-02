@@ -11,8 +11,8 @@ abstract class MenuApiDataSource {
   Future<void> updateMenu(MenuModel menuModel);
 }
 
-class   MenuApiDataSourceImp implements MenuApiDataSource {
-  final String _baseUrl = 'https://dish.sazzon.site/platillos/';
+class MenuApiDataSourceImp implements MenuApiDataSource {
+  final String _baseUrl = 'http://54.87.184.70:3002/platillos/';
 
   @override
   Future<List<MenuModel>> getMenu() async {

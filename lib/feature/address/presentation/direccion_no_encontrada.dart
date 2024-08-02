@@ -9,16 +9,117 @@ import 'package:sazzon/feature/menu/presentation/bar_menu.dart';
 import 'package:sazzon/feature/orden/presentations/User/shopingcar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/io_client.dart';
 import 'dart:convert';
+import 'dart:io';
+import 'package:url_launcher/url_launcher.dart';
 
 class DireccionNoEncontrada extends StatelessWidget {
   final GetAddressController controller = Get.find<GetAddressController>();
   final RxInt selectedAddressIndex = (-1).obs;
+  final RxBool isProcessingOrder = false.obs;
 
   DireccionNoEncontrada({super.key});
 
-  Future<void> _createOrder(BuildContext context) async {
+  void _showErrorSnackBar(String message) {
+    Get.snackbar(
+      'Error',
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      backgroundColor: Colors.red,
+      colorText: Colors.white,
+      duration: Duration(seconds: 5),
+    );
+  }
+
+  Future<void> _processPayment(String orderId, int total) async {
+    print("Iniciando _processPayment");
+    late IOClient ioClient;
     try {
+      final prefs = await SharedPreferences.getInstance();
+      final userId = prefs.getString('userId');
+
+      print("userId obtenido: $userId");
+
+      if (userId == null) {
+        print("Error: User ID no encontrado en el almacenamiento local");
+        throw Exception('User ID not found in local storage');
+      }
+
+      Map<String, dynamic> paymentData = {
+        "id_user": userId,
+        "id_order": orderId,
+        "total_order": total
+      };
+
+      print('Enviando solicitud de pago:');
+      print(jsonEncode(paymentData));
+
+      final httpClient = HttpClient()
+        ..badCertificateCallback =
+            ((X509Certificate cert, String host, int port) => true);
+      ioClient = IOClient(httpClient);
+
+      print("Enviando solicitud HTTP para procesar pago");
+      final response = await ioClient
+          .post(
+            Uri.parse('https://54.87.184.70/paymnet/'),
+            headers: {'Content-Type': 'application/json'},
+            body: jsonEncode(paymentData),
+          )
+          .timeout(Duration(seconds: 30));
+
+      print("Respuesta completa del servidor de pago:");
+      print("Código de estado: ${response.statusCode}");
+      print("Cuerpo de la respuesta:");
+      print(response.body);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Pago procesado exitosamente');
+        final responseData = jsonDecode(response.body);
+        final urlPayment = responseData['url_payment'];
+
+        if (urlPayment != null && urlPayment.isNotEmpty) {
+          print('Intentando abrir URL: $urlPayment');
+          final Uri url = Uri.parse(urlPayment);
+          if (await canLaunchUrl(url)) {
+            await launchUrl(
+              url,
+              mode: LaunchMode.externalApplication,
+              webOnlyWindowName: '_blank',
+            );
+          } else {
+            print('No se puede lanzar la URL: $urlPayment');
+            throw 'No se pudo abrir $urlPayment';
+          }
+        } else {
+          throw Exception(
+              'URL de pago no encontrada en la respuesta del servidor');
+        }
+      } else {
+        throw Exception(
+            'Error al procesar el pago. Código de estado: ${response.statusCode}');
+      }
+    } catch (e) {
+      print("Excepción capturada en _processPayment: $e");
+      _showErrorSnackBar(
+          'Ocurrió un error inesperado. Por favor, intenta de nuevo.');
+    } finally {
+      ioClient.close();
+    }
+  }
+
+  Future<void> _createOrder() async {
+    print("Iniciando _createOrder");
+    if (isProcessingOrder.value) {
+      print("La orden ya está siendo procesada");
+      return;
+    }
+
+    try {
+      print("Configurando isProcessingOrder a true");
+      isProcessingOrder.value = true;
+
       final prefs = await SharedPreferences.getInstance();
       final userId = prefs.getString('userId');
       final selectedAddressId = prefs.getString('selectedAddressId');
@@ -26,18 +127,14 @@ class DireccionNoEncontrada extends StatelessWidget {
       print('userId: $userId');
       print('selectedAddressId: $selectedAddressId');
 
-      // Obtener los IDs y cantidades guardados
       String? storedIdPrecio = prefs.getString('platilloIdPrecio');
       List<String> idPrecioList = storedIdPrecio?.split(',') ?? [];
 
       List<String> dishIds = [];
       List<int> quantities = [];
 
-      // Procesar la lista de ID-Precio
       for (int i = 0; i < idPrecioList.length; i += 2) {
         dishIds.add(idPrecioList[i]);
-        // Asumimos que la cantidad es 1 para cada platillo
-        // Si tienes la cantidad guardada en otro lugar, deberías usarla aquí
         quantities.add(1);
       }
 
@@ -55,140 +152,96 @@ class DireccionNoEncontrada extends StatelessWidget {
       print('Cuerpo de la solicitud:');
       print(jsonEncode(body));
 
-      final response = await http.post(
+      print("Enviando solicitud HTTP para crear orden");
+      final httpClient = HttpClient()
+        ..badCertificateCallback =
+            ((X509Certificate cert, String host, int port) => true);
+      final ioClient = IOClient(httpClient);
+
+      final response = await ioClient.post(
         Uri.parse('https://orders.sazzon.site/orders'),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode(body),
       );
 
-      print('Código de estado de la respuesta: ${response.statusCode}');
-      print('Respuesta del servidor:');
-      print(response.body);
+      print("Respuesta recibida. Código de estado: ${response.statusCode}");
+      print("Cuerpo de la respuesta: ${response.body}");
 
       if (response.statusCode == 201) {
         print('Orden creada exitosamente');
         print('Detalles de la orden:');
         print(response.body);
 
-        // Mostrar un diálogo de éxito
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Orden Creada'),
-              content: Text('Tu orden se ha creado exitosamente.'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    // Aquí puedes navegar a otra pantalla si lo deseas
-                  },
-                ),
-              ],
-            );
-          },
-        );
+        final orderData = jsonDecode(response.body);
+        final orderId = orderData['id'].toString();
+        final total = orderData['total'] as int;
+
+        await _processPayment(orderId, total);
       } else {
         print('Error al crear la orden');
-
-        // Mostrar un diálogo de error
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Error'),
-              content: Text(
-                  'Hubo un problema al crear tu orden. Por favor, intenta de nuevo.'),
-              actions: <Widget>[
-                TextButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
+        _showErrorSnackBar(
+            'Hubo un problema al crear tu orden. Por favor, intenta de nuevo.');
       }
     } catch (e) {
-      print('Excepción capturada: $e');
-
-      // Mostrar un diálogo de error
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Error'),
-            content: Text(
-                'Ocurrió un error inesperado. Por favor, intenta de nuevo.'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
+      print("Excepción capturada en _createOrder: $e");
+      _showErrorSnackBar(
+          'Ocurrió un error inesperado. Por favor, intenta de nuevo.');
+    } finally {
+      print("Configurando isProcessingOrder a false");
+      isProcessingOrder.value = false;
     }
   }
 
-  void _showPaymentModal(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(
-          padding: EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.blue, width: 2),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.paypal, color: Colors.blue, size: 24),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Text(
-                        'Se te redirigirá a PayPal para completar los siguientes pasos de forma segura.',
-                        style: TextStyle(fontSize: 12),
-                      ),
+  void _showPaymentModal() {
+    Get.bottomSheet(
+      Container(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              padding: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: Colors.blue, width: 2),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.paypal, color: Colors.blue, size: 24),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: Text(
+                      'Se te redirigirá a PayPal para completar tu pago de forma segura.',
+                      style: TextStyle(fontSize: 12),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              SizedBox(height: 16),
-              Image.network(
-                'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png',
-                height: 50,
+            ),
+            SizedBox(height: 16),
+            Image.network(
+              'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PayPal.svg/1200px-PayPal.svg.png',
+              height: 50,
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: () async {
+                if (!isProcessingOrder.value) {
+                  Get.back(); // Cerrar el modal
+                  await _createOrder();
+                }
+              },
+              child: Text('Continuar con PayPal'),
+              style: ElevatedButton.styleFrom(
+                foregroundColor: Colors.white,
+                backgroundColor: Colors.blue,
               ),
-              SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () async {
-                  print('Botón presionado');
-                  await _createOrder(context);
-                  print('Función _createOrder completada');
-                  Navigator.pop(context);
-                },
-                child: Text('Continuar con PayPal'),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.blue,
-                ),
-              ),
-            ],
-          ),
-        );
-      },
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: Colors.white,
     );
   }
 
@@ -309,9 +362,7 @@ class DireccionNoEncontrada extends StatelessWidget {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 16, vertical: 8),
                             child: ElevatedButton(
-                              onPressed: () {
-                                _showPaymentModal(context);
-                              },
+                              onPressed: _showPaymentModal,
                               child: Text(
                                 "Continuar compra",
                                 style: TextStyle(

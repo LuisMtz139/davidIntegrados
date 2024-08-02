@@ -41,6 +41,7 @@ class ShoppingCartPage extends StatefulWidget {
 class _ShoppingCartPageState extends State<ShoppingCartPage> {
   late Future<List<Platillo>> platillos;
   double total = 0.0;
+
   @override
   void initState() {
     super.initState();
@@ -59,7 +60,6 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         List<dynamic> jsonResponse = json.decode(response.body);
         List<Platillo> platillosList = [];
         double totalTemp = 0.0;
-        List<String> platilloIdPrecioList = [];
 
         for (var order in jsonResponse) {
           var orderId = order['id'];
@@ -70,25 +70,12 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                 Platillo.fromJson(platillos[i], quantities[i], orderId);
             platillosList.add(platillo);
 
-            totalTemp += platillo.precio * platillo.cantidad;
-
-            // Guardar el ID y el precio del platillo en la lista
-            platilloIdPrecioList.add(platillo.id);
-            platilloIdPrecioList.add(platillo.precio.toString());
+            totalTemp += platillo.precio;
 
             print(
                 'Platillo ID: ${platillo.id}, Nombre: ${platillo.nombre}, Precio: \$${platillo.precio.toStringAsFixed(2)}, Cantidad: ${platillo.cantidad}');
           }
         }
-
-        // Guardar la lista de ID-Precio en SharedPreferences
-        await prefs.setString(
-            'platilloIdPrecio', platilloIdPrecioList.join(','));
-
-        print(
-            'Lista de ID-Precio de los platillos: ${platilloIdPrecioList.join(', ')}');
-        print('Número total de platillos: ${platilloIdPrecioList.length / 2}');
-        print('IDs y precios de platillos guardados en SharedPreferences');
 
         print(
             'Suma total de precios de los platillos: \$${totalTemp.toStringAsFixed(2)}');
@@ -98,25 +85,44 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
         });
         return platillosList;
       } catch (e) {
-        throw Exception('Error parsing JSON: $e');
+        print('Error parsing JSON: $e');
+        return []; // Retorna una lista vacía en caso de error
       }
     } else {
-      throw Exception('Sin platillos');
+      print('No se encontraron platillos');
+      return []; // Retorna una lista vacía si no hay platillos
     }
   }
 
-  Future<void> deletePlatillo(String id) async {
-    final response =
-        await http.delete(Uri.parse('https://orders.sazzon.site/orders/$id'));
+  Future<void> deletePlatillo(String orderId) async {
+    try {
+      final response = await http
+          .delete(Uri.parse('https://orders.sazzon.site/orders/$orderId'));
 
-    if (response.statusCode == 200) {
-      setState(() {
-        platillos = fetchPlatillos();
-      });
-    } else {
-      print(
-          'Failed to delete platillo: ${response.statusCode} ${response.body}');
-      throw Exception('Failed to delete platillo');
+      if (response.statusCode == 200) {
+        // Recarga los platillos y actualiza el total
+        List<Platillo> updatedPlatillos = await fetchPlatillos();
+        setState(() {
+          platillos = Future.value(updatedPlatillos);
+          // Calcula el nuevo total sumando solo los precios
+          total = updatedPlatillos.fold(
+              0, (sum, platillo) => sum + platillo.precio);
+        });
+
+        // Muestra un mensaje de éxito
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Platillo eliminado correctamente')),
+        );
+      } else {
+        throw Exception('Failed to delete order: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error deleting order: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+                'No se pudo eliminar el platillo. Por favor, intente de nuevo.')),
+      );
     }
   }
 
@@ -172,7 +178,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No hay platillos disponibles'));
+                    return Center(
+                        child: Text('No hay platillos en el carrito'));
                   } else {
                     return ListView.builder(
                       itemCount: snapshot.data!.length,
@@ -215,7 +222,8 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
                                 IconButton(
                                   icon: Icon(Icons.delete, color: Colors.black),
                                   onPressed: () {
-                                    deletePlatillo(snapshot.data![index].id);
+                                    deletePlatillo(snapshot.data![index].orderId
+                                        .toString());
                                   },
                                 ),
                               ],
