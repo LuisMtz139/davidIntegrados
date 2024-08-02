@@ -7,8 +7,6 @@ import 'dart:convert';
 import 'package:sazzon/feature/menu/presentation/menu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'recovery_password/presentation/updatepassword.dart';
-
 class IniciarSesio extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -39,27 +37,15 @@ class IniciarSesio extends StatelessWidget {
           await prefs.setString('userId', data['id'].toString());
         }
 
-        // Validación del dominio de correo electrónico
-        if (email.endsWith('@sazzon.com')) {
-          // Navegar a la vista específica para @sazzon.com
-          Get.off(() =>
-              PanelControlGestionClientes()); // Asegúrate de importar SazzonView
-        } else if (email.endsWith('@gmail.com')) {
-          // Navegar a la pantalla Menu para @gmail.com
-          Get.off(() => Menu());
-        } else {
-          // Para otros dominios de correo, puedes decidir qué hacer
-          // Por ahora, redirigimos a Menu como comportamiento predeterminado
-          Get.off(() => Menu());
-        }
-
         return data;
       } else {
-        throw Exception('Failed to login');
+        print('Login failed with status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to login: ${response.statusCode}');
       }
     } catch (e) {
       print('Error during login: $e');
-      throw Exception('Login error');
+      throw Exception('Login error: $e');
     }
   }
 
@@ -158,15 +144,24 @@ class IniciarSesio extends StatelessWidget {
                 if (emailController.text.isNotEmpty &&
                     passwordController.text.isNotEmpty) {
                   try {
-                    final result = await postLogin(emailController.text.trim(),
-                        passwordController.text.trim());
+                    final result = await postLogin(
+                      emailController.text.trim(),
+                      passwordController.text.trim(),
+                    );
                     print('Login successful: $result');
-                    // Handle successful login here (e.g., navigate to home screen)
+                    // Check the user's email domain and navigate accordingly
+                    if (emailController.text.endsWith('@sazzon.com')) {
+                      Get.off(() => PanelControlGestionClientes());
+                    } else if (emailController.text.endsWith('@gmail.com')) {
+                      Get.off(() => Menu());
+                    } else {
+                      Get.off(() => Menu()); // Default behavior
+                    }
                     Get.snackbar('Éxito', 'Inicio de sesión exitoso',
                         snackPosition: SnackPosition.BOTTOM);
                   } catch (e) {
                     print('Login failed: $e');
-                    Get.snackbar('Error', 'Inicio de sesión fallido',
+                    Get.snackbar('Error', 'Inicio de sesión fallido: $e',
                         snackPosition: SnackPosition.BOTTOM);
                   }
                 } else {
