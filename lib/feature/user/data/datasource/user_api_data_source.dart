@@ -1,5 +1,8 @@
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:sazzon/feature/user/data/models/user_models.dart';
 import 'package:http/http.dart' as http;
+import 'package:sazzon/feature/user/presentation/index.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
@@ -23,24 +26,34 @@ class UserApiDataSourceImp implements UserApiDataSource {
   @override
   Future<void> registerUser(userModel) async {
     try {
-      await http.post(
+      final response = await http.post(
         Uri.parse('$_baseUrl/users'),
         headers: {
           'Content-Type': 'application/json',
         },
-        body: jsonEncode(<String, String>{
+        body: jsonEncode({
           'name': userModel.name,
-          'phone': userModel.phone,
+          'phone': userModel.phone.toString(),
           'email': userModel.email,
           'password': userModel.password ?? '',
           'admin': userModel.admin,
         }),
       );
 
-      // Ahora que los datos se han enviado exitosamente, intenta enviar datos pendientes
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('User registered successfully');
+        print('Response body: ${response.body}');
+
+        // Redirigir a la nueva vista
+        Get.off(() => MyHomePage()); // O la vista que desees
+      } else {
+        print('Failed to register user. Status code: ${response.statusCode}');
+        print('Response body: ${response.body}');
+        throw Exception('Failed to register user: ${response.body}');
+      }
     } catch (e) {
       print('Error during network call: $e');
-      throw Exception('Network error');
+      throw Exception('Network error: $e');
     }
   }
 
@@ -90,15 +103,16 @@ class UserApiDataSourceImp implements UserApiDataSource {
 
   @override
   Future<List<userModel>> getorders() async {
- final response = await http.get(Uri.parse('https://users.sazzon.site/api/v1/users'));
+    final response =
+        await http.get(Uri.parse('https://users.sazzon.site/api/v1/users'));
 
-  if (response.statusCode == 200) {
-    List<dynamic> jsonResponse = json.decode(response.body);
-    List<userModel> users = jsonResponse
-        .map((user) => userModel.fromJson(user))
-        .toList();
-    return users;
-  } else {
-    throw Exception('Failed to load users');
+    if (response.statusCode == 200) {
+      List<dynamic> jsonResponse = json.decode(response.body);
+      List<userModel> users =
+          jsonResponse.map((user) => userModel.fromJson(user)).toList();
+      return users;
+    } else {
+      throw Exception('Failed to load users');
+    }
   }
-}}
+}
